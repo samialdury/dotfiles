@@ -8,6 +8,4 @@
 	format = ssh
 [commit]
 	gpgsign = true
-[core]
-	editor = nano -w
 
