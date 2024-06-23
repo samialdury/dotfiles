@@ -6,6 +6,10 @@ set -gx XDG_CONFIG_HOME "$HOME/.config"
 set -gx BAT_CONFIG_PATH "$XDG_CONFIG_HOME/bat/bat.conf"
 set -gx STARSHIP_CONFIG "$XDG_CONFIG_HOME/starship/starship.toml"
 
+set -gx VISUAL "nvim"
+set -gx EDITOR $VISUAL
+set -gx GIT_EDITOR $VISUAL
+
 set -gx BIN "/usr/bin:/usr/local/bin"
 set -gx HOMEBREW_BIN /opt/homebrew/bin
 set -gx PNPM_HOME "$HOME/Library/pnpm"
