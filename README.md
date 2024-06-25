@@ -8,7 +8,7 @@ This repository contains my dotfiles. I use [GNU Stow](https://www.gnu.org/softw
 brew install stow
 git clone https://github.com/samialdury/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
-stow .
+make stow
 ```
 
 ## License
