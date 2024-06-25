@@ -68,7 +68,7 @@ setdefaults: ## Set up system settings
 ##@ Stow
 
 .PHONY: stow
-stow: clean ## Stow dotfiles
+stow: ## Stow dotfiles
 	@echo "Stowing files..."
 	stow .
 	@echo "Done!"
