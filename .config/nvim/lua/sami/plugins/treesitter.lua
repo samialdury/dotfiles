@@ -33,6 +33,7 @@ return {
       'markdown_inline',
       'make',
       'proto',
+      'rust',
       'sql',
       'yaml',
     },
