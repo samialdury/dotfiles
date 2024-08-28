@@ -51,9 +51,9 @@ return {
         typescript = { 'prettierd' },
         typescriptreact = { 'prettierd' },
 
-        terraform = { 'terraform_fmt' },
-        tf = { 'terraform_fmt' },
-        ['terraform-vars'] = { 'terraform_fmt' },
+        terraform = { 'tofu_fmt' },
+        tf = { 'tofu_fmt' },
+        ['terraform-vars'] = { 'tofu_fmt' },
       },
     },
     config = function(_, opts)
