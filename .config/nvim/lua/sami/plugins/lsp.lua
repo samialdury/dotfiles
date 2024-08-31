@@ -158,6 +158,9 @@ return {
       prettierd = {},
       tailwindcss = {},
       markdownlint = {},
+      hadolint = {},
+      dockerls = {},
+      docker_compose_language_service = {},
       lua_ls = {
         -- cmd = {...},
         -- filetypes = { ...},
