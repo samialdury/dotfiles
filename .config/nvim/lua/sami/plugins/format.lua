@@ -55,6 +55,9 @@ return {
         tf = { 'tofu_fmt' },
         ['terraform-vars'] = { 'tofu_fmt' },
       },
+      linters_by_ft = {
+        dockerfile = { 'hadolint' },
+      },
     },
     config = function(_, opts)
       require('conform').setup(opts)
