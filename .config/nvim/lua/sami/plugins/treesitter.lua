@@ -36,6 +36,7 @@ return {
         'markdown_inline',
         'make',
         'proto',
+        'query',
         'rust',
         'sql',
         'yaml',
