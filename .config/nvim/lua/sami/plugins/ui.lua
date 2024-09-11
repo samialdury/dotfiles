@@ -1,8 +1,55 @@
 return {
   {
-    'catppuccin/nvim',
-    name = 'catppuccin',
+    'folke/tokyonight.nvim',
+    lazy = false,
     priority = 1000,
+    enabled = false,
+    config = function()
+      require('tokyonight').setup {
+        style = 'moon',
+        -- Borderless Telescope
+        on_highlights = function(hl, c)
+          local prompt = '#2d3149'
+          hl.TelescopeNormal = {
+            bg = c.bg_dark,
+            fg = c.fg_dark,
+          }
+          hl.TelescopeBorder = {
+            bg = c.bg_dark,
+            fg = c.bg_dark,
+          }
+          hl.TelescopePromptNormal = {
+            bg = prompt,
+          }
+          hl.TelescopePromptBorder = {
+            bg = prompt,
+            fg = prompt,
+          }
+          hl.TelescopePromptTitle = {
+            bg = prompt,
+            fg = prompt,
+          }
+          hl.TelescopePreviewTitle = {
+            bg = c.bg_dark,
+            fg = c.bg_dark,
+          }
+          hl.TelescopeResultsTitle = {
+            bg = c.bg_dark,
+            fg = c.bg_dark,
+          }
+        end,
+      }
+
+      vim.opt.background = 'dark'
+      vim.cmd.colorscheme 'tokyonight'
+    end,
+  },
+  {
+    'catppuccin/nvim',
+    lazy = false,
+    name = 'catppuccin',
+    priority = 999,
+    enabled = true,
     config = function()
       local catppuccin = require 'catppuccin'
 
@@ -22,6 +69,7 @@ return {
           barbar = true,
           cmp = true,
           gitsigns = true,
+          indent_blankline = { enabled = true },
           mini = true,
           mason = true,
           markdown = true,
@@ -32,8 +80,8 @@ return {
         },
       }
 
-      vim.cmd.colorscheme 'catppuccin'
       vim.opt.background = 'dark'
+      vim.cmd.colorscheme 'catppuccin'
     end,
   },
   {
