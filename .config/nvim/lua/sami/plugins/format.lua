@@ -3,7 +3,8 @@ return {
   { 'tpope/vim-sleuth' },
   {
     'stevearc/conform.nvim',
-    lazy = false,
+    event = { 'BufWritePre' },
+    cmd = { 'ConformInfo' },
     keys = {
       {
         '<leader>f',
