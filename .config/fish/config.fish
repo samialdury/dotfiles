@@ -16,8 +16,9 @@ set -gx PNPM_HOME "$HOME/Library/pnpm"
 set -gx CARGO_BIN "$HOME/.cargo/bin"
 set -gx BUN_INSTALL "$HOME/.bun"
 set -gx GOPATH "$HOME/go"
+set -gx LOCAL_BIN "$HOME/.local/bin"
 
-set -gx PATH "$HOMEBREW_BIN:$PATH:$BIN:$PNPM_HOME:$CARGO_BIN:$BUN_INSTALL/bin:$GOPATH/bin:$(gem environment gemdir)/bin:$(brew --prefix ruby)/bin"
+set -gx PATH "$HOMEBREW_BIN:$PATH:$LOCAL_BIN:$BIN:$PNPM_HOME:$CARGO_BIN:$BUN_INSTALL/bin:$GOPATH/bin:$(gem environment gemdir)/bin:$(brew --prefix ruby)/bin"
 
 # Aliases
 # fzf
