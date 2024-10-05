@@ -68,7 +68,11 @@ alias cwd="echo (pwd) | pbcopy && echo 'Copied to clipboard'"
 alias lastCommitMsg="git log -1 --pretty=%B | pbcopy && echo 'Copied to clipboard'"
 alias lastCommitHash="git log -1 --pretty=%H | pbcopy && echo 'Copied to clipboard'"
 
+# Go
 alias gmt="go mod tidy"
+
+# PHP
+alias a="php artisan"
 
 # k8s hetzner
 # https://github.com/kube-hetzner/terraform-hcloud-kube-hetzner
