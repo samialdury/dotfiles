@@ -158,6 +158,10 @@ return {
       terraformls = {},
       -- pyright = {},
       rust_analyzer = {},
+      -- phpactor = {},
+      intelephense = {},
+      -- phpcs = {},
+      -- ['php-cs-fixer'] = {},
       -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
       --
       -- Some languages (like typescript) have entire language plugins that can be useful:
@@ -168,6 +172,7 @@ return {
       --
       -- eslint = {}, -- temporary disabled,it's inda slow
       -- eslint_d = {},
+      pint = {},
       prettierd = {},
       tailwindcss = {},
       markdownlint = {},

@@ -46,6 +46,8 @@ return {
         lua = { 'stylua' },
         go = { 'gofumpt' },
         rust = { 'rustfmt' },
+        php = { 'pint' },
+        -- php = { 'php_cs_fixer' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
