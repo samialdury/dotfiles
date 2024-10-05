@@ -61,6 +61,7 @@ return {
         javascriptreact = { 'prettierd' },
         typescript = { 'prettierd' },
         typescriptreact = { 'prettierd' },
+        astro = { 'prettierd' },
 
         terraform = { 'tofu_fmt' },
         tf = { 'tofu_fmt' },
