@@ -1,3 +1,9 @@
+[include]
+	path = ~/dotfiles/.config/delta/catppuccin.gitconfig
+[core]
+	pager = delta
+[interactive]
+	diffFilter = delta --color-only --features=interactive
 [user]
 	name = Sami Al-Dury
 	email = git@aldury.com
@@ -8,3 +14,6 @@
 	format = ssh
 [commit]
 	gpgsign = true
+[delta]
+	dark = true
+	features = catppuccin-mocha
