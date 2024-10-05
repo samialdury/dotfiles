@@ -35,6 +35,8 @@ return {
         'markdown',
         'markdown_inline',
         'make',
+        'php',
+        'php_only',
         'proto',
         'query',
         'rust',
