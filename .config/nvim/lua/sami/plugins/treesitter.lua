@@ -9,6 +9,7 @@ return {
     },
     opts = {
       ensure_installed = {
+        'astro',
         'bash',
         'c',
         'diff',
