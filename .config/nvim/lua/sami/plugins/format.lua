@@ -66,6 +66,7 @@ return {
         terraform = { 'tofu_fmt' },
         tf = { 'tofu_fmt' },
         ['terraform-vars'] = { 'tofu_fmt' },
+        -- nix = { 'nixfmt' },
       },
       linters_by_ft = {
         dockerfile = { 'hadolint' },
