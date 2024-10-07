@@ -177,6 +177,7 @@ return {
       prettierd = {},
       tailwindcss = {},
       markdownlint = {},
+      nil_ls = {},
       hadolint = {},
       dockerls = {},
       docker_compose_language_service = {},

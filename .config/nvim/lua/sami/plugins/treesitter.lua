@@ -36,6 +36,7 @@ return {
         'markdown',
         'markdown_inline',
         'make',
+        'nix',
         'php',
         'php_only',
         'proto',
