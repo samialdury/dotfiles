@@ -4,6 +4,11 @@ live_config_reload = true
 [env]
 TERM = "xterm-256color"
 
+[shell]
+program = "/opt/homebrew/bin/fish"
+# program = "/opt/homebrew/bin/tmux"
+# args = ["new-session", "-A", "-D", "-s", "main"]
+
 [cursor]
 style = "Block"
 
@@ -12,73 +17,28 @@ draw_bold_text_with_bright_colors = true
 
 [font]
 size = 18.0
-
-[font.glyph_offset]
-x = 0
-y = 0
-
-[font.bold]
-style = "Bold"
-
-[font.bold_italic]
-style = "Bold Italic"
-
-[font.italic]
-style = "Italic"
-
-[font.normal]
-family = "JetBrainsMonoNL Nerd Font Mono"
-style = "Regular"
-
-[[keyboard.bindings]]
-chars = "\u001Bb"
-key = "Left"
-mods = "Alt"
-
-[[keyboard.bindings]]
-chars = "\u001Bf"
-key = "Right"
-mods = "Alt"
-
-[[keyboard.bindings]]
-chars = "\u001B[H"
-key = "Left"
-mods = "Command"
-
-[[keyboard.bindings]]
-chars = "\u001B[F"
-key = "Right"
-mods = "Command"
-
-[[keyboard.bindings]]
-chars = "\u0017"
-key = "D"
-mods = "Alt"
-
-[shell]
-program = "/opt/homebrew/bin/fish"
-# program = "/opt/homebrew/bin/tmux"
-# args = ["new-session", "-A", "-D", "-s", "main"]
+offset = { x = 0, y = 0 }
+glyph_offset = { x = 0, y = 0 }
+normal = { family = "JetBrainsMonoNL Nerd Font Mono", style = "Regular" }
+bold = { style = "Bold" }
+italic = { style = "Italic" }
+bold_italic = { style = "Bold Italic" }
 
 [window]
 decorations = "None"
 option_as_alt = "OnlyLeft"
 
-[window.padding]
-x = 0
-y = 0
-
-[font.offset]
-x = 0
-y = 1
-
 [mouse]
 hide_when_typing = true
+bindings = [
+  { mouse = "Middle", action = "PasteSelection" },
+]
 
-[[mouse.bindings]]
-action = "PasteSelection"
-mouse = "Middle"
-
-[scrolling]
-history = 10000
-multiplier = 3
+[keyboard]
+bindings = [
+  { mods = "Alt", key = "Left", chars = "\u001Bb" },
+  { mods = "Alt", key = "Right", chars = "\u001Bf" },
+  { mods = "Command", key = "Left", chars = "\u001B[H" },
+  { mods = "Command", key = "Right", chars = "\u001B[F" },
+  { mods = "Alt", key = "D", chars = "\u0017" },
+]
