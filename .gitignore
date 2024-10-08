@@ -3,3 +3,6 @@
 
 .ssh
 .config/tmux/plugins
+.config/alacritty/themes
+.config/bat/themes
+.config/delta/themes
