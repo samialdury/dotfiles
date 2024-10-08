@@ -1,4 +1,5 @@
 .DS_Store
+*.log
 
 .ssh
 .config/tmux/plugins
