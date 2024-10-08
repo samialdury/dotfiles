@@ -22,8 +22,8 @@ backup: ## Back up Brewfile
 
 ##@ Settings
 
-.PHONY: setdefaults
-setdefaults: ## Set up system settings
+.PHONY: defaults
+defaults: ## Set up system settings
 # https://macos-defaults.com
 
 # Disable font smoothing
