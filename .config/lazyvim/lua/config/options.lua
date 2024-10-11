@@ -3,3 +3,7 @@
 -- Add any additional options here
 
 vim.opt.clipboard = "" -- Keep vim and system clipboard separate
+
+-- PHP
+-- use `intelephense` instead of `phpactor`
+vim.g.lazyvim_php_lsp = "intelephense"
