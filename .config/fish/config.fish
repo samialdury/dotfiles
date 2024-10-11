@@ -31,6 +31,7 @@ alias p="pnpm"
 
 # Neovim
 alias e="nvim"
+alias el="NVIM_APPNAME=lazyvim nvim"
 
 # Update & clean Homebrew
 alias b="brew update; brew upgrade; brew cleanup; brew cleanup -s; brew doctor; brew missing"
