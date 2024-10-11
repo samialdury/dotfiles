@@ -6,7 +6,7 @@ set -gx XDG_CONFIG_HOME "$HOME/.config"
 set -gx BAT_CONFIG_PATH "$XDG_CONFIG_HOME/bat/bat.conf"
 set -gx STARSHIP_CONFIG "$XDG_CONFIG_HOME/starship/starship.toml"
 
-set -gx VISUAL "nvim"
+set -gx VISUAL nvim
 set -gx EDITOR $VISUAL
 set -gx GIT_EDITOR $VISUAL
 
@@ -31,7 +31,6 @@ alias p="pnpm"
 
 # Neovim
 alias e="nvim"
-alias el="NVIM_APPNAME=lazyvim nvim"
 
 # Update & clean Homebrew
 alias b="brew update; brew upgrade; brew cleanup; brew cleanup -s; brew doctor; brew missing"
@@ -81,9 +80,9 @@ alias createkh='set tmp_script (mktemp); curl -sSL -o "{tmp_script}" https://raw
 alias cleanupkh='set tmp_script (mktemp) && curl -sSL -o "{tmp_script}" https://raw.githubusercontent.com/kube-hetzner/terraform-hcloud-kube-hetzner/master/scripts/cleanup.sh && chmod +x "{tmp_script}" && bash "{tmp_script}" && rm "{tmp_script}"'
 
 # pnpm
-set -gx PNPM_HOME "/Users/sami/Library/pnpm"
+set -gx PNPM_HOME /Users/sami/Library/pnpm
 if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
+    set -gx PATH "$PNPM_HOME" $PATH
 end
 # pnpm end
 
@@ -92,12 +91,12 @@ set -gx SHELL (command -s fish)
 
 # yazi
 function yy
-	set tmp (mktemp -t "yazi-cwd.XXXXXX")
-	yazi $argv --cwd-file="$tmp"
-	if set cwd (cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
-		cd -- "$cwd"
-	end
-	rm -f -- "$tmp"
+    set tmp (mktemp -t "yazi-cwd.XXXXXX")
+    yazi $argv --cwd-file="$tmp"
+    if set cwd (cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
+        cd -- "$cwd"
+    end
+    rm -f -- "$tmp"
 end
 
 # zoxide
