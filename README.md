@@ -2,6 +2,8 @@
 
 This repository contains my dotfiles.
 
+Most of the configuration is in the [.config](.config) directory.
+
 ## Installation
 
 ```sh
