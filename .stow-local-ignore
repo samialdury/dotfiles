@@ -3,6 +3,7 @@
 .git
 .gitignore
 README.md
+USAGE.md
 LICENSE
 Makefile
 scripts
