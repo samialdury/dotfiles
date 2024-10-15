@@ -2,6 +2,19 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
+if vim.g.vscode then
+  local vscode = require("vscode")
+  vim.keymap.set("n", "<leader>ff", function()
+    vscode.action("find-it-faster.findFiles")
+  end)
+  vim.keymap.set("n", "<leader>/", function()
+    vscode.action("find-it-faster.findWithinFiles")
+  end)
+  vim.keymap.set("n", "<leader>ca", function()
+    vscode.action("editor.action.sourceAction")
+  end)
+end
+
 -- Override some default keymaps
 vim.keymap.del("n", "<leader>|")
 vim.keymap.set("n", "<leader>\\", "<C-W>v", { desc = "Split Window Right", remap = true })

@@ -1,0 +1,93 @@
+{
+    // Telemetry
+    "telemetry.telemetryLevel": "off",
+    "intelephense.telemetry.enabled": false,
+    // Affinity
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    // Window
+    "window.commandCenter": true,
+    "window.autoDetectColorScheme": true,
+    // Workbench
+    "workbench.preferredLightColorTheme": "Catppuccin Mocha",
+    "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
+    "workbench.iconTheme": "vscode-jetbrains-icon-theme-2023-dark",
+    // Editor
+    "editor.fontFamily": "JetBrainsMonoNL Nerd Font Mono",
+    "editor.fontSize": 18,
+    "editor.lineHeight": 1.6,
+    "editor.fontWeight": "normal",
+    "editor.fontLigatures": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.linkedEditing": true,
+    // Explorer
+    "explorer.confirmDelete": false,
+    "explorer.decorations.colors": true,
+    "explorer.decorations.badges": false,
+    "explorer.excludeGitIgnore": false,
+    // Prettier
+    "prettier.requireConfig": true,
+    "prettier.useEditorConfig": false,
+    // Vim
+    
+    // Shell
+    // "terminal.integrated.profiles.osx": {
+    //     "tmux-shell": {
+    //         "path": "tmux",
+    //         "args": ["new-session", "-A", "-s", "cursor:${workspaceFolder}"]
+    //     }
+    // },
+    // "terminal.integrated.defaultProfile.osx": "tmux-shell",
+    // FIF
+    "find-it-faster.general.useTerminalInEditor": true,
+    "find-it-faster.general.batTheme": "Catppuccin Mocha",
+    "go.toolsManagement.autoUpdate": true,
+    // Languages
+    "html.autoClosingTags": true,
+    "javascript.autoClosingTags": true,
+    "typescript.autoClosingTags": true,
+    "javascript.preferences.renameMatchingJsxTags" : true,
+    "typescript.preferences.renameMatchingJsxTags": true,
+    "php.validate.enable": false,
+    "php.suggest.basic": false,
+    "cursor.cpp.disabledLanguages": [
+        "plaintext",
+        "markdown",
+        "scminput"
+    ],
+    "files.associations": {
+        ".env*": "dotenv"
+    },
+    "editor.tokenColorCustomizations": {
+        "[*Light*]": {
+            "textMateRules": [
+                {
+                    "scope": "ref.matchtext",
+                    "settings": {
+                        "foreground": "#000"
+                    }
+                }
+            ]
+        },
+        "[*Dark*]": {
+            "textMateRules": [
+                {
+                    "scope": "ref.matchtext",
+                    "settings": {
+                        "foreground": "#fff"
+                    }
+                }
+            ]
+        },
+        "textMateRules": [
+            {
+                "scope": "keyword.other.dotenv",
+                "settings": {
+                    "foreground": "#FF000000"
+                }
+            }
+        ]
+    }
+}

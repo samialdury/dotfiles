@@ -1,0 +1,27 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "command": "vscode-neovim.send",
+        "key": "alt+h",
+        "when": "editorTextFocus && neovim.mode != insert",
+        "args": "<A-h>",
+    },
+    {
+        "command": "vscode-neovim.send",
+        "key": "alt+l",
+        "when": "editorTextFocus && neovim.mode != insert",
+        "args": "<A-l>",
+    },
+    {
+        "command": "vscode-neovim.send",
+        "key": "alt+j",
+        "when": "editorTextFocus && neovim.mode != insert",
+        "args": "<A-j>",
+    },
+    {
+        "command": "vscode-neovim.send",
+        "key": "alt+k",
+        "when": "editorTextFocus && neovim.mode != insert",
+        "args": "<A-k>",
+    }
+]
