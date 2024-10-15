@@ -71,10 +71,20 @@ defaults: ## Set up system settings
 stow: ## Stow dotfiles
 	@echo "Stowing files..."
 	stow .
-	@echo "Done!"
+	@echo ✅
+	@echo "Symlinking Cursor files..."
+	ln -sf ~/.config/cursor/keybindings.json ~/Library/Application\ Support/Cursor/User/
+	ln -sf ~/.config/cursor/settings.json ~/Library/Application\ Support/Cursor/User/
+	@echo ✅
+	@echo "All done!"
 
 .PHONY: unstow
 unstow: ## Unstow dotfiles
 	@echo "Removing stow links..."
 	stow -D .
-	@echo "Done!"
+	@echo ✅
+	@echo "Removing Cursor files..."
+	rm ~/Library/Application\ Support/Cursor/User/keybindings.json
+	rm ~/Library/Application\ Support/Cursor/User/settings.json
+	@echo ✅
+	@echo "All done!"
