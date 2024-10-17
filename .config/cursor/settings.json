@@ -30,6 +30,11 @@
     // Prettier
     "prettier.requireConfig": true,
     "prettier.useEditorConfig": false,
+    // Pint
+    "laravel-pint.enable": true,
+    "[php]": {
+        "editor.defaultFormatter": "open-southeners.laravel-pint"
+    },
     // Vim
     
     // Shell
