@@ -6,3 +6,4 @@
 .config/alacritty/themes
 .config/bat/themes
 .config/delta/themes
+.config/fish/config.splunk.fish

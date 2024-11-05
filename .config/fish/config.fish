@@ -21,6 +21,9 @@ set -gx HERD_BIN "$HOME/Library/Application\ Support/Herd/bin/"
 
 set -gx PATH "$HOMEBREW_BIN:$PATH:$LOCAL_BIN:$BIN:$HERD_BIN:$PNPM_HOME:$CARGO_BIN:$BUN_INSTALL/bin:$GOPATH/bin:$(gem environment gemdir)/bin:$(brew --prefix ruby)/bin"
 
+set host_config ~/.config/fish/config.splunk.fish
+test -r $host_config; and source $host_config
+
 # Aliases
 # fzf
 alias search="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}' | xargs nvim"
