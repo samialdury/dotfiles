@@ -32,7 +32,7 @@ return {
         end,
       })
 
-      LazyVim.toggle.map("<leader>at", copilot_toggle)
+      LazyVim.toggle.map("<leader>ct", copilot_toggle)
     end,
   },
 }
