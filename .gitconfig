@@ -17,3 +17,6 @@
 [delta]
 	dark = true
 	features = catppuccin-mocha
+
+[includeIf "gitdir:~/splunk/"]
+	path = ~/splunk/.gitconfig
