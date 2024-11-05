@@ -20,9 +20,9 @@ vim.keymap.del("n", "<leader>|")
 vim.keymap.set("n", "<leader>\\", "<C-W>v", { desc = "Split Window Right", remap = true })
 
 -- Move to end of line with alt-l
-vim.keymap.set("n", "<A-l>", "$")
+vim.keymap.set("n", "<S-l>", "$")
 -- Move to start of line with alt-h
-vim.keymap.set("n", "<A-h>", "^")
+vim.keymap.set("n", "<S-h>", "^")
 
 -- Keep the cursor in the middle when scrolling
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
