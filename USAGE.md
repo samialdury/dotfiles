@@ -25,7 +25,7 @@ curl -LO --output-dir ~/.config/alacritty/themes https://github.com/catppuccin/a
 
 # Install bat theme
 mkdir -p ~/.config/bat/themes
-curl -LO --output-dir ~/.config/bat/themes https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme
+curl -L -o ~/.config/bat/themes/catppuccin-mocha.tmTheme https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Mocha.tmTheme
 bat cache --build
 
 # Install delta theme
