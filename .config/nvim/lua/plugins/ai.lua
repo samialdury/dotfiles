@@ -18,7 +18,7 @@ return {
   {
     "zbirenbaum/copilot-cmp",
     opts = function()
-      local copilot_toggle = require("lazyvim.util.toggle").wrap({
+      Snacks.toggle({
         name = "Copilot Completion",
         get = function()
           return not require("copilot.client").is_disabled()
@@ -30,9 +30,7 @@ return {
             require("copilot.command").disable()
           end
         end,
-      })
-
-      LazyVim.toggle.map("<leader>ct", copilot_toggle)
+      }):map("<leader>ct")
     end,
   },
 }
