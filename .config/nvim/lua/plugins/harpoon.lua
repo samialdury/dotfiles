@@ -7,7 +7,7 @@ return {
           "<leader>a",
           function()
             require("harpoon"):list():add()
-            require("notify")("File added", "info", { title = "Harpoon" })
+            Snacks.notify.info("File added", { title = "Harpoon" })
           end,
           desc = "Add file to Harpoon",
         },
