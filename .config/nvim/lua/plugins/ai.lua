@@ -3,12 +3,16 @@ return {
     "zbirenbaum/copilot.lua",
     opts = {
       filetypes = {
-        -- disable for `.env` files
-        env = false,
         ["terraform-vars"] = false,
-        ["."] = false,
+        env = false,
         sh = function()
           if string.match(vim.fs.basename(vim.api.nvim_buf_get_name(0)), "^%.env.*") then
+            return false
+          end
+          return true
+        end,
+        conf = function()
+          if string.match(vim.fs.basename(vim.api.nvim_buf_get_name(0)), "^secrets*") then
             return false
           end
           return true
