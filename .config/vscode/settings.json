@@ -1,0 +1,79 @@
+{
+    // Telemetry
+    "telemetry.telemetryLevel": "off",
+    "intelephense.telemetry.enabled": false,
+    // Affinity
+    "extensions.experimental.affinity": {
+        "asvetliakov.vscode-neovim": 1
+    },
+    // Window
+    "window.commandCenter": true,
+    "window.autoDetectColorScheme": true,
+    // Workbench
+    "workbench.preferredLightColorTheme": "Catppuccin Mocha",
+    "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
+    "workbench.iconTheme": "vscode-jetbrains-icon-theme-2023-dark",
+    "workbench.editor.revealIfOpen": true,
+    // Editor
+    "editor.fontFamily": "JetBrainsMonoNL Nerd Font Mono",
+    "editor.fontSize": 18,
+    "editor.lineHeight": 1.6,
+    "editor.fontWeight": "normal",
+    "editor.fontLigatures": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.linkedEditing": true,
+    "editor.minimap.enabled": false,
+    // Explorer
+    "explorer.confirmDelete": false,
+    "explorer.decorations.colors": true,
+    "explorer.decorations.badges": false,
+    "explorer.excludeGitIgnore": false,
+    // Zen mode
+    "zenMode.centerLayout": false,
+    "zenMode.hideLineNumbers": false,
+    "zenMode.showTabs": "single",
+    // Copilot
+    // Prettier
+    "prettier.requireConfig": true,
+    "prettier.useEditorConfig": false,
+    // Pint
+    "laravel-pint.enable": true,
+    "[php]": {
+        "editor.defaultFormatter": "open-southeners.laravel-pint"
+    },
+    // Vim
+    // Shell
+    "terminal.integrated.profiles.osx": {
+        //...existing profiles...
+        "tmux-shell": {
+            "path": "tmux",
+            "args": [
+                "new-session",
+                "-A",
+                "-s",
+                "vscode:${workspaceFolder}"
+            ]
+        }
+    },
+    "terminal.integrated.defaultProfile.osx": "tmux-shell",
+    // "terminal.integrated.profiles.osx": {
+    //     "tmux-shell": {
+    //         "path": "tmux",,
+    //         "args": ["new-session", "-A", "-s", "cursor:${workspaceFolder}"]
+    //     }
+    // },
+    // "terminal.integrated.defaultProfile.osx": "tmux-shell",
+    // FIF
+    "find-it-faster.general.useTerminalInEditor": true,
+    "find-it-faster.general.batTheme": "Catppuccin Mocha",
+    "go.toolsManagement.autoUpdate": true,
+    // Languages
+    "html.autoClosingTags": true,
+    "javascript.autoClosingTags": true,
+    "typescript.autoClosingTags": true,
+    "javascript.preferences.renameMatchingJsxTags": true,
+    "typescript.preferences.renameMatchingJsxTags": true,
+    "php.validate.enable": false,
+    "php.suggest.basic": false
+}
