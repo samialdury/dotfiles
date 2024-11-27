@@ -76,6 +76,10 @@ stow: ## Stow dotfiles
 	ln -sf ~/.config/cursor/keybindings.json ~/Library/Application\ Support/Cursor/User/
 	ln -sf ~/.config/cursor/settings.json ~/Library/Application\ Support/Cursor/User/
 	@echo ✅
+	@echo "Symlinking VSCode files..."
+	ln -sf ~/.config/vscode/keybindings.json ~/Library/Application\ Support/Code/User/
+	ln -sf ~/.config/vscode/settings.json ~/Library/Application\ Support/Code/User/
+	@echo ✅
 	@echo "All done!"
 
 .PHONY: unstow
