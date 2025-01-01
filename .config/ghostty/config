@@ -4,10 +4,7 @@ window-padding-balance = true
 window-padding-x = 0
 window-padding-y = 0
 
-font-family = JetBrains Mono NL Regular
-font-family-bold = JetBrains Mono NL Bold
-font-family-italic = JetBrains Mono NL Italic
-font-family-bold-italic = JetBrains Mono NL Bold Italic
+font-family = JetBrains Mono NL
 font-size = 16
 
 shell-integration = fish
@@ -15,3 +12,4 @@ shell-integration = fish
 macos-option-as-alt = left
 macos-titlebar-style = hidden
 
+resize-overlay = never
