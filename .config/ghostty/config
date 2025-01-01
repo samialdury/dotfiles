@@ -1,8 +1,17 @@
-shell-integration = fish
-macos-option-as-alt = true
-font-thicken = true
-macos-titlebar-style = hidden
 theme = dark:catppuccin-mocha,light:catppuccin-latte
-font-size = 18
+
 window-padding-balance = true
-font-family = JetBrainsMonoNL Nerd Font Mono
+window-padding-x = 0
+window-padding-y = 0
+
+font-family = JetBrains Mono NL Regular
+font-family-bold = JetBrains Mono NL Bold
+font-family-italic = JetBrains Mono NL Italic
+font-family-bold-italic = JetBrains Mono NL Bold Italic
+font-size = 16
+
+shell-integration = fish
+
+macos-option-as-alt = left
+macos-titlebar-style = hidden
+
