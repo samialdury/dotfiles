@@ -10,13 +10,12 @@
     "window.commandCenter": true,
     "window.autoDetectColorScheme": true,
     // Workbench
-    "workbench.preferredLightColorTheme": "Catppuccin Mocha",
+    "workbench.preferredLightColorTheme": "Catppuccin Latte",
     "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
     "workbench.iconTheme": "vscode-jetbrains-icon-theme-2023-dark",
     // Editor
-    "editor.fontFamily": "JetBrainsMonoNL Nerd Font Mono",
-    "editor.fontSize": 18,
-    "editor.lineHeight": 1.6,
+    "editor.fontFamily": "JetBrains Mono NL",
+    "editor.fontSize": 16,
     "editor.fontWeight": "normal",
     "editor.fontLigatures": false,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
@@ -27,14 +26,10 @@
     "explorer.decorations.colors": true,
     "explorer.decorations.badges": false,
     "explorer.excludeGitIgnore": false,
+    "explorer.compactFolders": false,
     // Prettier
     "prettier.requireConfig": true,
     "prettier.useEditorConfig": false,
-    // Pint
-    "laravel-pint.enable": true,
-    "[php]": {
-        "editor.defaultFormatter": "open-southeners.laravel-pint"
-    },
     // Vim
     
     // Shell
