@@ -1,9 +1,18 @@
 [include]
 	path = ~/.config/delta/themes/catppuccin.gitconfig
+
 [core]
-	pager = delta
+	pager = delta --features "$(defaults read -g AppleInterfaceStyle &> /dev/null && echo dark-mode || echo light-mode)"
 [interactive]
-	diffFilter = delta --color-only --features=interactive
+  diffFilter = delta --color-only --features "$(defaults read -g AppleInterfaceStyle &> /dev/null && echo dark-mode || echo light-mode)"
+[delta "light-mode"]
+  light = true
+  syntax-theme = catppuccin-latte
+
+[delta "dark-mode"]
+  light = false
+  syntax-theme = catppuccin-mocha
+
 [user]
 	name = Sami Al-Dury
 	email = git@aldury.com
@@ -14,9 +23,6 @@
 	format = ssh
 [commit]
 	gpgsign = true
-[delta]
-	dark = true
-	features = catppuccin-mocha
 
 [includeIf "gitdir:~/splunk/"]
 	path = ~/splunk/.gitconfig
