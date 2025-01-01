@@ -19,7 +19,7 @@ set -gx GOPATH "$HOME/go"
 set -gx LOCAL_BIN "$HOME/.local/bin"
 set -gx HERD_BIN "$HOME/Library/Application\ Support/Herd/bin/"
 
-set -gx PATH "$HOMEBREW_BIN:$PATH:$LOCAL_BIN:$BIN:$HERD_BIN:$PNPM_HOME:$CARGO_BIN:$BUN_INSTALL/bin:$GOPATH/bin:$(gem environment gemdir)/bin:$(brew --prefix ruby)/bin"
+set -gx PATH "$HOMEBREW_BIN:$PATH:$LOCAL_BIN:$BIN:$HERD_BIN:$PNPM_HOME:$CARGO_BIN:$BUN_INSTALL/bin:$GOPATH/bin:$(gem environment gemdir)/bin:$(brew --prefix ruby)/bin:$HOME/.codeium/windsurf/bin"
 
 set host_config ~/.config/fish/config.splunk.fish
 test -r $host_config; and source $host_config
@@ -71,6 +71,15 @@ alias cwd="echo (pwd) | pbcopy && echo 'Copied to clipboard'"
 alias lastCommitMsg="git log -1 --pretty=%B | pbcopy && echo 'Copied to clipboard'"
 alias lastCommitHash="git log -1 --pretty=%H | pbcopy && echo 'Copied to clipboard'"
 
+# alias cat="bat --theme=$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo catppuccin-mocha || echo catppuccin-latte)"
+function cat
+    if defaults read -g AppleInterfaceStyle &>/dev/null
+        bat --theme=catppuccin-mocha $argv
+    else
+        bat --theme=catppuccin-latte $argv
+    end
+end
+
 # Go
 alias gmt="go mod tidy"
 
@@ -91,16 +100,6 @@ end
 
 # shell
 set -gx SHELL (command -s fish)
-
-# yazi
-function yy
-    set tmp (mktemp -t "yazi-cwd.XXXXXX")
-    yazi $argv --cwd-file="$tmp"
-    if set cwd (cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
-        cd -- "$cwd"
-    end
-    rm -f -- "$tmp"
-end
 
 # zoxide
 zoxide init fish | source
