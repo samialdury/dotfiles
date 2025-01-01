@@ -80,6 +80,10 @@ stow: ## Stow dotfiles
 	ln -sf ~/.config/vscode/keybindings.json ~/Library/Application\ Support/Code/User/
 	ln -sf ~/.config/vscode/settings.json ~/Library/Application\ Support/Code/User/
 	@echo ✅
+	@echo "Symlinking Windsurf files..."
+	ln -sf ~/.config/windsurf/settings.json ~/Library/Application\ Support/Windsurf/User/
+	ln -sf ~/.config/windsurf/keybindings.json ~/Library/Application\ Support/Windsurf/User/
+	@echo ✅
 	@echo "All done!"
 
 .PHONY: unstow

@@ -1,0 +1,36 @@
+{
+    // Telemetry
+    "telemetry.telemetryLevel": "off",
+    // Windsurf
+    "windsurf.autocompleteSpeed": "default",
+    "windsurf.cascadeOpenOnReload": false,
+    "windsurf.autoOpenEditedFiles": false,
+    // Theme
+    "window.autoDetectColorScheme": true,
+    "workbench.preferredLightColorTheme": "Catppuccin Latte",
+    "workbench.preferredDarkColorTheme": "Catppuccin Mocha",
+    // Font
+    "editor.fontFamily": "JetBrains Mono NL",
+    "editor.fontSize": 16,
+    "editor.fontLigatures": false,
+    // Editor
+    "editor.linkedEditing": true,
+    "editor.minimap.enabled": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "explorer.compactFolders": false,
+    // Prettier
+    "prettier.requireConfig": true,
+    "prettier.useEditorConfig": false,
+    // Auto Closing Tags
+    "html.autoClosingTags": true,
+    "javascript.autoClosingTags": true,
+    "typescript.autoClosingTags": true,
+    "javascript.preferences.renameMatchingJsxTags" : true,
+    "typescript.preferences.renameMatchingJsxTags": true,
+    // Files
+    "files.autoSave": "onFocusChange",
+    "files.associations": {
+        ".env*": "dotenv"
+    }
+}
