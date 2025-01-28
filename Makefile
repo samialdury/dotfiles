@@ -73,16 +73,16 @@ stow: ## Stow dotfiles
 	stow .
 	@echo ✅
 	@echo "Symlinking Cursor files..."
-	ln -sf ~/.config/cursor/keybindings.json ~/Library/Application\ Support/Cursor/User/
-	ln -sf ~/.config/cursor/settings.json ~/Library/Application\ Support/Cursor/User/
+	ln -sf ~/.config/cursor/keybindings.json ~/Library/Application\ Support/Cursor/User/ || true
+	ln -sf ~/.config/cursor/settings.json ~/Library/Application\ Support/Cursor/User/ || true
 	@echo ✅
 	@echo "Symlinking VSCode files..."
-	ln -sf ~/.config/vscode/keybindings.json ~/Library/Application\ Support/Code/User/
-	ln -sf ~/.config/vscode/settings.json ~/Library/Application\ Support/Code/User/
+	ln -sf ~/.config/vscode/keybindings.json ~/Library/Application\ Support/Code/User/ || true
+	ln -sf ~/.config/vscode/settings.json ~/Library/Application\ Support/Code/User/ || true
 	@echo ✅
 	@echo "Symlinking Windsurf files..."
-	ln -sf ~/.config/windsurf/settings.json ~/Library/Application\ Support/Windsurf/User/
-	ln -sf ~/.config/windsurf/keybindings.json ~/Library/Application\ Support/Windsurf/User/
+	ln -sf ~/.config/windsurf/settings.json ~/Library/Application\ Support/Windsurf/User/ || true
+	ln -sf ~/.config/windsurf/keybindings.json ~/Library/Application\ Support/Windsurf/User/ || true
 	@echo ✅
 	@echo "All done!"
 
