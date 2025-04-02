@@ -101,6 +101,10 @@ end
 # shell
 set -gx SHELL (command -s fish)
 
+
+# keybinds
+bind \cf tmux-sessionizer
+
 # zoxide
 zoxide init fish | source
 
@@ -110,3 +114,7 @@ fnm completions --shell fish | source
 
 # starship prompt
 starship init fish | source
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init.fish 2>/dev/null || :
