@@ -1,18 +1,7 @@
-[include]
-	path = ~/.config/delta/themes/catppuccin.gitconfig
-
 [core]
-	pager = delta --features "$(defaults read -g AppleInterfaceStyle &> /dev/null && echo dark-mode || echo light-mode)"
+	pager = delta
 [interactive]
-  diffFilter = delta --color-only --features "$(defaults read -g AppleInterfaceStyle &> /dev/null && echo dark-mode || echo light-mode)"
-[delta "light-mode"]
-  light = true
-  syntax-theme = catppuccin-latte
-
-[delta "dark-mode"]
-  light = false
-  syntax-theme = catppuccin-mocha
-
+  diffFilter = delta --color-only
 [user]
 	name = Sami Al-Dury
 	email = git@aldury.com
