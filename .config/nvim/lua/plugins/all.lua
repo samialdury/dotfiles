@@ -32,9 +32,7 @@ return {
   {
     "mason.nvim",
     opts = {
-      ensure_installed = {
-        "pint",
-      },
+      ensure_installed = {},
     },
   },
   {
@@ -86,20 +84,10 @@ return {
     "stevearc/conform.nvim",
     opts = {
       formatters_by_ft = {
-        -- PHP
-        php = { "pint" },
         -- Terraform (OpenTofu)
         terraform = { "tofu_fmt" },
         tf = { "tofu_fmt" },
         ["terraform-vars"] = { "tofu_fmt" },
-      },
-    },
-  },
-  {
-    "mfussenegger/nvim-lint",
-    opts = {
-      linters_by_ft = {
-        php = {},
       },
     },
   },
