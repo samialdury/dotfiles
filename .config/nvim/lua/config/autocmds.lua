@@ -19,3 +19,25 @@ vim.api.nvim_create_autocmd("FileType", {
     })
   end,
 })
+
+-- Ruby
+local erbAuGroup = vim.api.nvim_create_augroup("erbFileType", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "eruby",
+  group = erbAuGroup,
+  callback = function()
+    vim.keymap.set("n", "<leader>e", "o<% %><Esc>2hi", {
+      desc = "Insert ERB tags",
+      buffer = 0,
+    })
+    vim.keymap.set("n", "<leader>E", "o<%= %><Esc>2hi", {
+      desc = "Insert ERB output tags",
+      buffer = 0,
+    })
+
+    vim.keymap.set("v", "<leader>E", 'c<% <C-r>" %><Esc>', {
+      desc = "Wrap in ERB tags",
+      buffer = 0,
+    })
+  end,
+})
