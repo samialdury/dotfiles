@@ -8,3 +8,6 @@
 .config/delta/themes
 .config/fish/config.splunk.fish
 .config/fish/fish_variables
+
+.config/zed/*
+!.config/zed/settings.json
