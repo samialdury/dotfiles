@@ -13,5 +13,8 @@
     "mode": "system",
     "light": "Catppuccin Latte",
     "dark": "Catppuccin Macchiato"
-  }
+  },
+  "vim_mode": true,
+  "disable_ai": false,
+  "autosave": "on_focus_change"
 }
