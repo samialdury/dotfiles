@@ -24,6 +24,9 @@ set -gx PATH "$HOMEBREW_BIN:$PATH:$LOCAL_BIN:$BIN:$HERD_BIN:$PNPM_HOME:$CARGO_BI
 set host_config ~/.config/fish/config.splunk.fish
 test -r $host_config; and source $host_config
 
+set private_config ~/.config/fish/private.fish
+test -r $private_config; and source $private_config
+
 # Aliases
 # fzf
 alias search="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}' | xargs nvim"
