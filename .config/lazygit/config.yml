@@ -3,3 +3,13 @@ git:
   paging:
     colorArg: always
     pager: delta --paging=never --line-numbers --hyperlinks --hyperlinks-file-link-format="lazygit-edit://{path}:{line}"
+
+customCommands:
+  - key: "Y"
+    prompts:
+      - type: "input"
+        title: "Commit without husky hooks"
+        initialValue: ""
+    command: HUSKY=0 git commit -m "{{index .PromptResponses 0}}" --no-verify
+    context: "global"
+    output: "terminal"
