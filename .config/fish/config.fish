@@ -1,6 +1,7 @@
 function fish_greeting
     # fortune | cowsay | lolcat
 end
+set -gx PATH /opt/homebrew/bin /opt/homebrew/sbin /usr/local/bin /usr/bin /bin /usr/sbin /sbin $PATH
 
 set -gx XDG_CONFIG_HOME "$HOME/.config"
 set -gx BAT_CONFIG_PATH "$XDG_CONFIG_HOME/bat/bat.conf"
@@ -17,9 +18,22 @@ set -gx CARGO_BIN "$HOME/.cargo/bin"
 set -gx BUN_INSTALL "$HOME/.bun"
 set -gx GOPATH "$HOME/go"
 set -gx LOCAL_BIN "$HOME/.local/bin"
-set -gx HERD_BIN "$HOME/Library/Application\ Support/Herd/bin/"
 
-set -gx PATH "$HOMEBREW_BIN:$PATH:$LOCAL_BIN:$BIN:$HERD_BIN:$PNPM_HOME:$CARGO_BIN:$BUN_INSTALL/bin:$GOPATH/bin:$(gem environment gemdir)/bin:$(brew --prefix ruby)/bin:$HOME/.codeium/windsurf/bin"
+set -gx PATH $CARGO_BIN $HOMEBREW_BIN $LOCAL_BIN $HERD_BIN $PNPM_HOME $BUN_INSTALL/bin $GOPATH/bin /opt/homebrew/opt/libpq/bin /opt/homebrew/opt/ruby/bin $PATH
+
+if command -v brew >/dev/null 2>&1
+    set -l ruby_prefix (brew --prefix ruby 2>/dev/null)
+    if test -n "$ruby_prefix"
+        set -gx PATH $ruby_prefix/bin $PATH
+    end
+end
+
+if command -v gem >/dev/null 2>&1
+    set -l gem_dir (gem environment gemdir 2>/dev/null)
+    if test -n "$gem_dir"
+        set -gx PATH $gem_dir/bin $PATH
+    end
+end
 
 set host_config ~/.config/fish/config.splunk.fish
 test -r $host_config; and source $host_config
@@ -83,16 +97,7 @@ function cat
     end
 end
 
-# Go
-alias gmt="go mod tidy"
-
-# PHP
-alias a="php artisan"
-
-# k8s hetzner
-# https://github.com/kube-hetzner/terraform-hcloud-kube-hetzner
-alias createkh='set tmp_script (mktemp); curl -sSL -o "{tmp_script}" https://raw.githubusercontent.com/kube-hetzner/terraform-hcloud-kube-hetzner/master/scripts/create.sh; chmod +x "{tmp_script}"; bash "{tmp_script}"; rm "{tmp_script}"'
-alias cleanupkh='set tmp_script (mktemp) && curl -sSL -o "{tmp_script}" https://raw.githubusercontent.com/kube-hetzner/terraform-hcloud-kube-hetzner/master/scripts/cleanup.sh && chmod +x "{tmp_script}" && bash "{tmp_script}" && rm "{tmp_script}"'
+alias cc="ENABLE_BACKGROUND_TASKS=1 claude --dangerously-skip-permissions"
 
 # pnpm
 set -gx PNPM_HOME /Users/sami/Library/pnpm
@@ -104,20 +109,30 @@ end
 # shell
 set -gx SHELL (command -s fish)
 
-
 # keybinds
 bind \cf tmux-sessionizer
 
+# Check if commands exist before trying to initialize them
 # zoxide
-zoxide init fish | source
-
-# fnm
-fnm env --use-on-cd | source
-fnm completions --shell fish | source
+if command -v zoxide >/dev/null 2>&1
+    zoxide init fish | source
+end
 
 # starship prompt
-starship init fish | source
+if command -v starship >/dev/null 2>&1
+    starship init fish | source
+end
 
 # Added by OrbStack: command-line tools and integration
 # This won't be added again if you remove it.
 source ~/.orbstack/shell/init.fish 2>/dev/null || :
+
+if status is-interactive
+    if command -v mise >/dev/null 2>&1
+        mise activate fish | source
+    end
+else
+    if command -v mise >/dev/null 2>&1
+        mise activate fish --shims | source
+    end
+end
