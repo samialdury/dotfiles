@@ -88,14 +88,14 @@ alias cwd="echo (pwd) | pbcopy && echo 'Copied to clipboard'"
 alias lastCommitMsg="git log -1 --pretty=%B | pbcopy && echo 'Copied to clipboard'"
 alias lastCommitHash="git log -1 --pretty=%H | pbcopy && echo 'Copied to clipboard'"
 
-# alias cat="bat --theme=$(defaults read -globalDomain AppleInterfaceStyle &> /dev/null && echo catppuccin-mocha || echo catppuccin-latte)"
-function cat
-    if defaults read -g AppleInterfaceStyle &>/dev/null
-        bat --theme=catppuccin-mocha $argv
-    else
-        bat --theme=catppuccin-latte $argv
-    end
-end
+alias cat="bat"
+# function cat
+#     if defaults read -g AppleInterfaceStyle &>/dev/null
+#         bat --theme=catppuccin-mocha $argv
+#     else
+#         bat --theme=catppuccin-latte $argv
+#     end
+# end
 
 alias cc="ENABLE_BACKGROUND_TASKS=1 claude --dangerously-skip-permissions"
 
