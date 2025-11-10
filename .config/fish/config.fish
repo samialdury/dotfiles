@@ -1,7 +1,6 @@
 function fish_greeting
     # fortune | cowsay | lolcat
 end
-set -gx PATH /opt/homebrew/bin /opt/homebrew/sbin /usr/local/bin /usr/bin /bin /usr/sbin /sbin $PATH
 
 set -gx XDG_CONFIG_HOME "$HOME/.config"
 set -gx BAT_CONFIG_PATH "$XDG_CONFIG_HOME/bat/bat.conf"
@@ -19,21 +18,24 @@ set -gx BUN_INSTALL "$HOME/.bun"
 set -gx GOPATH "$HOME/go"
 set -gx LOCAL_BIN "$HOME/.local/bin"
 
-set -gx PATH $CARGO_BIN $HOMEBREW_BIN $LOCAL_BIN $HERD_BIN $PNPM_HOME $BUN_INSTALL/bin $GOPATH/bin /opt/homebrew/opt/libpq/bin /opt/homebrew/opt/ruby/bin $PATH
+set -gx PATH /opt/homebrew/bin /opt/homebrew/sbin /usr/local/bin /usr/bin /bin /usr/sbin /sbin
+set -gx PATH $CARGO_BIN $LOCAL_BIN $PNPM_HOME $BUN_INSTALL/bin $GOPATH/bin $PATH
 
-if command -v brew >/dev/null 2>&1
-    set -l ruby_prefix (brew --prefix ruby 2>/dev/null)
-    if test -n "$ruby_prefix"
-        set -gx PATH $ruby_prefix/bin $PATH
-    end
-end
+# set -gx PATH $CARGO_BIN $HOMEBREW_BIN $LOCAL_BIN $HERD_BIN $PNPM_HOME $BUN_INSTALL/bin $GOPATH/bin /opt/homebrew/opt/libpq/bin /opt/homebrew/opt/ruby/bin $PATH
 
-if command -v gem >/dev/null 2>&1
-    set -l gem_dir (gem environment gemdir 2>/dev/null)
-    if test -n "$gem_dir"
-        set -gx PATH $gem_dir/bin $PATH
-    end
-end
+# if command -v brew >/dev/null 2>&1
+#     set -l ruby_prefix (brew --prefix ruby 2>/dev/null)
+#     if test -n "$ruby_prefix"
+#         set -gx PATH $ruby_prefix/bin $PATH
+#     end
+# end
+#
+# if command -v gem >/dev/null 2>&1
+#     set -l gem_dir (gem environment gemdir 2>/dev/null)
+#     if test -n "$gem_dir"
+#         set -gx PATH $gem_dir/bin $PATH
+#     end
+# end
 
 set host_config ~/.config/fish/config.splunk.fish
 test -r $host_config; and source $host_config
@@ -45,58 +47,25 @@ test -r $private_config; and source $private_config
 # fzf
 alias search="fzf --preview 'bat --color=always --style=numbers --line-range=:500 {}' | xargs nvim"
 
-# Node.js
 alias n="node"
 alias p="pnpm"
-
-# Neovim
+alias r="ruby"
 alias e="nvim"
-
 # Update & clean Homebrew
 alias b="brew update; brew upgrade; brew cleanup; brew cleanup -s; brew doctor; brew missing"
-# Git
-alias g="git"
-alias ga="git add"
-alias gaa="git add --all"
-alias gs="git status"
-alias gaa="git add ."
-alias gcm="git commit -m"
-alias gcmnv="git commit --no-verify -m"
-alias gcmnva="git commit --no-verify --amend"
-alias gca="git commit --amend"
-alias gp="git pull"
-alias gpush="git push -u origin HEAD"
-alias gco="git checkout"
-alias gcb="git checkout -b"
-alias gfa="git fetch --all"
-alias gpfa="git pull; git fetch --all"
-alias gupa="git pull --rebase --autostash"
-alias gupav="git pull --rebase --autostash --verbose"
 # alias git-https="git remote set-url origin https://github.com/$(git remote get-url origin | sed 's/https:\/\/github.com\///' | sed 's/git@github.com://')"
 # alias git-ssh=" git remote set-url origin git@github.com:$(git remote get-url origin | sed 's/https:\/\/github.com\///' | sed 's/git@github.com://')"
 alias lg="lazygit"
-
 alias ls="eza"
 alias ll="eza -lh --icons --git"
 alias llt="eza -1 --tree --icons --git-ignore"
 alias l="eza -lah"
-
 alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 alias pnpx="pnpm dlx"
-
 alias cwd="echo (pwd) | pbcopy && echo 'Copied to clipboard'"
 alias lastCommitMsg="git log -1 --pretty=%B | pbcopy && echo 'Copied to clipboard'"
 alias lastCommitHash="git log -1 --pretty=%H | pbcopy && echo 'Copied to clipboard'"
-
 alias cat="bat"
-# function cat
-#     if defaults read -g AppleInterfaceStyle &>/dev/null
-#         bat --theme=catppuccin-mocha $argv
-#     else
-#         bat --theme=catppuccin-latte $argv
-#     end
-# end
-
 alias cc="ENABLE_BACKGROUND_TASKS=1 claude --dangerously-skip-permissions"
 
 # pnpm
@@ -127,12 +96,12 @@ end
 # This won't be added again if you remove it.
 source ~/.orbstack/shell/init.fish 2>/dev/null || :
 
-if status is-interactive
-    if command -v mise >/dev/null 2>&1
-        mise activate fish | source
-    end
-else
-    if command -v mise >/dev/null 2>&1
-        mise activate fish --shims | source
-    end
-end
+# if status is-interactive
+#     if command -v mise >/dev/null 2>&1
+mise activate fish | source
+#     end
+# else
+#     if command -v mise >/dev/null 2>&1
+mise activate fish --shims | source
+#     end
+# end
