@@ -17,5 +17,16 @@
     "bindings": {
       // "j k": "vim::NormalBefore"
     }
+  },
+  {
+    "context": "Editor",
+    "bindings": {
+      "cmd-/": [
+        "editor::ToggleComments",
+        {
+          "advance_downwards": false
+        }
+      ]
+    }
   }
 ]

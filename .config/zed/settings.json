@@ -14,7 +14,43 @@
     "light": "Catppuccin Latte",
     "dark": "Catppuccin Macchiato"
   },
-  "vim_mode": true,
-  "disable_ai": false,
-  "autosave": "on_focus_change"
+  "buffer_font_family": "JetBrains Mono NL",
+  "vim_mode": false,
+  "disable_ai": true,
+  "autosave": "on_focus_change",
+  "languages": {
+    "Ruby": {
+      // Use ruby-lsp as the primary language server and rubocop as the secondary.
+      "language_servers": [
+        "tailwindcss-language-server",
+        "ruby-lsp",
+        "!rubocop",
+        "!solargraph",
+        "!sorbet",
+        "!steep",
+        "..."
+      ]
+    }
+  },
+  "lsp": {
+    "tailwindcss-language-server": {
+      "settings": {
+        "experimental": {
+          "classRegex": ["\\bclass:\\s*['\"]([^'\"]*)['\"]"]
+        }
+      }
+    },
+    "rubocop": {
+      "initialization_options": {
+        "safeAutocorrect": false
+      }
+    },
+    "ruby-lsp": {
+      "initialization_options": {
+        "enabledFeatures": {
+          "diagnostics": false
+        }
+      }
+    }
+  }
 }
