@@ -2,7 +2,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "tokyonight-night",
     },
   },
   {
@@ -71,6 +71,7 @@ return {
   },
   {
     "zbirenbaum/copilot.lua",
+    enabled = false,
     opts = function()
       Snacks.toggle({
         name = "Copilot Completion",
