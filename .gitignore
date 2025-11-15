@@ -1,7 +1,6 @@
 .DS_Store
 *.log
 
-.ssh
 .config/tmux/plugins
 .config/fish/config.splunk.fish
 .config/fish/private.fish
