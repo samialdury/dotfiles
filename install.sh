@@ -18,6 +18,15 @@ if ! command -v stow >/dev/null 2>&1; then
   fi
 fi
 
+if ! command -v delta >/dev/null 2>&1; then
+  if [[ -f /etc/arch-release ]]; then
+    echo "installing delta..."
+    sudo pacman -S --noconfirm git-delta
+  else
+    echo "delta already installed, skipping..."
+  fi
+fi
+
 # Tmux TPM
 TPM_DIR=~/.tmux/plugins/tpm
 if [ ! -d "$TPM_DIR" ]; then
