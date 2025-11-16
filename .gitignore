@@ -10,3 +10,4 @@
 !.config/zed/settings.json
 !.config/zed/keymap.json
 .config/bat/themes/tokyonight.nvim
+tmux/.config/tmux/plugins
