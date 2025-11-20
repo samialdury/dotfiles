@@ -184,7 +184,6 @@ declare -a STOW_DIRS=(
   "home"
   "lazygit"
   "nvim"
-  "ssh"
   "starship"
   "tmux"
 )
