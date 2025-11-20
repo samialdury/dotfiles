@@ -17,6 +17,7 @@ git clone https://github.com/samialdury/dotfiles.git ~/dotfiles
 ## License
 
 [MIT](LICENSE)
+
 # Usage
 
 ```sh
@@ -44,4 +45,14 @@ make stow
 
 # Set system defaults
 make defaults
+```
+
+```
+Include ~/.orbstack/ssh/config
+
+Host github.com
+    User git
+    HostName github.com
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/id_ed25519
 ```
