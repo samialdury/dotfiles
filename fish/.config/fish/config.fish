@@ -3,8 +3,6 @@ function fish_greeting
 end
 
 set -gx XDG_CONFIG_HOME "$HOME/.config"
-set -gx BAT_CONFIG_PATH "$XDG_CONFIG_HOME/bat/bat.conf"
-set -gx STARSHIP_CONFIG "$XDG_CONFIG_HOME/starship/starship.toml"
 
 set -gx VISUAL nvim
 set -gx EDITOR $VISUAL
