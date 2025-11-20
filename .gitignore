@@ -1,13 +1,14 @@
 .DS_Store
 *.log
 
-.config/tmux/plugins
-.config/fish/config.splunk.fish
-.config/fish/private.fish
-.config/fish/fish_variables
-
-.config/zed/*
-!.config/zed/settings.json
-!.config/zed/keymap.json
-.config/bat/themes/tokyonight.nvim
+# tmux
 tmux/.config/tmux/plugins
+
+# bat
+bat/.config/bat/themes/tokyonight.nvim
+
+# fish
+fish/.config/fish/private.fish
+fish/.config/fish/fish_variables
+fish/.config/fish/conf.d
+fish/.config/fish/completions
