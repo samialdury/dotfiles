@@ -15,9 +15,10 @@ set -gx CARGO_BIN "$HOME/.cargo/bin"
 set -gx BUN_INSTALL "$HOME/.bun"
 set -gx GOPATH "$HOME/go"
 set -gx LOCAL_BIN "$HOME/.local/bin"
+set -gx LOCAL_SCRIPTS "$HOME/.local/scripts"
 
 set -gx PATH /opt/homebrew/bin /opt/homebrew/sbin /usr/local/bin /usr/bin /bin /usr/sbin /sbin
-set -gx PATH $CARGO_BIN $LOCAL_BIN $PNPM_HOME $BUN_INSTALL/bin $GOPATH/bin $PATH
+set -gx PATH $CARGO_BIN $LOCAL_BIN $LOCAL_SCRIPTS $PNPM_HOME $BUN_INSTALL/bin $GOPATH/bin $PATH
 
 # set -gx PATH $CARGO_BIN $HOMEBREW_BIN $LOCAL_BIN $HERD_BIN $PNPM_HOME $BUN_INSTALL/bin $GOPATH/bin /opt/homebrew/opt/libpq/bin /opt/homebrew/opt/ruby/bin $PATH
 
