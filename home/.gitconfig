@@ -12,6 +12,3 @@
 	format = ssh
 [commit]
 	gpgsign = true
-
-[includeIf "gitdir:~/splunk/"]
-	path = ~/splunk/.gitconfig
