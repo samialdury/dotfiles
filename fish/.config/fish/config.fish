@@ -35,9 +35,6 @@ set -gx PATH $CARGO_BIN $LOCAL_BIN $PNPM_HOME $BUN_INSTALL/bin $GOPATH/bin $PATH
 #     end
 # end
 
-set host_config ~/.config/fish/config.splunk.fish
-test -r $host_config; and source $host_config
-
 set private_config ~/.config/fish/private.fish
 test -r $private_config; and source $private_config
 
