@@ -1,27 +1,17 @@
 # dotfiles
 
-This repository contains my dotfiles.
-
-Most of the configuration is in the [.config](.config) directory.
+This repository contains all my important dev environment configuration files.
 
 ## Installation
 
 ```sh
-git clone https://github.com/samialdury/dotfiles.git ~/dotfiles
+git clone git@github.com:samialdury/dotfiles.git ~/dotfiles
 ```
 
 ## Usage
 
-[USAGE.md](USAGE.md)
-
-## License
-
-[MIT](LICENSE)
-
-# Usage
-
 ```sh
-# Install xcode command line tools
+# Install Xcode command line tools
 xcode-select --install
 
 # Install Homebrew
@@ -36,18 +26,15 @@ chsh -s /opt/homebrew/bin/fish
 
 # Open a new terminal window
 
-# Install brew packages
-brew bundle install --file=~/dotfiles/Brewfile
-
-# Symlink config files
-cd ~/dotfiles
-make stow
-
-# Set system defaults
-make defaults
+# Run install script
+./install.sh
 ```
 
-```
+### SSH
+
+If you encounter issues with GitHub SSH authentication, try adding this to your `.ssh/config`:
+
+```ssh-config
 Include ~/.orbstack/ssh/config
 
 Host github.com
@@ -56,3 +43,21 @@ Host github.com
     PreferredAuthentications publickey
     IdentityFile ~/.ssh/id_ed25519
 ```
+
+### Brew bundle
+
+```sh
+brew bundle dump --force --file=~/dotfiles/Brewfile
+brew bundle install --file=~/dotfiles/Brewfile
+```
+
+### Gitleaks
+
+```sh
+@gitleaks detect
+@gitleaks protect --staged
+```
+
+## License
+
+[MIT](LICENSE)
