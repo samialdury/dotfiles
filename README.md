@@ -3,6 +3,20 @@
 This repository contains all my important dev environment configuration files.
 It supports **MacOS** and **Arch Linux**.
 
+<!--toc:start-->
+- [dotfiles](#dotfiles)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [MacOS prerequisites](#macos-prerequisites)
+    - [Install script](#install-script)
+  - [Troubleshooting](#troubleshooting)
+    - [SSH](#ssh)
+  - [Other](#other)
+    - [Brew bundle](#brew-bundle)
+    - [Gitleaks](#gitleaks)
+  - [License](#license)
+<!--toc:end-->
+
 ## Installation
 
 First, make sure you've created a new ssh key and added it to your GitHub account.
