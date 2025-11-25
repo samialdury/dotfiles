@@ -96,6 +96,7 @@ declare -A PACKAGES=(
   ["rg"]="ripgrep"
   ["fd"]="fd"
   ["fzf"]="fzf"
+  ["just"]="just"
 )
 
 declare -A MACOS_ONLY_PACKAGES=(
