@@ -15,3 +15,4 @@ alias lg='lazygit'
 export PATH="$HOME/.local/scripts:$PATH"
 
 bind '"\C-f":"tmux-sessionizer\n"'
+export PATH="$HOME/.local/bin:$PATH"
