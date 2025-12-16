@@ -21,6 +21,19 @@ It supports **MacOS** and **Arch Linux**.
 First, make sure you've created a new ssh key and added it to your GitHub account.
 
 ```sh
+ssh-keygen -t ed25519 -C ""
+
+# copy pub key to clipboard
+cat ~/.ssh/id_ed25519.pub | wl-copy
+
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+
+# test connection
+ssh -T git@github.com
+```
+
+```sh
 git clone git@github.com:samialdury/dotfiles.git ~/dotfiles
 ```
 
