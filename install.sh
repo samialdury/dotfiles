@@ -192,6 +192,13 @@ declare -a STOW_DIRS=(
 log_info "Stowing dotfiles..."
 
 for dir in "${STOW_DIRS[@]}"; do
+  existing_dir="$HOME/.config/$dir"
+  if [ "$dir" != "home" ]; then
+    if [ -d "$existing_dir" ] && ! [ -L "$existing_dir" ]; then
+      log_info "$dir already exists, backing up..."
+      mv "$existing_dir" "$existing_dir.bak"
+    fi
+  fi
   if [ -d "$dir" ]; then
     log_info "Stowing $dir..."
     stow "$dir"
