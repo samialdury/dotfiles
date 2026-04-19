@@ -15,6 +15,9 @@ import subprocess
 from pathlib import Path
 from datetime import datetime
 
+sys.path.insert(0, str(Path(__file__).parent))
+from utils.log_paths import log_dir as _log_dir
+
 try:
     from dotenv import load_dotenv
     load_dotenv()
@@ -152,9 +155,7 @@ def main():
         session_id = input_data.get("session_id", "")
         stop_hook_active = input_data.get("stop_hook_active", False)
 
-        # Ensure log directory exists
-        log_dir = os.path.join(os.getcwd(), "logs")
-        os.makedirs(log_dir, exist_ok=True)
+        log_dir = str(_log_dir())
         log_path = os.path.join(log_dir, "stop.json")
 
         # Read existing log data or initialize empty list

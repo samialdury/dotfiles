@@ -8,15 +8,15 @@ import os
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+from utils.log_paths import log_dir as _log_dir
+
 def main():
     try:
         # Read JSON input from stdin
         input_data = json.load(sys.stdin)
         
-        # Ensure log directory exists
-        log_dir = Path.cwd() / 'logs'
-        log_dir.mkdir(parents=True, exist_ok=True)
-        log_path = log_dir / 'post_tool_use.json'
+        log_path = _log_dir() / 'post_tool_use.json'
         
         # Read existing log data or initialize empty list
         if log_path.exists():

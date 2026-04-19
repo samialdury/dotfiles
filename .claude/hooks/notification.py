@@ -14,6 +14,9 @@ import subprocess
 import random
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+from utils.log_paths import log_dir as _log_dir
+
 try:
     from dotenv import load_dotenv
     load_dotenv()
@@ -92,11 +95,7 @@ def main():
         # Read JSON input from stdin
         input_data = json.loads(sys.stdin.read())
         
-        # Ensure log directory exists
-        import os
-        log_dir = os.path.join(os.getcwd(), 'logs')
-        os.makedirs(log_dir, exist_ok=True)
-        log_file = os.path.join(log_dir, 'notification.json')
+        log_file = str(_log_dir() / 'notification.json')
         
         # Read existing log data or initialize empty list
         if os.path.exists(log_file):
