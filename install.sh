@@ -257,19 +257,19 @@ log_success "Configuration files installed."
 # -----------------------------
 # Expose ~/.agents/skills as Claude Code skills
 # -----------------------------
-# Claude Code discovers skills from ~/.claude/skills. Link each skill
-# dir in ~/.agents/skills as a relative symlink under ~/.claude/skills.
-# Target is ../../.agents/skills/<name> so the link resolves correctly
-# from ~/.claude/skills/ regardless of repo location.
+# Claude Code discovers skills from ~/.claude/skills. Point the whole
+# directory at ~/.agents/skills so every installed skill is picked up
+# without maintaining per-skill symlinks.
 if [ -d "$HOME/.agents/skills" ]; then
-  log_info "Linking ~/.agents/skills/* into ~/.claude/skills/..."
-  mkdir -p "$HOME/.claude/skills"
-  for skill_path in "$HOME/.agents/skills"/*/; do
-    [ -d "$skill_path" ] || continue
-    skill_name="$(basename "$skill_path")"
-    ln -sfn "../../.agents/skills/$skill_name" "$HOME/.claude/skills/$skill_name"
-  done
-  log_success "Skill symlinks refreshed."
+  # If a real dir exists here (from a previous per-skill-link install),
+  # remove it only if empty; otherwise leave the user's content alone.
+  if [ -d "$HOME/.claude/skills" ] && ! [ -L "$HOME/.claude/skills" ]; then
+    rmdir "$HOME/.claude/skills" 2>/dev/null || log_warn "~/.claude/skills is a non-empty real dir; leaving it alone"
+  fi
+  if ! [ -e "$HOME/.claude/skills" ] || [ -L "$HOME/.claude/skills" ]; then
+    ln -sfn "../.agents/skills" "$HOME/.claude/skills"
+    log_success "~/.claude/skills -> ~/.agents/skills"
+  fi
 fi
 
 if [[ "$OS_TYPE" == "macos" ]]; then
