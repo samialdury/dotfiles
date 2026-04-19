@@ -182,31 +182,31 @@ REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Format per entry: "<src-relative-to-repo>::<target-absolute>::<mode>"
 # Mode is informational only right now (file vs dir); link_one treats both the same.
 declare -a LINKS=(
-  # home/ → $HOME
-  "home/.bashrc::$HOME/.bashrc::file"
-  "home/.bash_profile::$HOME/.bash_profile::file"
-  "home/.gitconfig::$HOME/.gitconfig::file"
-  "home/.hushlogin::$HOME/.hushlogin::file"
+  # Flat $HOME files
+  ".bashrc::$HOME/.bashrc::file"
+  ".bash_profile::$HOME/.bash_profile::file"
+  ".gitconfig::$HOME/.gitconfig::file"
+  ".hushlogin::$HOME/.hushlogin::file"
 
   # ~/.config/<pkg> whole-dir links
-  "bat/.config/bat::$HOME/.config/bat::dir"
-  "fish/.config/fish::$HOME/.config/fish::dir"
-  "ghostty/.config/ghostty::$HOME/.config/ghostty::dir"
-  "lazygit/.config/lazygit::$HOME/.config/lazygit::dir"
-  "nvim/.config/nvim::$HOME/.config/nvim::dir"
-  "starship/.config/starship.toml::$HOME/.config/starship.toml::file"
-  "tmux/.config/tmux::$HOME/.config/tmux::dir"
+  ".config/bat::$HOME/.config/bat::dir"
+  ".config/fish::$HOME/.config/fish::dir"
+  ".config/ghostty::$HOME/.config/ghostty::dir"
+  ".config/lazygit::$HOME/.config/lazygit::dir"
+  ".config/nvim::$HOME/.config/nvim::dir"
+  ".config/starship.toml::$HOME/.config/starship.toml::file"
+  ".config/tmux::$HOME/.config/tmux::dir"
 
   # ~/.claude — per-file + per-subdir so runtime state stays out of repo
-  "claude/.claude/settings.json::$HOME/.claude/settings.json::file"
-  "claude/.claude/statusline-command.sh::$HOME/.claude/statusline-command.sh::file"
-  "claude/.claude/agents::$HOME/.claude/agents::dir"
-  "claude/.claude/hooks::$HOME/.claude/hooks::dir"
-  "claude/.claude/commands::$HOME/.claude/commands::dir"
+  ".claude/settings.json::$HOME/.claude/settings.json::file"
+  ".claude/statusline-command.sh::$HOME/.claude/statusline-command.sh::file"
+  ".claude/agents::$HOME/.claude/agents::dir"
+  ".claude/hooks::$HOME/.claude/hooks::dir"
+  ".claude/commands::$HOME/.claude/commands::dir"
 
   # ~/.agents — same per-file + per-subdir pattern
-  "agents/.agents/.skill-lock.json::$HOME/.agents/.skill-lock.json::file"
-  "agents/.agents/skills::$HOME/.agents/skills::dir"
+  ".agents/.skill-lock.json::$HOME/.agents/.skill-lock.json::file"
+  ".agents/skills::$HOME/.agents/skills::dir"
 )
 
 link_one() {
