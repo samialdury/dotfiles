@@ -7,11 +7,13 @@ tmux/.config/tmux/plugins
 # bat
 bat/.config/bat/themes/tokyonight.nvim
 
-# fish
-fish/.config/fish/private.fish
-fish/.config/fish/fish_variables
-fish/.config/fish/conf.d
-fish/.config/fish/completions
+# fish — whole-dir symlinked into ~/.config/fish, so runtime state
+# (conf.d/, completions/, fish_variables, private.fish, history, etc.)
+# materializes here on the live machine. Whitelist only the tracked bits.
+fish/.config/fish/*
+!fish/.config/fish/config.fish
+!fish/.config/fish/functions/
+!fish/.config/fish/functions/**
 
 # claude
 claude/.claude/projects/
