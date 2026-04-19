@@ -7,17 +7,27 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "vim_mode": false,
   "base_keymap": "VSCode",
   "icon_theme": "Zed (Default)",
   "ui_font_size": 16,
   "buffer_font_size": 15,
   "buffer_font_family": "JetBrains Mono NL",
-  "disable_ai": true,
+  "disable_ai": false,
   "theme": {
     "mode": "system",
     "light": "Tokyo Night Light",
     "dark": "Tokyo Night"
   },
+  "terminal": {
+    "shell": {
+      "with_arguments": {
+        "program": "/opt/homebrew/bin/fish",
+        "args": ["-c", "tmux-sessionizer \"$(basename \"$PWD\")\""]
+      }
+    }
+  },
+  "format_on_save": "off",
   "languages": {
     "JavaScript": {
       "format_on_save": "on",
