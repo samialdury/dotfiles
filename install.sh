@@ -254,6 +254,24 @@ done
 
 log_success "Configuration files installed."
 
+# -----------------------------
+# Expose ~/.agents/skills as Claude Code skills
+# -----------------------------
+# Claude Code discovers skills from ~/.claude/skills. Link each skill
+# dir in ~/.agents/skills as a relative symlink under ~/.claude/skills.
+# Target is ../../.agents/skills/<name> so the link resolves correctly
+# from ~/.claude/skills/ regardless of repo location.
+if [ -d "$HOME/.agents/skills" ]; then
+  log_info "Linking ~/.agents/skills/* into ~/.claude/skills/..."
+  mkdir -p "$HOME/.claude/skills"
+  for skill_path in "$HOME/.agents/skills"/*/; do
+    [ -d "$skill_path" ] || continue
+    skill_name="$(basename "$skill_path")"
+    ln -sfn "../../.agents/skills/$skill_name" "$HOME/.claude/skills/$skill_name"
+  done
+  log_success "Skill symlinks refreshed."
+fi
+
 if [[ "$OS_TYPE" == "macos" ]]; then
   log_info "Applying MacOS defaults..."
   # https://macos-defaults.com
