@@ -1,1 +1,120 @@
-{}
+{
+  "env": {
+    "ENABLE_BACKGROUND_TASKS": "1",
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/pre_tool_use.py"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/post_tool_use.py"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/notification.py --notify"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/stop.py --chat"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/subagent_stop.py"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run ~/.claude/hooks/user_prompt_submit.py --log-only"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/sami/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-code-plugins": true,
+    "code-simplifier@claude-plugins-official": true,
+    "seo-technical-optimization@claude-code-workflows": true,
+    "seo-content-creation@claude-code-workflows": true,
+    "seo-analysis-monitoring@claude-code-workflows": true,
+    "content-marketing@claude-code-workflows": true,
+    "superpowers@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "ralph-loop@claude-plugins-official": false,
+    "ruby-lsp@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "ralph-skills@ralph-marketplace": true,
+    "ralph-wiggum@claude-code-plugins": true,
+    "caveman@caveman": true
+  },
+  "extraKnownMarketplaces": {
+    "ralph-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "snarktank/ralph"
+      }
+    },
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    }
+  },
+  "alwaysThinkingEnabled": true,
+  "voice": {
+    "enabled": true,
+    "mode": "hold"
+  },
+  "autoDreamEnabled": true,
+  "skipDangerousModePermissionPrompt": true,
+  "useAutoModeDuringPlan": true,
+  "voiceEnabled": true
+}
