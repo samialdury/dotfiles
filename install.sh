@@ -91,7 +91,6 @@ declare -A PACKAGES=(
   ["lazygit"]="lazygit"
   ["nvim"]="neovim"
   ["starship"]="starship"
-  ["stow"]="stow"
   ["tmux"]="tmux"
   ["rg"]="ripgrep"
   ["fd"]="fd"
@@ -176,101 +175,101 @@ fi
 log_success "Install script finished."
 
 # -----------------------------
-# Stow dotfiles
+# Link dotfiles into target locations
 # -----------------------------
-declare -a STOW_DIRS=(
-  "agents"
-  "bat"
-  "claude"
-  "fish"
-  "ghostty"
-  "home"
-  "lazygit"
-  "nvim"
-  "starship"
-  "tmux"
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# Format per entry: "<src-relative-to-repo>::<target-absolute>::<mode>"
+# Mode is informational only right now (file vs dir); link_one treats both the same.
+declare -a LINKS=(
+  # home/ → $HOME
+  "home/.bashrc::$HOME/.bashrc::file"
+  "home/.bash_profile::$HOME/.bash_profile::file"
+  "home/.gitconfig::$HOME/.gitconfig::file"
+  "home/.hushlogin::$HOME/.hushlogin::file"
+
+  # ~/.config/<pkg> whole-dir links
+  "bat/.config/bat::$HOME/.config/bat::dir"
+  "fish/.config/fish::$HOME/.config/fish::dir"
+  "ghostty/.config/ghostty::$HOME/.config/ghostty::dir"
+  "lazygit/.config/lazygit::$HOME/.config/lazygit::dir"
+  "nvim/.config/nvim::$HOME/.config/nvim::dir"
+  "starship/.config/starship.toml::$HOME/.config/starship.toml::file"
+  "tmux/.config/tmux::$HOME/.config/tmux::dir"
+
+  # ~/.claude — per-file + per-subdir so runtime state stays out of repo
+  "claude/.claude/settings.json::$HOME/.claude/settings.json::file"
+  "claude/.claude/statusline-command.sh::$HOME/.claude/statusline-command.sh::file"
+  "claude/.claude/agents::$HOME/.claude/agents::dir"
+  "claude/.claude/hooks::$HOME/.claude/hooks::dir"
+  "claude/.claude/commands::$HOME/.claude/commands::dir"
+
+  # ~/.agents — same per-file + per-subdir pattern
+  "agents/.agents/.skill-lock.json::$HOME/.agents/.skill-lock.json::file"
+  "agents/.agents/skills::$HOME/.agents/skills::dir"
 )
 
-declare -A STOW_TARGETS=(
-  ["agents"]="$HOME/.agents"
-  ["bat"]="$HOME/.config/bat"
-  ["claude"]="$HOME/.claude"
-  ["fish"]="$HOME/.config/fish"
-  ["ghostty"]="$HOME/.config/ghostty"
-  ["lazygit"]="$HOME/.config/lazygit"
-  ["nvim"]="$HOME/.config/nvim"
-  ["starship"]="$HOME/.config/starship"
-  ["tmux"]="$HOME/.config/tmux"
-)
+link_one() {
+  local src_rel="$1" target="$2"
+  local src="$REPO/$src_rel"
 
-log_info "Stowing dotfiles..."
-
-# Ensure ~/.claude exists as a real directory so stow folds individual files
-# into it instead of symlinking the whole dir (which would cause Claude Code
-# to write runtime state back into the repo).
-mkdir -p "$HOME/.claude"
-
-# Same treatment for ~/.agents — skill tooling writes runtime state here.
-mkdir -p "$HOME/.agents"
-
-for dir in "${STOW_DIRS[@]}"; do
-  case "$dir" in
-  home)
-    : # targets $HOME directly; nothing to back up
-    ;;
-  claude)
-    # Never move the whole ~/.claude directory — it holds live auth/runtime state.
-    claude_settings="$HOME/.claude/settings.json"
-    if [ -f "$claude_settings" ] && ! [ -L "$claude_settings" ]; then
-      log_info "claude settings.json already exists, backing up..."
-      mv "$claude_settings" "$claude_settings.bak"
-    fi
-    ;;
-  agents)
-    # Never move the whole ~/.agents directory — skill tooling writes state here.
-    agents_lock="$HOME/.agents/.skill-lock.json"
-    if [ -f "$agents_lock" ] && ! [ -L "$agents_lock" ]; then
-      log_info "agents .skill-lock.json already exists, backing up..."
-      mv "$agents_lock" "$agents_lock.bak"
-    fi
-    ;;
-  *)
-    target="${STOW_TARGETS[$dir]:-}"
-    if [ -n "$target" ] && [ -d "$target" ] && ! [ -L "$target" ]; then
-      log_info "$dir already exists, backing up..."
-      mv "$target" "$target.bak"
-    fi
-    ;;
-  esac
-
-  if [ -d "$dir" ]; then
-    log_info "Stowing $dir..."
-    stow "$dir"
-    log_success "Stowed $dir"
-  else
-    log_warn "Skipping $dir — directory not found"
+  if [ ! -e "$src" ]; then
+    log_warn "Skipping $target — source missing: $src"
+    return
   fi
+
+  mkdir -p "$(dirname "$target")"
+
+  if [ -L "$target" ]; then
+    local current
+    current="$(readlink "$target")"
+    if [ "$current" = "$src" ]; then
+      log_info "ok    $target"
+      return
+    fi
+    log_info "relink $target (was -> $current)"
+    rm "$target"
+  elif [ -e "$target" ]; then
+    local bak
+    bak="$target.bak.$(date +%s)"
+    log_warn "backup $target -> $bak"
+    mv "$target" "$bak"
+  fi
+
+  ln -s "$src" "$target"
+  log_success "link  $target -> $src"
+}
+
+log_info "Linking dotfiles from $REPO..."
+for entry in "${LINKS[@]}"; do
+  src_rel="${entry%%::*}"
+  rest="${entry#*::}"
+  target="${rest%%::*}"
+  # mode="${rest#*::}"  # unused for now; kept in LINKS for future use
+  link_one "$src_rel" "$target"
 done
 
-log_success "Configuration files installed."
-
-# -----------------------------
-# Expose ~/.agents/skills as Claude Code skills
-# -----------------------------
-# Claude Code discovers skills from ~/.claude/skills. Point the whole
-# directory at ~/.agents/skills so every installed skill is picked up
-# without maintaining per-skill symlinks.
-if [ -d "$HOME/.agents/skills" ]; then
-  # If a real dir exists here (from a previous per-skill-link install),
-  # remove it only if empty; otherwise leave the user's content alone.
-  if [ -d "$HOME/.claude/skills" ] && ! [ -L "$HOME/.claude/skills" ]; then
-    rmdir "$HOME/.claude/skills" 2>/dev/null || log_warn "~/.claude/skills is a non-empty real dir; leaving it alone"
+# Cross-package relative link: ~/.claude/skills -> ../.agents/skills.
+# Resolves via ~/.agents/skills (itself a symlink into the repo) so Claude Code
+# discovers every skill without per-skill maintenance.
+skills_link="$HOME/.claude/skills"
+skills_want="../.agents/skills"
+if [ -L "$skills_link" ] && [ "$(readlink "$skills_link")" = "$skills_want" ]; then
+  log_info "ok    $skills_link"
+elif [ -d "$skills_link" ] && ! [ -L "$skills_link" ]; then
+  # Old per-skill-link install left a real dir behind; only rmdir if empty.
+  rmdir "$skills_link" 2>/dev/null || log_warn "$skills_link is a non-empty real dir; leaving it alone"
+  if ! [ -e "$skills_link" ]; then
+    ln -s "$skills_want" "$skills_link"
+    log_success "link  $skills_link -> $skills_want"
   fi
-  if ! [ -e "$HOME/.claude/skills" ] || [ -L "$HOME/.claude/skills" ]; then
-    ln -sfn "../.agents/skills" "$HOME/.claude/skills"
-    log_success "~/.claude/skills -> ~/.agents/skills"
-  fi
+else
+  [ -L "$skills_link" ] && rm "$skills_link"
+  ln -s "$skills_want" "$skills_link"
+  log_success "link  $skills_link -> $skills_want"
 fi
+
+log_success "Dotfiles linked."
 
 if [[ "$OS_TYPE" == "macos" ]]; then
   log_info "Applying MacOS defaults..."
