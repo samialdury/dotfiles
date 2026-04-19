@@ -179,6 +179,7 @@ log_success "Install script finished."
 # Stow dotfiles
 # -----------------------------
 declare -a STOW_DIRS=(
+  "agents"
   "bat"
   "claude"
   "fish"
@@ -191,6 +192,7 @@ declare -a STOW_DIRS=(
 )
 
 declare -A STOW_TARGETS=(
+  ["agents"]="$HOME/.agents"
   ["bat"]="$HOME/.config/bat"
   ["claude"]="$HOME/.claude"
   ["fish"]="$HOME/.config/fish"
@@ -208,6 +210,9 @@ log_info "Stowing dotfiles..."
 # to write runtime state back into the repo).
 mkdir -p "$HOME/.claude"
 
+# Same treatment for ~/.agents — skill tooling writes runtime state here.
+mkdir -p "$HOME/.agents"
+
 for dir in "${STOW_DIRS[@]}"; do
   case "$dir" in
   home)
@@ -219,6 +224,14 @@ for dir in "${STOW_DIRS[@]}"; do
     if [ -f "$claude_settings" ] && ! [ -L "$claude_settings" ]; then
       log_info "claude settings.json already exists, backing up..."
       mv "$claude_settings" "$claude_settings.bak"
+    fi
+    ;;
+  agents)
+    # Never move the whole ~/.agents directory — skill tooling writes state here.
+    agents_lock="$HOME/.agents/.skill-lock.json"
+    if [ -f "$agents_lock" ] && ! [ -L "$agents_lock" ]; then
+      log_info "agents .skill-lock.json already exists, backing up..."
+      mv "$agents_lock" "$agents_lock.bak"
     fi
     ;;
   *)
