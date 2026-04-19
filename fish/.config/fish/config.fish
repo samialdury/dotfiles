@@ -101,3 +101,5 @@ mise activate fish | source
 mise activate fish --shims | source
 #     end
 # end
+# Ensure Homebrew takes precedence over system binaries
+fish_add_path -m /opt/homebrew/bin /opt/homebrew/sbin
