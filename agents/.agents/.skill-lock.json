@@ -1,0 +1,186 @@
+{
+  "version": 3,
+  "skills": {
+    "design-postgres-tables": {
+      "source": "timescale/pg-aiguide",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/timescale/pg-aiguide.git",
+      "skillPath": "skills/design-postgres-tables/SKILL.md",
+      "skillFolderHash": "3458c2d8fcaea89e109d2ad2781331f2da477764",
+      "installedAt": "2026-01-26T12:55:31.622Z",
+      "updatedAt": "2026-01-26T12:55:31.622Z"
+    },
+    "better-auth-security-best-practices": {
+      "source": "better-auth/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/better-auth/skills.git",
+      "skillPath": "security/SKILL.md",
+      "skillFolderHash": "845a8a6373a316deb708dcf09a6d1e019ceccb50",
+      "installedAt": "2026-02-12T14:55:54.988Z",
+      "updatedAt": "2026-03-23T09:43:38.213Z"
+    },
+    "better-auth-best-practices": {
+      "source": "better-auth/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/better-auth/skills.git",
+      "skillPath": "better-auth/best-practices/SKILL.md",
+      "skillFolderHash": "58f87c7fe7c2c487779728c1e73ea43717612d37",
+      "pluginName": "auth-skills",
+      "installedAt": "2026-02-12T14:55:55.040Z",
+      "updatedAt": "2026-03-23T09:43:37.366Z"
+    },
+    "create-auth-skill": {
+      "source": "better-auth/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/better-auth/skills.git",
+      "skillPath": "better-auth/create-auth/SKILL.md",
+      "skillFolderHash": "5192f50c149fc94b6bfb4cf288dfd84f37517e00",
+      "pluginName": "auth-skills",
+      "installedAt": "2026-02-12T14:55:55.090Z",
+      "updatedAt": "2026-03-23T09:43:37.805Z"
+    },
+    "email-and-password-best-practices": {
+      "source": "better-auth/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/better-auth/skills.git",
+      "skillPath": "better-auth/emailAndPassword/SKILL.md",
+      "skillFolderHash": "9da895cd339e3eda0ba6d1b8d2b54e24799b1992",
+      "installedAt": "2026-02-12T14:55:55.145Z",
+      "updatedAt": "2026-03-23T09:43:38.533Z"
+    },
+    "organization-best-practices": {
+      "source": "better-auth/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/better-auth/skills.git",
+      "skillPath": "better-auth/organization/SKILL.md",
+      "skillFolderHash": "461989110d1cd43c4809bea01c9a61b9fd432056",
+      "installedAt": "2026-02-12T14:55:55.193Z",
+      "updatedAt": "2026-03-23T09:43:38.872Z"
+    },
+    "two-factor-authentication-best-practices": {
+      "source": "better-auth/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/better-auth/skills.git",
+      "skillPath": "better-auth/twoFactor/SKILL.md",
+      "skillFolderHash": "c3e340469e63705527a6191c6b7ac94ff7448ded",
+      "installedAt": "2026-02-12T14:55:55.242Z",
+      "updatedAt": "2026-03-23T09:43:39.256Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "c2f31172b6f256272305a5e6e7228b258446899f",
+      "installedAt": "2026-02-12T14:56:00.482Z",
+      "updatedAt": "2026-02-12T14:56:00.482Z"
+    },
+    "tdd": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "tdd/SKILL.md",
+      "skillFolderHash": "28d7822c112f22cf499099881856fdec07bc83a8",
+      "installedAt": "2026-02-16T10:12:09.207Z",
+      "updatedAt": "2026-02-16T10:12:09.207Z"
+    },
+    "ai-sdk": {
+      "source": "vercel/ai",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel/ai.git",
+      "skillPath": "skills/use-ai-sdk/SKILL.md",
+      "skillFolderHash": "d8e09e2796e2a04a9c7f7cc8c5bbab8da76a77d9",
+      "installedAt": "2026-02-16T13:19:27.783Z",
+      "updatedAt": "2026-03-20T08:07:56.723Z"
+    },
+    "ai-elements": {
+      "source": "vercel/ai-elements",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel/ai-elements.git",
+      "skillPath": "skills/ai-elements/SKILL.md",
+      "skillFolderHash": "9df70ad12070e1d131751a8a696a06a38b893976",
+      "installedAt": "2026-02-16T14:07:18.002Z",
+      "updatedAt": "2026-03-20T08:09:58.479Z"
+    },
+    "data-table-filters": {
+      "source": "openstatushq/data-table-filters",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/openstatushq/data-table-filters.git",
+      "skillPath": "skills/SKILL.md",
+      "skillFolderHash": "7824625aa58748bddcc7e6f7b82aebb23dc0c30e",
+      "installedAt": "2026-03-15T19:17:02.586Z",
+      "updatedAt": "2026-03-15T19:17:02.586Z"
+    },
+    "multi-stage-dockerfile": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/awesome-copilot.git",
+      "skillPath": "skills/multi-stage-dockerfile/SKILL.md",
+      "skillFolderHash": "c48773c7887197168099307c60b5dab2a553259c",
+      "installedAt": "2026-03-20T07:55:36.566Z",
+      "updatedAt": "2026-03-20T07:55:36.566Z"
+    },
+    "create-agent": {
+      "source": "OpenRouterTeam/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/OpenRouterTeam/agent-skills.git",
+      "skillPath": "skills/create-agent/SKILL.md",
+      "skillFolderHash": "8f6dc056bb940d6931e18892b4f36d2922a0edd4",
+      "installedAt": "2026-03-20T08:26:53.564Z",
+      "updatedAt": "2026-03-20T08:26:53.564Z"
+    },
+    "openrouter-typescript-sdk": {
+      "source": "OpenRouterTeam/agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/OpenRouterTeam/agent-skills.git",
+      "skillPath": "skills/typescript-sdk/SKILL.md",
+      "skillFolderHash": "3bb86f0162597d1fefa0ef98c391b211f47dfda9",
+      "installedAt": "2026-03-20T08:26:54.014Z",
+      "updatedAt": "2026-03-20T08:26:54.014Z"
+    },
+    "shadcn": {
+      "source": "shadcn/ui",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/shadcn/ui.git",
+      "skillPath": "skills/shadcn/SKILL.md",
+      "skillFolderHash": "bf9e83da91320f445f2c27f65067009f344f757a",
+      "installedAt": "2026-03-23T11:05:38.953Z",
+      "updatedAt": "2026-03-23T11:05:38.953Z"
+    },
+    "tanstack-query-best-practices": {
+      "source": "deckardger/tanstack-agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/deckardger/tanstack-agent-skills.git",
+      "skillPath": "skills/tanstack-query/SKILL.md",
+      "skillFolderHash": "b73085898a2015a0f33c98aef0f3f2ff4ee9454f",
+      "installedAt": "2026-03-24T12:45:18.583Z",
+      "updatedAt": "2026-03-24T12:45:18.583Z"
+    },
+    "tanstack-router-best-practices": {
+      "source": "deckardger/tanstack-agent-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/deckardger/tanstack-agent-skills.git",
+      "skillPath": "skills/tanstack-router/SKILL.md",
+      "skillFolderHash": "0f076dd09acf3e8e7c2ef80e654ad253e25c6eec",
+      "installedAt": "2026-03-24T12:45:34.656Z",
+      "updatedAt": "2026-03-24T12:45:34.656Z"
+    }
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "antigravity",
+    "cline",
+    "codex",
+    "cursor",
+    "deepagents",
+    "gemini-cli",
+    "github-copilot",
+    "kimi-cli",
+    "opencode",
+    "warp",
+    "claude-code"
+  ],
+  "dismissed": {
+    "findSkillsPrompt": true
+  }
+}

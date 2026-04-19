@@ -21,6 +21,7 @@ Each top-level dir is a Stow package; contents mirror where they land. Target ma
 
 - `home/` → `$HOME` directly (`.bashrc`, `.bash_profile`, `.gitconfig`, `.hushlogin`)
 - `claude/.claude/` → `$HOME/.claude` — **folded, not whole-dir symlinked**. Runtime/auth state (`projects/`, `todos/`, `statsig/`, `.credentials.json`, `settings.local.json`) stays out of the repo (see `.gitignore`). `install.sh` explicitly `mkdir -p ~/.claude` and backs up `settings.json` to `.bak` before stowing so Stow folds individual files rather than linking the whole dir.
+- `agents/.agents/` → `$HOME/.agents` — **folded, not whole-dir symlinked**, same reasoning as `~/.claude`. Holds installed agent skills (`skills/`) and the `.skill-lock.json` version pin. `install.sh` does `mkdir -p ~/.agents` and backs up `.skill-lock.json` to `.bak` before stowing so skill-tooling runtime writes stay out of the repo.
 - `fish/.config/fish/` → `~/.config/fish` — `conf.d/`, `completions/`, `fish_variables`, and `private.fish` are gitignored (host/shell-local state).
 - `bat`, `ghostty`, `lazygit`, `nvim`, `starship`, `tmux` → `~/.config/<pkg>`.
 - `zed`, `hammerspoon` exist but are not in the `STOW_DIRS` loop — edit in place / symlink manually if activating.
@@ -36,6 +37,7 @@ If you touch `install.sh`, preserve these:
 - macOS vs Arch detection via `$OSTYPE` / `/etc/arch-release`. Any new package goes in the `PACKAGES` associative array (`executable => package-name`); macOS-only ones in `MACOS_ONLY_PACKAGES`.
 - `PACKAGES` keys are the executable names used for `command -v` skip-checks — key must match the binary, not the brew/pacman formula name (e.g. `delta` key → `git-delta` package).
 - The `claude` stow step must never move the whole `~/.claude` dir (live auth state). Only `settings.json` is backed up.
+- The `agents` stow step must never move the whole `~/.agents` dir either — only `.skill-lock.json` is backed up. Fold mode is required so future skill-tooling runtime writes don't land in the repo.
 - Bash 4+ is required (`BASH_VERSINFO` check) — macOS `/bin/bash` is 3.x, so the script runs under the Homebrew bash shebang resolver.
 
 ## Claude-config specifics (`claude/.claude/settings.json`)
