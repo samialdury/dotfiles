@@ -21,3 +21,4 @@ claude/.claude/shell-snapshots/
 claude/.claude/history.jsonl
 claude/.claude/.credentials.json
 claude/.claude/settings.local.json
+/logs
