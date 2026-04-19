@@ -8,6 +8,9 @@ import sys
 import re
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+from utils.log_paths import log_dir as _log_dir
+
 def is_dangerous_rm_command(command):
     """
     Comprehensive detection of dangerous rm commands.
@@ -104,10 +107,7 @@ def main():
                 print("BLOCKED: Dangerous rm command detected and prevented", file=sys.stderr)
                 sys.exit(2)  # Exit code 2 blocks tool call and shows error to Claude
         
-        # Ensure log directory exists
-        log_dir = Path.cwd() / 'logs'
-        log_dir.mkdir(parents=True, exist_ok=True)
-        log_path = log_dir / 'pre_tool_use.json'
+        log_path = _log_dir() / 'pre_tool_use.json'
         
         # Read existing log data or initialize empty list
         if log_path.exists():
