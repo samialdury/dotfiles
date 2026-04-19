@@ -4,12 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository purpose
 
-Personal dotfiles for macOS + Arch Linux. Symlinks managed by `install.sh` via an explicit `LINKS` table — no GNU Stow. Each top-level directory still mirrors the target install tree purely as an organising convention.
+Personal dotfiles for macOS + Arch Linux. Symlinks managed by `install.sh` via an explicit `LINKS` table — no GNU Stow. Repo layout mirrors `$HOME` directly: dotfiles live at repo root (`.bashrc`, `.gitconfig`, `.claude/`, `.agents/`, `.config/<pkg>/`), so each `LINKS` src path reads as the `$HOME`-relative target.
 
 ## Commands
 
 - Full install / re-link: `./install.sh` (detects macOS vs Arch, installs packages, applies the `LINKS` table, applies macOS `defaults`). Prompts to confirm `brew update` / `sudo pacman -Syu` was run first; reject with anything other than `y`/`yes` and it exits.
-- Add a new link after editing: put the new file under the right package dir, add an entry to the `LINKS` array in `install.sh`, then re-run `./install.sh` (idempotent — existing links log `ok`).
+- Add a new link after editing: put the new file at its `$HOME`-relative path inside the repo, add an entry to the `LINKS` array in `install.sh`, then re-run `./install.sh` (idempotent — existing links log `ok`).
 - Secrets scan (pre-commit / ad hoc): `gitleaks detect` or `gitleaks protect --staged`. CI runs this on push via `.github/workflows/gitleaks.yaml`.
 - Homebrew snapshot: `brew bundle dump --force --file=~/dotfiles/Brewfile` / `brew bundle install --file=~/dotfiles/Brewfile`.
 
@@ -17,16 +17,16 @@ No build system, no test suite. Changes ship by editing through the symlink into
 
 ## Link map
 
-The `LINKS` array in `install.sh` is the single source of truth. Each entry is `"<src-relative-to-repo>::<target-absolute>::<mode>"`. Repo layout mirrors targets so entries read naturally:
+The `LINKS` array in `install.sh` is the single source of truth. Each entry is `"<src-relative-to-repo>::<target-absolute>::<mode>"`. Repo root mirrors `$HOME`, so src paths look exactly like their targets with `$HOME` stripped:
 
-- `home/` → `$HOME` directly (`.bashrc`, `.bash_profile`, `.gitconfig`, `.hushlogin`) — per-file links; cannot whole-dir link `$HOME`.
-- `claude/.claude/` → `$HOME/.claude` — **per-file + per-subdir**. `settings.json` and `statusline-command.sh` link as individual files; `agents/`, `hooks/`, `commands/` link as whole dirs. This keeps Claude Code's runtime/auth state (`projects/`, `todos/`, `statsig/`, `.credentials.json`, `settings.local.json`, etc. — gitignored) out of the repo.
-- `agents/.agents/` → `$HOME/.agents` — same pattern. `.skill-lock.json` per-file, `skills/` whole-dir. After the main loop, `install.sh` also creates a cross-package relative symlink `~/.claude/skills -> ../.agents/skills` so Claude Code discovers every installed skill without per-skill maintenance.
-- `fish/.config/fish/` → `~/.config/fish` — **whole-dir symlink**. Shell-local state (`conf.d/`, `completions/`, `fish_variables`, `private.fish`, history) materializes inside the symlinked dir, so `.gitignore` uses a whitelist pattern (`fish/.config/fish/*` ignored, `!config.fish` + `!functions/**` tracked).
-- `bat`, `ghostty`, `lazygit`, `nvim`, `starship`, `tmux` → `~/.config/<pkg>` as whole-dir symlinks.
-- `zed`, `hammerspoon` exist in the repo but are not in `LINKS` — edit in place / symlink manually if activating.
+- `.bashrc`, `.bash_profile`, `.gitconfig`, `.hushlogin` at repo root → `$HOME` — per-file links; cannot whole-dir link `$HOME`.
+- `.claude/` → `$HOME/.claude` — **per-file + per-subdir**. `settings.json` and `statusline-command.sh` link as individual files; `agents/`, `hooks/`, `commands/` link as whole dirs. This keeps Claude Code's runtime/auth state (`projects/`, `todos/`, `statsig/`, `.credentials.json`, `settings.local.json`, etc. — gitignored) out of the repo.
+- `.agents/` → `$HOME/.agents` — same pattern. `.skill-lock.json` per-file, `skills/` whole-dir. After the main loop, `install.sh` also creates a cross-package relative symlink `~/.claude/skills -> ../.agents/skills` so Claude Code discovers every installed skill without per-skill maintenance.
+- `.config/fish/` → `~/.config/fish` — **whole-dir symlink**. Shell-local state (`conf.d/`, `completions/`, `fish_variables`, `private.fish`, history) materializes inside the symlinked dir, so `.gitignore` uses a whitelist pattern (`.config/fish/*` ignored, `!config.fish` + `!functions/**` tracked).
+- `.config/{bat,ghostty,lazygit,nvim,tmux}/` → `~/.config/<pkg>` as whole-dir symlinks; `.config/starship.toml` is a per-file link.
+- `.config/zed/` exists but is not in `LINKS` — edit in place / symlink manually if activating.
 
-`tmux/.config/tmux/plugins/` and `bat/.config/bat/themes/tokyonight.nvim` are gitignored (TPM / theme clones that land inside the whole-dir symlinks).
+`.config/tmux/plugins/` and `.config/bat/themes/tokyonight.nvim` are gitignored (TPM / theme clones that land inside the whole-dir symlinks).
 
 When `install.sh` finds a real file at a target path it backs it up to `<target>.bak.<unix_ts>` and then creates the symlink. Existing correct symlinks are left alone and logged as `ok`; existing incorrect symlinks are silently replaced (not backed up — nothing to lose).
 
@@ -41,12 +41,12 @@ If you touch `install.sh`, preserve these:
 - `link_one` is idempotent and timestamp-backups (`.bak.<unix_ts>`) any real file it would otherwise overwrite — keep those properties.
 - Bash 4+ is required (`BASH_VERSINFO` check) — macOS `/bin/bash` is 3.x, so the script runs under the Homebrew bash shebang resolver.
 
-## Claude-config specifics (`claude/.claude/settings.json`)
+## Claude-config specifics (`.claude/settings.json`)
 
 This is *this user's* Claude Code config and also ships as a stowed artifact for other machines. Preserve:
 
 - `permissions.defaultMode: "auto"`, `skipDangerousModePermissionPrompt: true`, `alwaysThinkingEnabled: true`, `autoDreamEnabled: true` — intentional autonomous-mode defaults.
-- Hooks pipeline: `uv run ~/.claude/hooks/<event>.py` for every lifecycle event. Hook scripts live in `claude/.claude/hooks/` in this repo and link through as a whole-dir symlink. Don't remove hook entries in `settings.json` without keeping the matching script in `claude/.claude/hooks/`.
+- Hooks pipeline: `uv run ~/.claude/hooks/<event>.py` for every lifecycle event. Hook scripts live in `.claude/hooks/` in this repo and link through as a whole-dir symlink. Don't remove hook entries in `settings.json` without keeping the matching script in `.claude/hooks/`.
 - `statusLine.command` uses an **absolute** path `/Users/sami/.claude/statusline-command.sh`. If editing for a non-sami machine, make this `$HOME`-relative or document the rename.
 - `enabledPlugins` and `extraKnownMarketplaces` (ralph, caveman) are intentional — treat as user preference, don't prune.
 
@@ -54,4 +54,4 @@ This is *this user's* Claude Code config and also ships as a stowed artifact for
 
 ## Git / commits
 
-`home/.gitconfig` sets `commit.gpgsign = true` with SSH signing (`id_ed25519.pub`). Commits from this repo will fail without that key present. Default branch is `main`.
+`.gitconfig` at repo root sets `commit.gpgsign = true` with SSH signing (`id_ed25519.pub`). Commits from this repo will fail without that key present. Default branch is `main`.

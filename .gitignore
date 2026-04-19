@@ -2,25 +2,25 @@
 *.log
 
 # tmux
-tmux/.config/tmux/plugins
+.config/tmux/plugins
 
 # bat
-bat/.config/bat/themes/tokyonight.nvim
+.config/bat/themes/tokyonight.nvim
 
 # fish — whole-dir symlinked into ~/.config/fish, so runtime state
 # (conf.d/, completions/, fish_variables, private.fish, history, etc.)
 # materializes here on the live machine. Whitelist only the tracked bits.
-fish/.config/fish/*
-!fish/.config/fish/config.fish
-!fish/.config/fish/functions/
-!fish/.config/fish/functions/**
+.config/fish/*
+!.config/fish/config.fish
+!.config/fish/functions/
+!.config/fish/functions/**
 
 # claude
-claude/.claude/projects/
-claude/.claude/todos/
-claude/.claude/statsig/
-claude/.claude/shell-snapshots/
-claude/.claude/history.jsonl
-claude/.claude/.credentials.json
-claude/.claude/settings.local.json
+.claude/projects/
+.claude/todos/
+.claude/statsig/
+.claude/shell-snapshots/
+.claude/history.jsonl
+.claude/.credentials.json
+.claude/settings.local.json
 /logs
