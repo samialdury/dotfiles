@@ -180,6 +180,7 @@ log_success "Install script finished."
 # -----------------------------
 declare -a STOW_DIRS=(
   "bat"
+  "claude"
   "fish"
   "ghostty"
   "home"
@@ -189,16 +190,46 @@ declare -a STOW_DIRS=(
   "tmux"
 )
 
+declare -A STOW_TARGETS=(
+  ["bat"]="$HOME/.config/bat"
+  ["claude"]="$HOME/.claude"
+  ["fish"]="$HOME/.config/fish"
+  ["ghostty"]="$HOME/.config/ghostty"
+  ["lazygit"]="$HOME/.config/lazygit"
+  ["nvim"]="$HOME/.config/nvim"
+  ["starship"]="$HOME/.config/starship"
+  ["tmux"]="$HOME/.config/tmux"
+)
+
 log_info "Stowing dotfiles..."
 
+# Ensure ~/.claude exists as a real directory so stow folds individual files
+# into it instead of symlinking the whole dir (which would cause Claude Code
+# to write runtime state back into the repo).
+mkdir -p "$HOME/.claude"
+
 for dir in "${STOW_DIRS[@]}"; do
-  existing_dir="$HOME/.config/$dir"
-  if [ "$dir" != "home" ]; then
-    if [ -d "$existing_dir" ] && ! [ -L "$existing_dir" ]; then
-      log_info "$dir already exists, backing up..."
-      mv "$existing_dir" "$existing_dir.bak"
+  case "$dir" in
+  home)
+    : # targets $HOME directly; nothing to back up
+    ;;
+  claude)
+    # Never move the whole ~/.claude directory — it holds live auth/runtime state.
+    claude_settings="$HOME/.claude/settings.json"
+    if [ -f "$claude_settings" ] && ! [ -L "$claude_settings" ]; then
+      log_info "claude settings.json already exists, backing up..."
+      mv "$claude_settings" "$claude_settings.bak"
     fi
-  fi
+    ;;
+  *)
+    target="${STOW_TARGETS[$dir]:-}"
+    if [ -n "$target" ] && [ -d "$target" ] && ! [ -L "$target" ]; then
+      log_info "$dir already exists, backing up..."
+      mv "$target" "$target.bak"
+    fi
+    ;;
+  esac
+
   if [ -d "$dir" ]; then
     log_info "Stowing $dir..."
     stow "$dir"
