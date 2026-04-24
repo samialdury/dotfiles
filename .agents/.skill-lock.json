@@ -164,6 +164,14 @@
       "skillFolderHash": "0f076dd09acf3e8e7c2ef80e654ad253e25c6eec",
       "installedAt": "2026-03-24T12:45:34.656Z",
       "updatedAt": "2026-03-24T12:45:34.656Z"
+    },
+    "stripe-best-practices": {
+      "source": "docs.stripe.com",
+      "sourceType": "well-known",
+      "sourceUrl": "https://docs.stripe.com/.well-known/skills/stripe-best-practices/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-24T09:38:05.695Z",
+      "updatedAt": "2026-04-24T09:38:05.695Z"
     }
   },
   "lastSelectedAgents": [
@@ -173,6 +181,7 @@
     "codex",
     "cursor",
     "deepagents",
+    "firebender",
     "gemini-cli",
     "github-copilot",
     "kimi-cli",
