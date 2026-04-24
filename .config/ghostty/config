@@ -1,4 +1,4 @@
-theme = TokyoNight
+theme = light:Catppuccin Latte,dark:Catppuccin Mocha
 
 window-padding-balance = true
 window-padding-x = 0

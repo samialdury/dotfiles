@@ -115,6 +115,7 @@
   },
   "autoDreamEnabled": true,
   "skipDangerousModePermissionPrompt": true,
+  "theme": "auto",
   "useAutoModeDuringPlan": true,
   "voiceEnabled": true
 }
