@@ -172,6 +172,22 @@
       "skillFolderHash": "",
       "installedAt": "2026-04-24T09:38:05.695Z",
       "updatedAt": "2026-04-24T09:38:05.695Z"
+    },
+    "stripe-projects": {
+      "source": "docs.stripe.com",
+      "sourceType": "well-known",
+      "sourceUrl": "https://docs.stripe.com/.well-known/skills/stripe-projects/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-24T10:06:02.429Z",
+      "updatedAt": "2026-04-24T10:06:02.429Z"
+    },
+    "upgrade-stripe": {
+      "source": "docs.stripe.com",
+      "sourceType": "well-known",
+      "sourceUrl": "https://docs.stripe.com/.well-known/skills/upgrade-stripe/SKILL.md",
+      "skillFolderHash": "",
+      "installedAt": "2026-04-24T10:06:02.431Z",
+      "updatedAt": "2026-04-24T10:06:02.431Z"
     }
   },
   "lastSelectedAgents": [
