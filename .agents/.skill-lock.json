@@ -188,6 +188,15 @@
       "skillFolderHash": "",
       "installedAt": "2026-04-24T10:06:02.431Z",
       "updatedAt": "2026-04-24T10:06:02.431Z"
+    },
+    "remotion-best-practices": {
+      "source": "remotion-dev/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/remotion-dev/skills.git",
+      "skillPath": "skills/remotion/SKILL.md",
+      "skillFolderHash": "1910527d8176a8d0897f8d9e8a201091833658ee",
+      "installedAt": "2026-05-07T10:30:13.264Z",
+      "updatedAt": "2026-05-07T10:30:13.264Z"
     }
   },
   "lastSelectedAgents": [
@@ -197,6 +206,7 @@
     "codex",
     "cursor",
     "deepagents",
+    "dexto",
     "firebender",
     "gemini-cli",
     "github-copilot",
