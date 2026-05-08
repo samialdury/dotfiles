@@ -21,10 +21,10 @@ It supports **MacOS** and **Arch Linux**.
 First, make sure you've created a new ssh key and added it to your GitHub account.
 
 ```sh
-ssh-keygen -t ed25519 -C ""
+ssh-keygen -t ed25519 -C "$(hostname)"
 
-# copy pub key to clipboard
-cat ~/.ssh/id_ed25519.pub | wl-copy
+# copy pub key to clipboard (macOS or Wayland)
+cat ~/.ssh/id_ed25519.pub | $(command -v wl-copy || command -v pbcopy)
 
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
