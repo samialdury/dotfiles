@@ -2,22 +2,11 @@
 *.log
 **/__pycache__
 
-# tmux
-.config/tmux/plugins
-
 # bat
 .config/bat/themes/tokyonight.nvim
 
-# fish — whole-dir symlinked into ~/.config/fish, so runtime state
-# (conf.d/, completions/, fish_variables, private.fish, history, etc.)
-# materializes here on the live machine. Whitelist only the tracked bits.
-.config/fish/*
-!.config/fish/config.fish
-!.config/fish/functions/
-!.config/fish/functions/**
-!.config/fish/conf.d/
-.config/fish/conf.d/*
-!.config/fish/conf.d/box.fish
+# bash
+.bash/private.bash
 
 # claude
 .claude/projects/
