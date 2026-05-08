@@ -126,8 +126,8 @@ brew bundle install --file=~/dotfiles/Brewfile
 ### Gitleaks
 
 ```sh
-@gitleaks detect
-@gitleaks protect --staged
+gitleaks detect
+gitleaks protect --staged
 ```
 
 ## License
