@@ -1,17 +1,21 @@
 theme = light:Catppuccin Latte,dark:Catppuccin Mocha
 
-window-padding-balance = true
-window-padding-x = 0
-window-padding-y = 0
-
+# Font
 font-family = JetBrains Mono NL
 font-size = 16
 background-opacity = 0.97
 
-shell-integration = fish
+# Window
+window-padding-x = 14
+window-padding-y = 14
+resize-overlay = never
 
+# Keyboard bindings
+keybind = shift+enter=text:\x1b\r
+
+# Slowdown mouse scrolling
+mouse-scroll-multiplier = 0.95
+
+# Mac OS specific
 macos-option-as-alt = left
 macos-titlebar-style = hidden
-
-resize-overlay = never
-keybind = shift+enter=text:\x1b\r
