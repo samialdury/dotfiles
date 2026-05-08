@@ -140,19 +140,6 @@ for cmd in "${!PACKAGES[@]}"; do
 done
 
 # -----------------------------
-# Install tmux TPM
-# -----------------------------
-TPM_DIR="$HOME/.tmux/plugins/tpm"
-
-if [ ! -d "$TPM_DIR" ]; then
-  log_info "Installing tmux TPM..."
-  git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
-  log_success "tmux TPM installed."
-else
-  log_info "tmux TPM already exists, skipping..."
-fi
-
-# -----------------------------
 # Install tmux-sessionizer
 # -----------------------------
 TS_BIN="$HOME/.local/scripts/tmux-sessionizer"
