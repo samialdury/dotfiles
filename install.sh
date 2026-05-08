@@ -87,7 +87,6 @@ esac
 declare -A PACKAGES=(
   ["bat"]="bat"
   ["delta"]="git-delta"
-  ["fish"]="fish"
   ["lazygit"]="lazygit"
   ["nvim"]="neovim"
   ["starship"]="starship"
@@ -97,6 +96,22 @@ declare -A PACKAGES=(
   ["fzf"]="fzf"
   ["just"]="just"
 )
+
+# -----------------------------
+# Homebrew bash 5.x (macOS only)
+#
+# `command -v bash` resolves to system /bin/bash (3.2) on macOS, so the standard
+# PACKAGES executable check doesn't work — special-case via brew prefix.
+# -----------------------------
+if [[ "$OS_TYPE" == "macos" ]]; then
+  if ! [ -x /opt/homebrew/bin/bash ]; then
+    log_info "Installing Homebrew bash 5.x..."
+    brew install bash
+    log_success "Homebrew bash installed."
+  else
+    log_info "Homebrew bash already installed, skipping..."
+  fi
+fi
 
 declare -A MACOS_ONLY_PACKAGES=(
   ["ghostty"]="ghostty"
@@ -162,6 +177,28 @@ fi
 log_success "Install script finished."
 
 # -----------------------------
+# Set bash as default login shell (macOS only)
+# -----------------------------
+if [[ "$OS_TYPE" == "macos" ]]; then
+  TARGET_SHELL="/opt/homebrew/bin/bash"
+  if [ ! -x "$TARGET_SHELL" ]; then
+    log_warn "Skipping chsh — $TARGET_SHELL not present."
+  else
+    if ! grep -qx "$TARGET_SHELL" /etc/shells; then
+      log_warn "Adding $TARGET_SHELL to /etc/shells (requires sudo)..."
+      echo "$TARGET_SHELL" | sudo tee -a /etc/shells >/dev/null
+    fi
+    if [[ "${SHELL:-}" != "$TARGET_SHELL" ]]; then
+      log_warn "Changing login shell to $TARGET_SHELL (will prompt for password)..."
+      chsh -s "$TARGET_SHELL"
+      log_success "Default shell set to $TARGET_SHELL. Open a new terminal for it to take effect."
+    else
+      log_info "Default shell already $TARGET_SHELL, skipping chsh..."
+    fi
+  fi
+fi
+
+# -----------------------------
 # Link dotfiles into target locations
 # -----------------------------
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -175,9 +212,11 @@ declare -a LINKS=(
   ".gitconfig::$HOME/.gitconfig::file"
   ".hushlogin::$HOME/.hushlogin::file"
 
+  # ~/.bash — bash-side helpers (box.bash, etc.)
+  ".bash::$HOME/.bash::dir"
+
   # ~/.config/<pkg> whole-dir links
   ".config/bat::$HOME/.config/bat::dir"
-  ".config/fish::$HOME/.config/fish::dir"
   ".config/ghostty::$HOME/.config/ghostty::dir"
   ".config/lazygit::$HOME/.config/lazygit::dir"
   ".config/nvim::$HOME/.config/nvim::dir"
@@ -195,6 +234,15 @@ declare -a LINKS=(
   ".agents/.skill-lock.json::$HOME/.agents/.skill-lock.json::file"
   ".agents/skills::$HOME/.agents/skills::dir"
 )
+
+# macOS-only links
+declare -a MACOS_ONLY_LINKS=(
+  ".inputrc::$HOME/.inputrc::file"
+)
+
+if [[ "$OS_TYPE" == "macos" ]]; then
+  LINKS+=("${MACOS_ONLY_LINKS[@]}")
+fi
 
 link_one() {
   local src_rel="$1" target="$2"

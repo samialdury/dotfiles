@@ -1,18 +1,14 @@
 # If not running interactively, don't do anything (leave this at the top of this file)
 [[ $- != *i* ]] && return
 
-# All the default Omarchy aliases and functions
-# (don't mess with these directly, just overwrite them here!)
-source ~/.local/share/omarchy/default/bash/rc
+# OS-aware: prefer Omarchy on Arch, fallback to mac.bash
+if [ -r "$HOME/.local/share/omarchy/default/bash/rc" ]; then
+  # All the default Omarchy aliases and functions
+  # (don't mess with these directly, just overwrite them here!)
+  . "$HOME/.local/share/omarchy/default/bash/rc"
+elif [ -r "$HOME/.bash/mac.bash" ]; then
+  . "$HOME/.bash/mac.bash"
+fi
 
-# Add your own exports, aliases, and functions here.
-#
-# Make an alias for invoking commands you use constantly
-# alias p='python'
-alias e='nvim'
-alias lg='lazygit'
-
-export PATH="$HOME/.local/scripts:$PATH"
-
-bind '"\C-f":"tmux-sessionizer\n"'
-export PATH="$HOME/.local/bin:$PATH"
+# Private config (gitignored, sourced if present)
+[ -r "$HOME/.bash/private.bash" ] && . "$HOME/.bash/private.bash"

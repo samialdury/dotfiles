@@ -46,11 +46,6 @@ git clone git@github.com:samialdury/dotfiles.git ~/dotfiles
 xcode-select --install
 # Install Homebrew
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-# Install fish shell
-/opt/homebrew/bin/brew install fish
-# Set fish as default shell
-echo "/opt/homebrew/bin/fish" | sudo tee -a /etc/shells
-chsh -s /opt/homebrew/bin/fish
 ```
 
 ### Install script
@@ -58,6 +53,10 @@ chsh -s /opt/homebrew/bin/fish
 ```sh
 ./install.sh
 ```
+
+The installer installs Homebrew bash 5.x, adds it to `/etc/shells`, and runs
+`chsh -s /opt/homebrew/bin/bash` (will prompt for the sudo and login passwords).
+Open a new terminal after install for the shell change to take effect.
 
 ### Hyprland
 

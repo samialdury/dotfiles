@@ -2,7 +2,7 @@
 
 Wake-on-LAN, persistent terminal sessions, and graceful remote shutdown for a self-hosted dev workstation. Architected around three machines: a thin client (Mac), an always-on gateway (Pi), and the actual workhorse (PN53).
 
-> Inspired by [Tailscale's blog post on Wake-on-LAN with UpSnap](https://tailscale.com/blog/wake-on-lan-tailscale-upsnap). This guide takes a more minimal approach using a small fish function on the client and a single SSH hop through a Pi acting as the LAN gateway, with no additional self-hosted services.
+> Inspired by [Tailscale's blog post on Wake-on-LAN with UpSnap](https://tailscale.com/blog/wake-on-lan-tailscale-upsnap). This guide takes a more minimal approach using a small bash function on the client and a single SSH hop through a Pi acting as the LAN gateway, with no additional self-hosted services.
 
 ## Architecture
 
@@ -31,7 +31,7 @@ The Mac cannot send the WoL magic packet directly because magic packets are L2 b
 
 | Machine | Required |
 |---|---|
-| Mac | `mosh`, `tailscale` (CLI in PATH), fish shell, SSH key |
+| Mac | `mosh`, `tailscale` (CLI in PATH), bash 4+, SSH key |
 | Pi | `wakeonlan`, Tailscale, OpenSSH server |
 | PN53 | `ethtool`, `tmux`, `mosh`, `tailscale`, `clevis`, `tpm2-tools`, `tpm2-tss`, `mkinitcpio-clevis-hook` (AUR) |
 
@@ -173,101 +173,106 @@ sudo ln -s "/Applications/Tailscale.app/Contents/MacOS/Tailscale" /usr/local/bin
 
 # SSH key auth (one-time, eliminates password prompts)
 ls ~/.ssh/id_ed25519.pub 2>/dev/null || ssh-keygen -t ed25519
-ssh-copy-id sami@yamipi
+ssh-copy-id root@yamipi
 ssh-copy-id sami@omarchypn
 ```
 
-### Fish Functions
+### Bash Function
 
-Save as `~/.config/fish/conf.d/box.fish`. Update the five variables at the top to match your setup:
+Lives at `~/.bash/box.bash` (linked from this repo's `.bash/box.bash`) and is sourced from `.bashrc`. Update the five variables at the top to match your setup:
 
-```fish
-# ~/.config/fish/conf.d/box.fish
+```bash
+# ~/.bash/box.bash
 
-set -gx BOX_USER sami
-set -gx BOX_HOST omarchypn
-set -gx BOX_MAC e8:9c:25:8a:f3:2b
-set -gx BOX_GATEWAY_USER sami
-set -gx BOX_GATEWAY_HOST yamipi
+export BOX_USER=sami
+export BOX_HOST=omarchypn
+export BOX_MAC=e8:9c:25:8a:f3:2b
+export BOX_GATEWAY_USER=root
+export BOX_GATEWAY_HOST=yamipi
 
-function _box_check_tailscale
-    if not command -v tailscale >/dev/null
-        echo "tailscale CLI not found in PATH."
-        return 1
-    end
-    if not tailscale status >/dev/null 2>&1
-        echo "Tailscale is not running. Start the Tailscale app and try again."
-        return 1
-    end
-end
+_box_check_tailscale() {
+  if ! command -v tailscale >/dev/null 2>&1; then
+    echo "tailscale CLI not found in PATH."
+    return 1
+  fi
+  if ! tailscale status >/dev/null 2>&1; then
+    echo "Tailscale is not running. Start the Tailscale app and try again."
+    return 1
+  fi
+}
 
-function _box_ssh_check
-    ssh -o ConnectTimeout=2 -o BatchMode=yes $BOX_USER@$BOX_HOST command -v mosh-server >/dev/null 2>&1
-end
+_box_ssh_check() {
+  ssh -o ConnectTimeout=2 -o BatchMode=yes "$BOX_USER@$BOX_HOST" command -v mosh-server >/dev/null 2>&1
+}
 
-function _box_up
-    _box_check_tailscale; or return
+_box_up() {
+  _box_check_tailscale || return
 
-    if not _box_ssh_check
-        ssh $BOX_GATEWAY_USER@$BOX_GATEWAY_HOST "wakeonlan $BOX_MAC"
-        echo "Waking..."
-        while not _box_ssh_check
-            sleep 1
-        end
-    end
+  if ! _box_ssh_check; then
+    ssh "$BOX_GATEWAY_USER@$BOX_GATEWAY_HOST" "wakeonlan $BOX_MAC"
+    echo "Waking..."
+    while ! _box_ssh_check; do
+      sleep 1
+    done
+  fi
 
-    set -l session (scutil --get LocalHostName | string replace -ra '[^a-zA-Z0-9-]' '-')
-    mosh $BOX_USER@$BOX_HOST -- tmux new-session -A -s $session
-end
+  local raw session
+  raw="$(scutil --get LocalHostName)"
+  session="${raw//[^a-zA-Z0-9-]/-}"
+  mosh "$BOX_USER@$BOX_HOST" -- tmux new-session -A -s "$session"
+}
 
-function _box_down
-    _box_check_tailscale; or return
-    ssh $BOX_USER@$BOX_HOST "sudo systemctl poweroff"
-end
+_box_down() {
+  _box_check_tailscale || return
+  ssh "$BOX_USER@$BOX_HOST" "sudo systemctl poweroff"
+}
 
-function _box_ssh
-    _box_check_tailscale; or return
-    ssh $BOX_USER@$BOX_HOST $argv
-end
+_box_ssh() {
+  _box_check_tailscale || return
+  ssh "$BOX_USER@$BOX_HOST" "$@"
+}
 
-function _box_status
-    _box_check_tailscale; or return
-    if _box_ssh_check
-        echo "$BOX_HOST: up"
-    else
-        echo "$BOX_HOST: down (or unreachable)"
-        return 1
-    end
-end
+_box_status() {
+  _box_check_tailscale || return
+  if _box_ssh_check; then
+    echo "$BOX_HOST: up"
+  else
+    echo "$BOX_HOST: down (or unreachable)"
+    return 1
+  fi
+}
 
-function box
-    set -l cmd $argv[1]
-    test -z "$cmd"; and set cmd up
-    set -l rest $argv[2..-1]
-    switch $cmd
-        case up
-            _box_up
-        case down
-            _box_down
-        case ssh
-            _box_ssh $rest
-        case status
-            _box_status
-        case -h --help help
-            echo "usage: box [up|down|ssh [args...]|status]"
-        case '*'
-            echo "box: unknown subcommand '$cmd'"
-            echo "usage: box [up|down|ssh [args...]|status]"
-            return 1
-    end
-end
+box() {
+  local cmd="${1:-up}"
+  shift 2>/dev/null || true
+  case "$cmd" in
+    up) _box_up ;;
+    down) _box_down ;;
+    ssh) _box_ssh "$@" ;;
+    status) _box_status ;;
+    -h|--help|help)
+      echo "usage: box [up|down|ssh [args...]|status]"
+      ;;
+    *)
+      echo "box: unknown subcommand '$cmd'"
+      echo "usage: box [up|down|ssh [args...]|status]"
+      return 1
+      ;;
+  esac
+}
+```
+
+Then make sure `.bashrc` sources it:
+
+```bash
+[ -r "$HOME/.bash/box.bash" ] && . "$HOME/.bash/box.bash"
 ```
 
 **Why the SSH-based readiness check instead of `nc`?** `nc -z` succeeds the moment sshd binds to port 22, which happens early in boot before the user shell and PATH are ready. Probing with `ssh ... command -v mosh-server` confirms the system is fully initialized AND mosh-server is reachable. If that returns 0, mosh will work. `BatchMode=yes` prevents password hangs and `ConnectTimeout=2` makes failed attempts fail fast.
 
 ## Daily Workflow
 
-```fish
+```bash
 box           # idempotent: wakes if off, attaches mosh+tmux either way (alias for `box up`)
 # work in nvim, docker, etc.
 # Ctrl-b d    to detach (keep tasks running, machine stays on)
@@ -299,7 +304,7 @@ Race condition: sshd accepted the connection before the user shell was fully ini
 If you're using a `nc`-based check on macOS, BSD `nc` waits for the kernel TCP timeout (~75s) without `-G 1`. The SSH-based check (`ConnectTimeout=2 BatchMode=yes`) avoids this entirely.
 
 **`ssh yamipi` prompts for password.**
-SSH keys aren't installed on the Pi. Run `ssh-copy-id sami@yamipi`.
+SSH keys aren't installed on the Pi. Run `ssh-copy-id root@yamipi` (or whatever `BOX_GATEWAY_USER@BOX_GATEWAY_HOST` is set to).
 
 **TPM unlock fails after firmware update.**
 Expected. Boot once with the LUKS passphrase, then re-run `clevis luks bind` to re-enroll against the new TPM measurements.
@@ -323,4 +328,4 @@ Bash only writes history on shell exit. Run `history -a` in the source session f
 | `/etc/systemd/system/wol.service` | PN53 | Persists `ethtool wol g` across reboots |
 | `/etc/sudoers.d/poweroff` | PN53 | Passwordless shutdown for remote `poweroff` |
 | `/etc/mkinitcpio.conf.d/omarchy_hooks.conf` | PN53 | Adds `clevis` hook for TPM unlock |
-| `~/.config/fish/conf.d/box.fish` | Mac | Client-side wake/connect/shutdown functions |
+| `~/.bash/box.bash` | Mac | Client-side wake/connect/shutdown functions (sourced by `.bashrc`) |
