@@ -48,20 +48,6 @@ return {
     enabled = false,
   },
   {
-    "folke/noice.nvim",
-    opts = {
-      routes = {
-        {
-          filter = {
-            event = "notify",
-            find = "No information available",
-          },
-          opts = { skip = true },
-        },
-      },
-    },
-  },
-  {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
