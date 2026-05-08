@@ -107,8 +107,6 @@ windowrule = scrolltouchpad 0.2, class:com.mitchellh.ghostty
 If you encounter issues with GitHub SSH authentication, try adding this to your `.ssh/config`:
 
 ```ssh-config
-Include ~/.orbstack/ssh/config
-
 Host github.com
     User git
     HostName github.com
