@@ -44,10 +44,6 @@ return {
     end,
   },
   {
-    "akinsho/bufferline.nvim",
-    enabled = false,
-  },
-  {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
