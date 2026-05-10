@@ -210,9 +210,6 @@ declare -a LINKS=(
   ".bashrc::$HOME/.bashrc::file"
   ".hushlogin::$HOME/.hushlogin::file"
 
-  # ~/.bash — bash-side helpers (box.bash, etc.)
-  ".bash::$HOME/.bash::dir"
-
   # ~/.config/<pkg> whole-dir links
   ".config/bat::$HOME/.config/bat::dir"
   ".config/git/config::$HOME/.config/git/config::file"
@@ -234,6 +231,7 @@ declare -a LINKS=(
 # macOS-only links
 declare -a MACOS_ONLY_LINKS=(
   ".bash_profile::$HOME/.bash_profile::file"
+  ".bash::$HOME/.bash::dir"
   ".inputrc::$HOME/.inputrc::file"
   ".config/ghostty::$HOME/.config/ghostty::dir"
   ".config/tmux::$HOME/.config/tmux::dir"
@@ -306,6 +304,18 @@ else
 fi
 
 log_success "Dotfiles linked."
+
+# Ensure ~/.bash/private.bash exists (empty) so .bashrc's source line is a no-op
+# on first run instead of relying on the [ -r ] guard. Gitignored on macOS where
+# ~/.bash is symlinked into the repo.
+PRIVATE_BASH="$HOME/.bash/private.bash"
+if [ ! -e "$PRIVATE_BASH" ]; then
+  mkdir -p "$(dirname "$PRIVATE_BASH")"
+  : >"$PRIVATE_BASH"
+  log_success "created empty $PRIVATE_BASH"
+else
+  log_info "$PRIVATE_BASH already exists, skipping..."
+fi
 
 if [[ "$OS_TYPE" == "macos" ]]; then
   log_info "Applying MacOS defaults..."
