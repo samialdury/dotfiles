@@ -4,11 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository purpose
 
-Personal dotfiles for macOS + Arch Linux. Symlinks managed by `install.sh` via an explicit `LINKS` table — no GNU Stow. Repo layout mirrors `$HOME` directly: dotfiles live at repo root (`.bashrc`, `.gitconfig`, `.claude/`, `.agents/`, `.config/<pkg>/`), so each `LINKS` src path reads as the `$HOME`-relative target.
+Personal dotfiles for macOS + Omarchy (Arch-based). Symlinks managed by `install.sh` via an explicit `LINKS` table — no GNU Stow. Repo layout mirrors `$HOME` directly: dotfiles live at repo root (`.bashrc`, `.gitconfig`, `.claude/`, `.agents/`, `.config/<pkg>/`), so each `LINKS` src path reads as the `$HOME`-relative target.
 
 ## Commands
 
-- Full install / re-link: `./install.sh` (detects macOS vs Arch, installs packages, on macOS installs Homebrew bash 5.x and runs `chsh` to set `/opt/homebrew/bin/bash` as the login shell, applies the `LINKS` table, applies macOS `defaults`). Prompts to confirm `brew update` / `sudo pacman -Syu` was run first; reject with anything other than `y`/`yes` and it exits.
+- Full install / re-link: `./install.sh` (detects macOS vs Omarchy, installs packages, on macOS installs Homebrew bash 5.x and runs `chsh` to set `/opt/homebrew/bin/bash` as the login shell, applies the `LINKS` table, applies macOS `defaults`). Prompts to confirm `brew update` / `sudo pacman -Syu` was run first; reject with anything other than `y`/`yes` and it exits.
 - Add a new link after editing: put the new file at its `$HOME`-relative path inside the repo, add an entry to the `LINKS` array in `install.sh`, then re-run `./install.sh` (idempotent — existing links log `ok`).
 - Secrets scan (pre-commit / ad hoc): `gitleaks detect` or `gitleaks protect --staged`. CI runs this on push via `.github/workflows/gitleaks.yaml`.
 - Homebrew snapshot: `brew bundle dump --force --file=~/dotfiles/Brewfile` / `brew bundle install --file=~/dotfiles/Brewfile`.
@@ -34,7 +34,7 @@ When `install.sh` finds a real file at a target path it backs it up to `<target>
 
 If you touch `install.sh`, preserve these:
 
-- macOS vs Arch detection via `$OSTYPE` / `/etc/arch-release`. Any new package goes in the `PACKAGES` associative array (`executable => package-name`); macOS-only ones in `MACOS_ONLY_PACKAGES`.
+- macOS vs Omarchy detection via `$OSTYPE` / `/etc/arch-release` (Omarchy ships `arch-release` since it's Arch-based). Any new package goes in the `PACKAGES` associative array (`executable => package-name`); macOS-only ones in `MACOS_ONLY_PACKAGES`.
 - `PACKAGES` keys are the executable names used for `command -v` skip-checks — key must match the binary, not the brew/pacman formula name (e.g. `delta` key → `git-delta` package).
 - Homebrew bash 5.x install on macOS is special-cased outside `PACKAGES` because `command -v bash` resolves to system `/bin/bash` 3.2; the script checks `/opt/homebrew/bin/bash` directly.
 - After packages install, on macOS the script ensures `/opt/homebrew/bin/bash` is in `/etc/shells` (sudo append if missing) and runs `chsh -s` if the user's login shell isn't already set to it. Idempotent — re-runs are no-ops.
