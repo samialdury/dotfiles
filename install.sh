@@ -209,7 +209,6 @@ declare -a LINKS=(
   # Flat $HOME files
   ".bashrc::$HOME/.bashrc::file"
   ".bash_profile::$HOME/.bash_profile::file"
-  ".gitconfig::$HOME/.gitconfig::file"
   ".hushlogin::$HOME/.hushlogin::file"
 
   # ~/.bash — bash-side helpers (box.bash, etc.)
@@ -217,6 +216,7 @@ declare -a LINKS=(
 
   # ~/.config/<pkg> whole-dir links
   ".config/bat::$HOME/.config/bat::dir"
+  ".config/git/config::$HOME/.config/git/config::file"
   ".config/lazygit::$HOME/.config/lazygit::dir"
   ".config/nvim::$HOME/.config/nvim::dir"
   ".config/starship.toml::$HOME/.config/starship.toml::file"

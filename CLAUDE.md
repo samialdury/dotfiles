@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository purpose
 
-Personal dotfiles for macOS + Omarchy (Arch-based). Symlinks managed by `install.sh` via an explicit `LINKS` table — no GNU Stow. Repo layout mirrors `$HOME` directly: dotfiles live at repo root (`.bashrc`, `.gitconfig`, `.claude/`, `.agents/`, `.config/<pkg>/`), so each `LINKS` src path reads as the `$HOME`-relative target.
+Personal dotfiles for macOS + Omarchy (Arch-based). Symlinks managed by `install.sh` via an explicit `LINKS` table — no GNU Stow. Repo layout mirrors `$HOME` directly: dotfiles live at repo root (`.bashrc`, `.claude/`, `.agents/`, `.config/<pkg>/`), so each `LINKS` src path reads as the `$HOME`-relative target.
 
 ## Commands
 
@@ -19,7 +19,7 @@ No build system, no test suite. Changes ship by editing through the symlink into
 
 The `LINKS` array in `install.sh` is the single source of truth. Each entry is `"<src-relative-to-repo>::<target-absolute>::<mode>"`. Repo root mirrors `$HOME`, so src paths look exactly like their targets with `$HOME` stripped:
 
-- `.bashrc`, `.bash_profile`, `.gitconfig`, `.hushlogin` at repo root → `$HOME` — per-file links; cannot whole-dir link `$HOME`.
+- `.bashrc`, `.bash_profile`, `.hushlogin` at repo root → `$HOME` — per-file links; cannot whole-dir link `$HOME`.
 - `.bash/` → `$HOME/.bash` — whole-dir symlink for bash-side helpers (`box.bash`, etc.). `.bashrc` sources files from here. Private/secret config goes in `~/.bashrc.private` (not in repo, sourced by `.bashrc` if present).
 - `.claude/` → `$HOME/.claude` — **per-file + per-subdir**. `settings.json` and `statusline-command.sh` link as individual files; `agents/`, `hooks/`, `commands/` link as whole dirs. This keeps Claude Code's runtime/auth state (`projects/`, `todos/`, `statsig/`, `.credentials.json`, `settings.local.json`, etc. — gitignored) out of the repo.
 - `.agents/` → `$HOME/.agents` — same pattern. `.skill-lock.json` per-file, `skills/` whole-dir. After the main loop, `install.sh` also creates a cross-package relative symlink `~/.claude/skills -> ../.agents/skills` so Claude Code discovers every installed skill without per-skill maintenance.
@@ -56,4 +56,4 @@ This is *this user's* Claude Code config and also ships as a stowed artifact for
 
 ## Git / commits
 
-`.gitconfig` at repo root sets `commit.gpgsign = true` with SSH signing (`id_ed25519.pub`). Commits from this repo will fail without that key present. Default branch is `main`.
+`.config/git/config` (XDG path) sets `commit.gpgsign = true` with SSH signing (`id_ed25519.pub`). Commits from this repo will fail without that key present. Default branch is `main`.
