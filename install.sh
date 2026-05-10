@@ -29,9 +29,9 @@ fi
 if [[ "${OSTYPE:-}" == darwin* ]]; then
   OS_TYPE="macos"
 elif [[ -f /etc/arch-release ]]; then
-  OS_TYPE="arch"
+  OS_TYPE="omarchy"
 else
-  log_error "Unsupported OS. This script only supports macOS and Arch Linux."
+  log_error "Unsupported OS. This script only supports macOS and Omarchy."
   exit 1
 fi
 
@@ -47,9 +47,9 @@ macos)
     exit 1
   fi
   ;;
-arch)
+omarchy)
   if ! command -v pacman >/dev/null 2>&1; then
-    log_error "pacman not found. This does not look like a real Arch system."
+    log_error "pacman not found. This does not look like a real Omarchy system."
     exit 1
   fi
   ;;
@@ -63,7 +63,7 @@ if [[ "$OS_TYPE" == "macos" ]]; then
   log_warn "Before running this script, you *must* update Homebrew:"
 else
   UPDATE_CMD="sudo pacman -Syu"
-  log_warn "Before running this script, you *must* fully update your Arch system:"
+  log_warn "Before running this script, you *must* fully update your Omarchy system:"
 fi
 
 log_warn "  $UPDATE_CMD"
@@ -135,7 +135,7 @@ install_pkg() {
   macos)
     brew install "$pkg"
     ;;
-  arch)
+  omarchy)
     sudo pacman -S --needed --noconfirm "$pkg"
     ;;
   esac

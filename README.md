@@ -1,7 +1,7 @@
 # dotfiles
 
 This repository contains all my important dev environment configuration files.
-It supports **MacOS** and **Arch Linux**.
+It supports **MacOS** and **Omarchy** (Arch-based).
 
 <!--toc:start-->
 - [Installation](#installation)
