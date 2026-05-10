@@ -220,7 +220,6 @@ declare -a LINKS=(
   ".config/lazygit::$HOME/.config/lazygit::dir"
   ".config/nvim::$HOME/.config/nvim::dir"
   ".config/starship.toml::$HOME/.config/starship.toml::file"
-  ".config/tmux::$HOME/.config/tmux::dir"
 
   # ~/.claude — per-file + per-subdir so runtime state stays out of repo
   ".claude/settings.json::$HOME/.claude/settings.json::file"
@@ -238,6 +237,7 @@ declare -a LINKS=(
 declare -a MACOS_ONLY_LINKS=(
   ".inputrc::$HOME/.inputrc::file"
   ".config/ghostty::$HOME/.config/ghostty::dir"
+  ".config/tmux::$HOME/.config/tmux::dir"
 )
 
 if [[ "$OS_TYPE" == "macos" ]]; then
