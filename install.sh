@@ -238,6 +238,7 @@ declare -a MACOS_ONLY_LINKS=(
   ".inputrc::$HOME/.inputrc::file"
   ".config/ghostty::$HOME/.config/ghostty::dir"
   ".config/tmux::$HOME/.config/tmux::dir"
+  ".config/opencode::$HOME/.config/opencode::dir"
 )
 
 if [[ "$OS_TYPE" == "macos" ]]; then
