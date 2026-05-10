@@ -208,7 +208,6 @@ REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 declare -a LINKS=(
   # Flat $HOME files
   ".bashrc::$HOME/.bashrc::file"
-  ".bash_profile::$HOME/.bash_profile::file"
   ".hushlogin::$HOME/.hushlogin::file"
 
   # ~/.bash — bash-side helpers (box.bash, etc.)
@@ -219,7 +218,6 @@ declare -a LINKS=(
   ".config/git/config::$HOME/.config/git/config::file"
   ".config/lazygit::$HOME/.config/lazygit::dir"
   ".config/nvim::$HOME/.config/nvim::dir"
-  ".config/starship.toml::$HOME/.config/starship.toml::file"
 
   # ~/.claude — per-file + per-subdir so runtime state stays out of repo
   ".claude/settings.json::$HOME/.claude/settings.json::file"
@@ -235,10 +233,12 @@ declare -a LINKS=(
 
 # macOS-only links
 declare -a MACOS_ONLY_LINKS=(
+  ".bash_profile::$HOME/.bash_profile::file"
   ".inputrc::$HOME/.inputrc::file"
   ".config/ghostty::$HOME/.config/ghostty::dir"
   ".config/tmux::$HOME/.config/tmux::dir"
   ".config/opencode::$HOME/.config/opencode::dir"
+  ".config/starship.toml::$HOME/.config/starship.toml::file"
 )
 
 if [[ "$OS_TYPE" == "macos" ]]; then
