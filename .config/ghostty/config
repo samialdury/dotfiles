@@ -10,6 +10,10 @@ window-padding-x = 14
 window-padding-y = 14
 resize-overlay = never
 
+# Cursor styling + SSH session terminfo
+# (all shell integration options must be passed together)
+shell-integration-features = no-cursor,ssh-env
+
 # Keyboard bindings
 keybind = shift+enter=text:\x1b\r
 

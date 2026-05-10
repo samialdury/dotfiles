@@ -217,7 +217,6 @@ declare -a LINKS=(
 
   # ~/.config/<pkg> whole-dir links
   ".config/bat::$HOME/.config/bat::dir"
-  ".config/ghostty::$HOME/.config/ghostty::dir"
   ".config/lazygit::$HOME/.config/lazygit::dir"
   ".config/nvim::$HOME/.config/nvim::dir"
   ".config/starship.toml::$HOME/.config/starship.toml::file"
@@ -238,6 +237,7 @@ declare -a LINKS=(
 # macOS-only links
 declare -a MACOS_ONLY_LINKS=(
   ".inputrc::$HOME/.inputrc::file"
+  ".config/ghostty::$HOME/.config/ghostty::dir"
 )
 
 if [[ "$OS_TYPE" == "macos" ]]; then
