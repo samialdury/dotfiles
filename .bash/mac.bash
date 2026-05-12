@@ -25,6 +25,19 @@ set +h
 if [[ $- == *i* ]] && [ -r "$HOME/.local/share/blesh/ble.sh" ]; then
   source -- "$HOME/.local/share/blesh/ble.sh" --noattach
   bleopt history_share=1
+
+  # Debounce auto-complete: default 1ms (per-keystroke). 300ms = suggestion
+  # shows up after typing pauses, not on every key.
+  bleopt complete_auto_delay=300
+
+  # Fish-like faces: foreground color only, no bg/underline. `none` must come
+  # first — gspec2g iterates L→R and `none` resets g=0, wiping anything before.
+  ble-face auto_complete='none,fg=242'      # dim gray suggestion
+  ble-face filename_warning='none,fg=red'   # unknown commands / paths
+  ble-face command_jobs='none,fg=red'       # fallback for unknown commands
+  ble-face syntax_quoted='none,fg=green'    # quoted strings
+  ble-face syntax_command='fg=cyan,bold'    # valid commands
+  ble-face syntax_error='fg=red,bold'       # syntax errors
 fi
 
 # Env
