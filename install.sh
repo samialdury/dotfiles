@@ -113,6 +113,22 @@ if [[ "$OS_TYPE" == "macos" ]]; then
   fi
 fi
 
+# -----------------------------
+# bash-completion@2 (macOS only)
+#
+# Data-only package — no executable to `command -v` against, so it can't live in
+# PACKAGES. Probe the loader file the formula's caveat points at.
+# -----------------------------
+if [[ "$OS_TYPE" == "macos" ]]; then
+  if ! [ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]; then
+    log_info "Installing bash-completion@2..."
+    brew install bash-completion@2
+    log_success "bash-completion@2 installed."
+  else
+    log_info "bash-completion@2 already installed, skipping..."
+  fi
+fi
+
 declare -A MACOS_ONLY_PACKAGES=(
   ["ghostty"]="ghostty"
 )

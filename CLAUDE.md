@@ -37,6 +37,7 @@ If you touch `install.sh`, preserve these:
 - macOS vs Omarchy detection via `$OSTYPE` / `/etc/arch-release` (Omarchy ships `arch-release` since it's Arch-based). Any new package goes in the `PACKAGES` associative array (`executable => package-name`); macOS-only ones in `MACOS_ONLY_PACKAGES`.
 - `PACKAGES` keys are the executable names used for `command -v` skip-checks — key must match the binary, not the brew/pacman formula name (e.g. `delta` key → `git-delta` package).
 - Homebrew bash 5.x install on macOS is special-cased outside `PACKAGES` because `command -v bash` resolves to system `/bin/bash` 3.2; the script checks `/opt/homebrew/bin/bash` directly.
+- `bash-completion@2` (macOS only) is similarly outside `PACKAGES` — it's a data-only formula with no executable to `command -v`, so the script probes `/opt/homebrew/etc/profile.d/bash_completion.sh` instead. Don't try to fold it into `PACKAGES`.
 - After packages install, on macOS the script ensures `/opt/homebrew/bin/bash` is in `/etc/shells` (sudo append if missing) and runs `chsh -s` if the user's login shell isn't already set to it. Idempotent — re-runs are no-ops.
 - Never whole-dir link `$HOME/.claude` or `$HOME/.agents` — both dirs hold live runtime state. Only the individual files and stable subdirs listed in `LINKS` get symlinked.
 - `REPO` is derived from `BASH_SOURCE`, so the script works from any clone location. Don't hardcode `$HOME/dotfiles`.

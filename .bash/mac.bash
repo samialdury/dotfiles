@@ -21,6 +21,11 @@ HISTFILESIZE="${HISTSIZE}"
 # Ensure command hashing is off for mise
 set +h
 
+# ble.sh — Bash Line Editor (mac only; sourced --noattach, attached at EOF)
+if [[ $- == *i* ]] && [ -r "$HOME/.local/share/blesh/ble.sh" ]; then
+  source -- "$HOME/.local/share/blesh/ble.sh" --noattach
+fi
+
 # Env
 export XDG_CONFIG_HOME="$HOME/.config"
 
@@ -118,6 +123,20 @@ if command -v zoxide &>/dev/null; then
   eval "$(zoxide init bash)"
 fi
 
-if command -v fzf &>/dev/null; then
-  eval "$(fzf --bash)"
+# bash-completion@2 (Homebrew) — must load before fzf-completion regardless of ble.sh
+if [ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]; then
+  source /opt/homebrew/etc/profile.d/bash_completion.sh
 fi
+
+if command -v fzf &>/dev/null; then
+  if [[ ${BLE_VERSION-} ]]; then
+    _ble_contrib_fzf_base=/opt/homebrew/opt/fzf
+    ble-import -d integration/fzf-completion
+    ble-import -d integration/fzf-key-bindings
+  else
+    eval "$(fzf --bash)"
+  fi
+fi
+
+# ble.sh — attach last so it wraps every PROMPT_COMMAND / readline hook
+[[ ${BLE_VERSION-} ]] && ble-attach
