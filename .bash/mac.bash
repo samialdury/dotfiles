@@ -14,9 +14,9 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 # History control
 shopt -s histappend
-HISTCONTROL=ignoreboth
-HISTSIZE=32768
-HISTFILESIZE="${HISTSIZE}"
+HISTCONTROL=ignoreboth:erasedups
+HISTSIZE=100000
+HISTFILESIZE=200000
 
 # Ensure command hashing is off for mise
 set +h
@@ -24,6 +24,7 @@ set +h
 # ble.sh — Bash Line Editor (mac only; sourced --noattach, attached at EOF)
 if [[ $- == *i* ]] && [ -r "$HOME/.local/share/blesh/ble.sh" ]; then
   source -- "$HOME/.local/share/blesh/ble.sh" --noattach
+  bleopt history_share=1
 fi
 
 # Env
@@ -136,6 +137,12 @@ if command -v fzf &>/dev/null; then
   else
     eval "$(fzf --bash)"
   fi
+fi
+
+# Cross-session history sync — ble.sh handles it via bleopt above, otherwise
+# wire PROMPT_COMMAND so a fresh shell re-reads other sessions' history.
+if [[ -z ${BLE_VERSION-} ]]; then
+  PROMPT_COMMAND=('history -a; history -n' "${PROMPT_COMMAND[@]}")
 fi
 
 # ble.sh — attach last so it wraps every PROMPT_COMMAND / readline hook
