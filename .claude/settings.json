@@ -82,10 +82,6 @@
       }
     ]
   },
-  "statusLine": {
-    "type": "command",
-    "command": "bash /Users/sami/.claude/statusline-command.sh"
-  },
   "enabledPlugins": {
     "frontend-design@claude-code-plugins": true,
     "code-simplifier@claude-plugins-official": true,
