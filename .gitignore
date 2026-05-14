@@ -8,6 +8,9 @@
 # bash
 .bash/private.bash
 
+# zsh
+.zsh/private.zsh
+
 # claude
 .claude/projects/
 .claude/todos/

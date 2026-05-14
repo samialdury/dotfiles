@@ -1,4 +1,19 @@
 #!/usr/bin/env bash
+
+# Re-exec under Homebrew bash 5.x if env bash resolved to macOS system bash 3.2.
+# Needed before any Bash 4+ syntax (associative arrays, ${var,,}) is parsed.
+# On fresh machines brew bash may not exist yet — bootstrap-install it first
+# so the rest of the script (Bash 4+ only) can run.
+if ((BASH_VERSINFO[0] < 4)); then
+  if [ -x /opt/homebrew/bin/bash ]; then
+    exec /opt/homebrew/bin/bash "$0" "$@"
+  elif command -v brew >/dev/null 2>&1; then
+    echo "[setup][info] Bootstrapping Homebrew bash 5.x (script needs Bash 4+)..."
+    brew install bash
+    exec /opt/homebrew/bin/bash "$0" "$@"
+  fi
+fi
+
 set -euo pipefail
 
 # -----------------------------
@@ -100,8 +115,9 @@ declare -A PACKAGES=(
 # -----------------------------
 # Homebrew bash 5.x (macOS only)
 #
-# `command -v bash` resolves to system /bin/bash (3.2) on macOS, so the standard
-# PACKAGES executable check doesn't work — special-case via brew prefix.
+# Not the login shell anymore (zsh is — see below), but install.sh itself runs
+# under bash and needs Bash 4+, so the system /bin/bash 3.2 won't do.
+# `command -v bash` resolves to /bin/bash on macOS, so probe the brew path.
 # -----------------------------
 if [[ "$OS_TYPE" == "macos" ]]; then
   if ! [ -x /opt/homebrew/bin/bash ]; then
@@ -114,18 +130,49 @@ if [[ "$OS_TYPE" == "macos" ]]; then
 fi
 
 # -----------------------------
-# bash-completion@2 (macOS only)
+# Homebrew zsh (macOS only)
 #
-# Data-only package — no executable to `command -v` against, so it can't live in
-# PACKAGES. Probe the loader file the formula's caveat points at.
+# Login shell on mac. System /bin/zsh works too but we track latest via brew.
+# `command -v zsh` resolves to /bin/zsh on macOS, so probe the brew path.
 # -----------------------------
 if [[ "$OS_TYPE" == "macos" ]]; then
-  if ! [ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]; then
-    log_info "Installing bash-completion@2..."
-    brew install bash-completion@2
-    log_success "bash-completion@2 installed."
+  if ! [ -x /opt/homebrew/bin/zsh ]; then
+    log_info "Installing Homebrew zsh..."
+    brew install zsh
+    log_success "Homebrew zsh installed."
   else
-    log_info "bash-completion@2 already installed, skipping..."
+    log_info "Homebrew zsh already installed, skipping..."
+  fi
+fi
+
+# -----------------------------
+# zsh-autosuggestions (macOS only)
+#
+# Data-only plugin — no executable to `command -v` against. Probe the loader
+# file the formula installs.
+# -----------------------------
+if [[ "$OS_TYPE" == "macos" ]]; then
+  if ! [ -r /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    log_info "Installing zsh-autosuggestions..."
+    brew install zsh-autosuggestions
+    log_success "zsh-autosuggestions installed."
+  else
+    log_info "zsh-autosuggestions already installed, skipping..."
+  fi
+fi
+
+# -----------------------------
+# zsh-syntax-highlighting (macOS only)
+#
+# Same probe-style pattern as zsh-autosuggestions.
+# -----------------------------
+if [[ "$OS_TYPE" == "macos" ]]; then
+  if ! [ -r /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+    log_info "Installing zsh-syntax-highlighting..."
+    brew install zsh-syntax-highlighting
+    log_success "zsh-syntax-highlighting installed."
+  else
+    log_info "zsh-syntax-highlighting already installed, skipping..."
   fi
 fi
 
@@ -193,10 +240,10 @@ fi
 log_success "Install script finished."
 
 # -----------------------------
-# Set bash as default login shell (macOS only)
+# Set zsh as default login shell (macOS only)
 # -----------------------------
 if [[ "$OS_TYPE" == "macos" ]]; then
-  TARGET_SHELL="/opt/homebrew/bin/bash"
+  TARGET_SHELL="/opt/homebrew/bin/zsh"
   if [ ! -x "$TARGET_SHELL" ]; then
     log_warn "Skipping chsh — $TARGET_SHELL not present."
   else
@@ -223,7 +270,6 @@ REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Mode is informational only right now (file vs dir); link_one treats both the same.
 declare -a LINKS=(
   # Flat $HOME files
-  ".bashrc::$HOME/.bashrc::file"
   ".hushlogin::$HOME/.hushlogin::file"
 
   # ~/.config/<pkg> whole-dir links
@@ -246,9 +292,8 @@ declare -a LINKS=(
 
 # macOS-only links
 declare -a MACOS_ONLY_LINKS=(
-  ".bash_profile::$HOME/.bash_profile::file"
-  ".bash::$HOME/.bash::dir"
-  ".inputrc::$HOME/.inputrc::file"
+  ".zshrc::$HOME/.zshrc::file"
+  ".zsh::$HOME/.zsh::dir"
   ".config/ghostty::$HOME/.config/ghostty::dir"
   ".config/tmux::$HOME/.config/tmux::dir"
   ".config/opencode::$HOME/.config/opencode::dir"
@@ -321,16 +366,18 @@ fi
 
 log_success "Dotfiles linked."
 
-# Ensure ~/.bash/private.bash exists (empty) so .bashrc's source line is a no-op
-# on first run instead of relying on the [ -r ] guard. Gitignored on macOS where
-# ~/.bash is symlinked into the repo.
-PRIVATE_BASH="$HOME/.bash/private.bash"
-if [ ! -e "$PRIVATE_BASH" ]; then
-  mkdir -p "$(dirname "$PRIVATE_BASH")"
-  : >"$PRIVATE_BASH"
-  log_success "created empty $PRIVATE_BASH"
-else
-  log_info "$PRIVATE_BASH already exists, skipping..."
+# Ensure ~/.zsh/private.zsh exists (empty) on macOS so .zshrc's source line is
+# a no-op on first run instead of relying solely on the [ -r ] guard.
+# Gitignored — ~/.zsh is symlinked into the repo.
+if [[ "$OS_TYPE" == "macos" ]]; then
+  PRIVATE_ZSH="$HOME/.zsh/private.zsh"
+  if [ ! -e "$PRIVATE_ZSH" ]; then
+    mkdir -p "$(dirname "$PRIVATE_ZSH")"
+    : >"$PRIVATE_ZSH"
+    log_success "created empty $PRIVATE_ZSH"
+  else
+    log_info "$PRIVATE_ZSH already exists, skipping..."
+  fi
 fi
 
 if [[ "$OS_TYPE" == "macos" ]]; then
