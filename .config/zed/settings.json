@@ -13,16 +13,16 @@
   "ui_font_size": 16,
   "buffer_font_size": 15,
   "buffer_font_family": "JetBrains Mono NL",
-  "disable_ai": false,
+  "disable_ai": true,
   "theme": {
     "mode": "system",
-    "light": "Tokyo Night Light",
-    "dark": "Tokyo Night"
+    "light": "Catppuccin Latte",
+    "dark": "Catppuccin Mocha"
   },
   "terminal": {
     "shell": {
       "with_arguments": {
-        "program": "/opt/homebrew/bin/fish",
+        "program": "/opt/homebrew/bin/zsh",
         "args": ["-c", "tmux-sessionizer \"$(basename \"$PWD\")\""]
       }
     }
