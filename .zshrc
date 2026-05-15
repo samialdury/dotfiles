@@ -32,7 +32,8 @@ export LOCAL_BIN="$HOME/.local/bin"
 export LOCAL_SCRIPTS="$HOME/.local/scripts"
 
 # PATH
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+eval "$(/opt/homebrew/bin/brew shellenv zsh)"
 export PATH="$CARGO_BIN:$LOCAL_BIN:$LOCAL_SCRIPTS:$PNPM_HOME:$BUN_INSTALL/bin:$GOPATH/bin:$PATH"
 
 # Completion: case-insensitive, menu-select (.inputrc translation)
