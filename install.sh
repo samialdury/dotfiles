@@ -79,8 +79,8 @@ esac
 #
 # macOS: the Brewfile is the single source of truth for installed packages
 # (formulae + casks). This script only does the things Homebrew can't:
-# symlinks, chsh, macOS defaults, tmux-sessionizer. Bail if Brewfile hasn't
-# been applied yet so the user runs `brew bundle install` first.
+# symlinks, chsh, macOS defaults, tmux-sessionizer. Warn if Brewfile hasn't
+# been applied yet so the user can install missing packages separately.
 #
 # Omarchy: no equivalent manifest in-repo, so install required pacman packages
 # directly below and confirm `pacman -Syu` was run first.
@@ -93,11 +93,12 @@ if [[ "$OS_TYPE" == "macos" ]]; then
   fi
   log_info "Checking Brewfile state: $BREWFILE"
   if ! brew bundle check --file="$BREWFILE" >/dev/null 2>&1; then
-    log_error "Brewfile not fully installed. Run first:"
-    log_error "  brew update && brew bundle install --file=$BREWFILE"
-    exit 1
+    log_warn "Brewfile not fully installed. Continuing anyway."
+    log_warn "To install missing packages, run:"
+    log_warn "  brew update && brew bundle install --file=$BREWFILE"
+  else
+    log_success "Brewfile satisfied."
   fi
-  log_success "Brewfile satisfied."
 else
   UPDATE_CMD="sudo pacman -Syu"
   log_warn "Before running this script, you *must* fully update your Omarchy system:"
