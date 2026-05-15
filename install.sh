@@ -224,6 +224,7 @@ declare -a MACOS_ONLY_LINKS=(
   ".zshrc::$HOME/.zshrc::file"
   ".zsh::$HOME/.zsh::dir"
   ".config/aerospace::$HOME/.config/aerospace::dir"
+  ".config/borders::$HOME/.config/borders::dir"
   ".config/ghostty::$HOME/.config/ghostty::dir"
   ".config/tmux::$HOME/.config/tmux::dir"
   ".config/opencode::$HOME/.config/opencode::dir"
