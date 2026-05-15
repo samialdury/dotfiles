@@ -276,6 +276,7 @@ declare -a LINKS=(
   ".config/bat::$HOME/.config/bat::dir"
   ".config/git/config::$HOME/.config/git/config::file"
   ".config/lazygit::$HOME/.config/lazygit::dir"
+  ".config/mise/config.toml::$HOME/.config/mise/config.toml::file"
   ".config/nvim::$HOME/.config/nvim::dir"
 
   # ~/.claude — per-file + per-subdir so runtime state stays out of repo
@@ -294,6 +295,7 @@ declare -a LINKS=(
 declare -a MACOS_ONLY_LINKS=(
   ".zshrc::$HOME/.zshrc::file"
   ".zsh::$HOME/.zsh::dir"
+  ".config/aerospace::$HOME/.config/aerospace::dir"
   ".config/ghostty::$HOME/.config/ghostty::dir"
   ".config/tmux::$HOME/.config/tmux::dir"
   ".config/opencode::$HOME/.config/opencode::dir"
