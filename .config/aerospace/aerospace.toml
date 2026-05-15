@@ -1,0 +1,181 @@
+# AeroSpace Configuration
+
+config-version = 2
+start-at-login = true
+automatically-unhide-macos-hidden-apps = true
+after-startup-command = ['exec-and-forget borders']
+
+# Normalizations
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+# Layout
+accordion-padding = 30
+on-focused-monitor-changed = []
+
+[gaps]
+inner.horizontal = 10
+inner.vertical = 10
+outer.left = 10
+outer.right = 10
+outer.top = 10        # 5 when using always shown menu bar
+outer.bottom = 10
+
+# Monitor assignments
+# When external connected: 1-4 on external, 5-10 on MacBook
+# When no external: all on MacBook
+[workspace-to-monitor-force-assignment]
+1 = ['secondary', 'built-in']
+2 = ['secondary', 'built-in']
+3 = ['secondary', 'built-in']
+4 = 'built-in'
+5 = 'built-in'
+6 = 'built-in'
+7 = 'built-in'
+8 = 'built-in'
+9 = 'built-in'
+10 = 'built-in'
+
+[key-mapping]
+preset = 'qwerty'
+
+# =============================================================================
+# Keybindings
+# =============================================================================
+
+[mode.main.binding]
+
+# Changing window focus
+# - change window focus
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-k = 'focus up'
+alt-l = 'focus right'
+# - change focus between displays
+alt-g = 'focus-monitor --wrap-around next'
+
+# Move windows
+# - swap windows
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-k = 'move up'
+alt-shift-l = 'move right'
+# - warp windows (join with)
+alt-ctrl-h = 'join-with left'
+alt-ctrl-j = 'join-with down'
+alt-ctrl-k = 'join-with up'
+alt-ctrl-l = 'join-with right'
+# - move window to display
+alt-shift-g = [
+  'move-node-to-monitor --wrap-around next',
+  'focus-monitor --wrap-around next',
+]
+
+# Resize windows
+ctrl-shift-h = 'resize width -60'
+ctrl-shift-l = 'resize width +60'
+ctrl-shift-j = 'resize height +60'
+ctrl-shift-k = 'resize height -60'
+
+# Modify layout
+# - toggle layout orientation
+alt-shift-r = 'layout tiles horizontal vertical'
+# - flip along y-axis
+alt-shift-y = 'layout h_tiles v_tiles'
+# - flip along x-axis
+alt-shift-x = 'layout v_tiles h_tiles'
+# - toggle window float
+alt-shift-t = 'layout floating tiling'
+# - maximize window
+alt-shift-m = 'fullscreen'
+# - balance window sizes
+alt-shift-e = 'balance-sizes'
+# - flatten workspace tree
+alt-shift-f = 'flatten-workspace-tree'
+
+# Workspace focus
+alt-1 = 'workspace 1'
+alt-2 = 'workspace 2'
+alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
+alt-5 = 'workspace 5'
+alt-6 = 'workspace 6'
+alt-7 = 'workspace 7'
+alt-8 = 'workspace 8'
+alt-9 = 'workspace 9'
+alt-0 = 'workspace 10'
+
+# Move window to workspace
+alt-shift-1 = ['move-node-to-workspace 1', 'workspace 1']
+alt-shift-2 = ['move-node-to-workspace 2', 'workspace 2']
+alt-shift-3 = ['move-node-to-workspace 3', 'workspace 3']
+alt-shift-4 = ['move-node-to-workspace 4', 'workspace 4']
+alt-shift-5 = ['move-node-to-workspace 5', 'workspace 5']
+alt-shift-6 = ['move-node-to-workspace 6', 'workspace 6']
+alt-shift-7 = ['move-node-to-workspace 7', 'workspace 7']
+alt-shift-8 = ['move-node-to-workspace 8', 'workspace 8']
+alt-shift-9 = ['move-node-to-workspace 9', 'workspace 9']
+alt-shift-0 = ['move-node-to-workspace 10', 'workspace 10']
+
+# Open apps
+alt-o = 'exec-and-forget open -a Obsidian'
+alt-p = 'exec-and-forget open -a Spotify'
+alt-s = 'exec-and-forget open -a Signal'
+alt-e = 'exec-and-forget open -na Firefox'
+alt-w = 'exec-and-forget ~/.config/aerospace/ghostty++'
+alt-c = 'exec-and-forget open -na "Visual Studio Code" --args --new-window'
+alt-d = 'exec-and-forget open -a Discord'
+alt-f = 'exec-and-forget open -a Finder'
+alt-y = 'exec-and-forget open -a "System Settings"'
+
+# Reload config
+alt-shift-c = 'reload-config'
+
+# =============================================================================
+# Window rules
+# =============================================================================
+
+# App-specific workspaces
+[[on-window-detected]]
+if.app-name-regex-substring = '^Discord$'
+run = 'move-node-to-workspace 6'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^Signal$'
+run = 'move-node-to-workspace 6'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^Obsidian$'
+run = 'move-node-to-workspace 7'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^Spotify$'
+run = 'move-node-to-workspace 8'
+
+# Floating windows
+[[on-window-detected]]
+if.app-name-regex-substring = '^System Settings$'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^System Preferences$'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^Activity Monitor$'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^Calculator$'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^Archive Utility$'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^App Store$'
+run = 'layout floating'
+
