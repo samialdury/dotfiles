@@ -228,6 +228,7 @@ declare -a MACOS_ONLY_LINKS=(
   ".config/borders::$HOME/.config/borders::dir"
   ".config/ghostty::$HOME/.config/ghostty::dir"
   ".config/tmux::$HOME/.config/tmux::dir"
+  ".config/tmux-sessionizer::$HOME/.config/tmux-sessionizer::dir"
   ".config/opencode::$HOME/.config/opencode::dir"
   ".config/starship.toml::$HOME/.config/starship.toml::file"
 )
