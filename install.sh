@@ -314,8 +314,6 @@ if [[ "$OS_TYPE" == "macos" ]]; then
   log_info "Applying MacOS defaults..."
   # https://macos-defaults.com
 
-  # Disable font smoothing
-  defaults -currentHost write -g AppleFontSmoothing -int 0
   # Set screenshots location
   defaults write com.apple.screencapture location -string "$HOME/Desktop/screenshots"
   # Automatically empty bin after 30 days
@@ -337,6 +335,7 @@ if [[ "$OS_TYPE" == "macos" ]]; then
   # Do not automatically rearrange Spaces based on most recent use
   defaults write com.apple.dock mru-spaces -bool false
   # Group windows by application in Mission Control
+  defaults write com.apple.dock expose-group-apps -bool true
   defaults write com.apple.dock expose-group-by-app -bool true
   # Set Dock to auto-hide
   defaults write com.apple.dock autohide -bool true
