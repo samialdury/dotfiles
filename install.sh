@@ -3,7 +3,8 @@
 # Re-exec under Homebrew bash 5.x if env bash resolved to macOS system bash 3.2.
 # Needed before any Bash 4+ syntax (associative arrays, ${var,,}) is parsed.
 # On fresh machines brew bash may not exist yet — bootstrap-install it first
-# so the rest of the script (Bash 4+ only) can run.
+# so the rest of the script (Bash 4+ only) can run. The Brewfile precondition
+# check below then enforces that the rest of the formulae/casks are installed.
 if ((BASH_VERSINFO[0] < 4)); then
   if [ -x /opt/homebrew/bin/bash ]; then
     exec /opt/homebrew/bin/bash "$0" "$@"
@@ -52,6 +53,9 @@ fi
 
 log_info "Detected OS: $OS_TYPE"
 
+# Repo root — referenced early (Brewfile precondition) and later (symlinks).
+REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # -----------------------------
 # Check package manager
 # -----------------------------
@@ -71,154 +75,79 @@ omarchy)
 esac
 
 # -----------------------------
-# User must confirm updates (OS-aware)
+# Package preconditions
+#
+# macOS: the Brewfile is the single source of truth for installed packages
+# (formulae + casks). This script only does the things Homebrew can't:
+# symlinks, chsh, macOS defaults, tmux-sessionizer. Bail if Brewfile hasn't
+# been applied yet so the user runs `brew bundle install` first.
+#
+# Omarchy: no equivalent manifest in-repo, so install required pacman packages
+# directly below and confirm `pacman -Syu` was run first.
 # -----------------------------
 if [[ "$OS_TYPE" == "macos" ]]; then
-  UPDATE_CMD="brew update"
-  log_warn "Before running this script, you *must* update Homebrew:"
+  BREWFILE="$REPO/Brewfile"
+  if [ ! -f "$BREWFILE" ]; then
+    log_error "Brewfile missing at $BREWFILE"
+    exit 1
+  fi
+  log_info "Checking Brewfile state: $BREWFILE"
+  if ! brew bundle check --file="$BREWFILE" >/dev/null 2>&1; then
+    log_error "Brewfile not fully installed. Run first:"
+    log_error "  brew update && brew bundle install --file=$BREWFILE"
+    exit 1
+  fi
+  log_success "Brewfile satisfied."
 else
   UPDATE_CMD="sudo pacman -Syu"
   log_warn "Before running this script, you *must* fully update your Omarchy system:"
-fi
+  log_warn "  $UPDATE_CMD"
+  printf "%b[setup]%b Have you run '%s'? (y/yes to continue): " "$BLUE" "$RESET" "$UPDATE_CMD"
+  read -r CONFIRM
 
-log_warn "  $UPDATE_CMD"
-printf "%b[setup]%b Have you run '%s'? (y/yes to continue): " "$BLUE" "$RESET" "$UPDATE_CMD"
-read -r CONFIRM
-
-case "${CONFIRM,,}" in
-y | yes)
-  log_info "Continuing..."
-  ;;
-*)
-  log_error "You must run '$UPDATE_CMD' before using this script. Exiting."
-  exit 1
-  ;;
-esac
-
-# -----------------------------
-# Packages to install in format
-# executable => package name
-# -----------------------------
-declare -A PACKAGES=(
-  ["bat"]="bat"
-  ["delta"]="git-delta"
-  ["lazygit"]="lazygit"
-  ["nvim"]="neovim"
-  ["starship"]="starship"
-  ["tmux"]="tmux"
-  ["rg"]="ripgrep"
-  ["fd"]="fd"
-  ["fzf"]="fzf"
-  ["just"]="just"
-)
-
-# -----------------------------
-# Homebrew bash 5.x (macOS only)
-#
-# Not the login shell anymore (zsh is — see below), but install.sh itself runs
-# under bash and needs Bash 4+, so the system /bin/bash 3.2 won't do.
-# `command -v bash` resolves to /bin/bash on macOS, so probe the brew path.
-# -----------------------------
-if [[ "$OS_TYPE" == "macos" ]]; then
-  if ! [ -x /opt/homebrew/bin/bash ]; then
-    log_info "Installing Homebrew bash 5.x..."
-    brew install bash
-    log_success "Homebrew bash installed."
-  else
-    log_info "Homebrew bash already installed, skipping..."
-  fi
+  case "${CONFIRM,,}" in
+  y | yes)
+    log_info "Continuing..."
+    ;;
+  *)
+    log_error "You must run '$UPDATE_CMD' before using this script. Exiting."
+    exit 1
+    ;;
+  esac
 fi
 
 # -----------------------------
-# Homebrew zsh (macOS only)
-#
-# Login shell on mac. System /bin/zsh works too but we track latest via brew.
-# `command -v zsh` resolves to /bin/zsh on macOS, so probe the brew path.
+# Omarchy packages (pacman). Format: executable => package name.
+# Key must match the binary name used by `command -v`, not the formula name
+# (e.g. `delta` key → `git-delta` package).
 # -----------------------------
-if [[ "$OS_TYPE" == "macos" ]]; then
-  if ! [ -x /opt/homebrew/bin/zsh ]; then
-    log_info "Installing Homebrew zsh..."
-    brew install zsh
-    log_success "Homebrew zsh installed."
-  else
-    log_info "Homebrew zsh already installed, skipping..."
-  fi
-fi
+if [[ "$OS_TYPE" == "omarchy" ]]; then
+  declare -A PACKAGES=(
+    ["bat"]="bat"
+    ["delta"]="git-delta"
+    ["lazygit"]="lazygit"
+    ["nvim"]="neovim"
+    ["starship"]="starship"
+    ["tmux"]="tmux"
+    ["rg"]="ripgrep"
+    ["fd"]="fd"
+    ["fzf"]="fzf"
+    ["just"]="just"
+  )
 
-# -----------------------------
-# zsh-autosuggestions (macOS only)
-#
-# Data-only plugin — no executable to `command -v` against. Probe the loader
-# file the formula installs.
-# -----------------------------
-if [[ "$OS_TYPE" == "macos" ]]; then
-  if ! [ -r /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    log_info "Installing zsh-autosuggestions..."
-    brew install zsh-autosuggestions
-    log_success "zsh-autosuggestions installed."
-  else
-    log_info "zsh-autosuggestions already installed, skipping..."
-  fi
-fi
-
-# -----------------------------
-# zsh-syntax-highlighting (macOS only)
-#
-# Same probe-style pattern as zsh-autosuggestions.
-# -----------------------------
-if [[ "$OS_TYPE" == "macos" ]]; then
-  if ! [ -r /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-    log_info "Installing zsh-syntax-highlighting..."
-    brew install zsh-syntax-highlighting
-    log_success "zsh-syntax-highlighting installed."
-  else
-    log_info "zsh-syntax-highlighting already installed, skipping..."
-  fi
-fi
-
-declare -A MACOS_ONLY_PACKAGES=(
-  ["ghostty"]="ghostty"
-)
-
-# Append macOS-only packages
-if [[ "$OS_TYPE" == "macos" ]]; then
-  for key in "${!MACOS_ONLY_PACKAGES[@]}"; do
-    PACKAGES["$key"]="${MACOS_ONLY_PACKAGES[$key]}"
+  for cmd in "${!PACKAGES[@]}"; do
+    if ! command -v "$cmd" >/dev/null 2>&1; then
+      log_info "Installing package: ${PACKAGES[$cmd]}"
+      sudo pacman -S --needed --noconfirm "${PACKAGES[$cmd]}"
+      log_success "Finished installing: ${PACKAGES[$cmd]}"
+    else
+      log_info "$cmd already installed, skipping..."
+    fi
   done
 fi
 
 # -----------------------------
-# Install package wrapper
-# -----------------------------
-install_pkg() {
-  local pkg="$1"
-  log_info "Installing package: $pkg"
-
-  case "$OS_TYPE" in
-  macos)
-    brew install "$pkg"
-    ;;
-  omarchy)
-    sudo pacman -S --needed --noconfirm "$pkg"
-    ;;
-  esac
-
-  log_success "Finished installing: $pkg"
-}
-
-# -----------------------------
-# Install required packages
-# -----------------------------
-for cmd in "${!PACKAGES[@]}"; do
-  if ! command -v "$cmd" >/dev/null 2>&1; then
-    install_pkg "${PACKAGES[$cmd]}"
-  else
-    log_info "$cmd already installed, skipping..."
-  fi
-done
-
-# -----------------------------
-# Install tmux-sessionizer
+# Install tmux-sessionizer (both OSes; not packaged in Brewfile/pacman)
 # -----------------------------
 TS_BIN="$HOME/.local/scripts/tmux-sessionizer"
 
@@ -237,7 +166,7 @@ else
   log_info "tmux-sessionizer already installed, skipping..."
 fi
 
-log_success "Install script finished."
+log_success "Install step finished."
 
 # -----------------------------
 # Set zsh as default login shell (macOS only)
@@ -264,7 +193,6 @@ fi
 # -----------------------------
 # Link dotfiles into target locations
 # -----------------------------
-REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Format per entry: "<src-relative-to-repo>::<target-absolute>::<mode>"
 # Mode is informational only right now (file vs dir); link_one treats both the same.
