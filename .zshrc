@@ -113,6 +113,10 @@ alias gcad='git commit -a --amend'
 # Keybinds
 bindkey -s '^F' 'tmux-sessionizer\n'
 
+# Alt/Option+Backspace
+bindkey '^[^?' backward-kill-word
+bindkey '^[^H' backward-kill-word
+
 # Box helpers
 [ -r "$HOME/.zsh/box.zsh" ] && . "$HOME/.zsh/box.zsh"
 
