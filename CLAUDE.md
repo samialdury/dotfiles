@@ -52,7 +52,7 @@ If you touch `install.sh`, preserve these:
 This is *this user's* Claude Code config and also ships as a stowed artifact for other machines. Preserve:
 
 - `permissions.defaultMode: "auto"`, `skipDangerousModePermissionPrompt: true`, `alwaysThinkingEnabled: true`, `autoDreamEnabled: true` — intentional autonomous-mode defaults.
-- Hooks pipeline: `uv run ~/.claude/hooks/<event>.py` for every lifecycle event. Hook scripts live in `.claude/hooks/` in this repo and link through as a whole-dir symlink. Don't remove hook entries in `settings.json` without keeping the matching script in `.claude/hooks/`.
+- Hooks pipeline: only `PreToolUse` runs a custom script (`uv run ~/.claude/hooks/pre_tool_use.py`) — it blocks `rm -rf` variants and reads/writes to `.env*` / `*.tfvars` / `*.auto.tfvars` (exit code 2). All other lifecycle events (`PostToolUse`, `Stop`, `UserPromptSubmit`, `SessionStart`, `SessionEnd`, `PostToolUseFailure`, `PermissionRequest`) only invoke the Superset `notify.sh` shim — no Python. Hook scripts live in `.claude/hooks/` and link through as a whole-dir symlink. The custom script is self-contained (stdlib only, no `utils/`). If adding a new Python hook, drop the file in `.claude/hooks/` *and* wire it in `settings.json`; if removing, prune both sides.
 - `statusLine.command` uses an **absolute** path `/Users/sami/.claude/statusline-command.sh`. If editing for a non-sami machine, make this `$HOME`-relative or document the rename.
 - `enabledPlugins` and `extraKnownMarketplaces` (ralph, caveman) are intentional — treat as user preference, don't prune.
 

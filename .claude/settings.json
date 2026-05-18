@@ -33,15 +33,6 @@
     ],
     "PostToolUse": [
       {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "uv run ~/.claude/hooks/post_tool_use.py"
-          }
-        ]
-      },
-      {
         "matcher": "*",
         "hooks": [
           {
@@ -51,27 +42,7 @@
         ]
       }
     ],
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "uv run ~/.claude/hooks/notification.py --notify"
-          }
-        ]
-      }
-    ],
     "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "uv run ~/.claude/hooks/stop.py --chat"
-          }
-        ]
-      },
       {
         "hooks": [
           {
@@ -81,26 +52,7 @@
         ]
       }
     ],
-    "SubagentStop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "uv run ~/.claude/hooks/subagent_stop.py"
-          }
-        ]
-      }
-    ],
     "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "uv run ~/.claude/hooks/user_prompt_submit.py --log-only"
-          }
-        ]
-      },
       {
         "hooks": [
           {
