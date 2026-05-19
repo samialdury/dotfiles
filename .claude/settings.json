@@ -108,27 +108,13 @@
   "enabledPlugins": {
     "frontend-design@claude-code-plugins": true,
     "code-simplifier@claude-plugins-official": true,
-    "seo-technical-optimization@claude-code-workflows": true,
-    "seo-content-creation@claude-code-workflows": true,
-    "seo-analysis-monitoring@claude-code-workflows": true,
-    "content-marketing@claude-code-workflows": true,
     "superpowers@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
     "frontend-design@claude-plugins-official": true,
-    "ralph-loop@claude-plugins-official": false,
-    "ruby-lsp@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
-    "ralph-skills@ralph-marketplace": true,
-    "ralph-wiggum@claude-code-plugins": true,
     "caveman@caveman": true
   },
   "extraKnownMarketplaces": {
-    "ralph-marketplace": {
-      "source": {
-        "source": "github",
-        "repo": "snarktank/ralph"
-      }
-    },
     "caveman": {
       "source": {
         "source": "github",
