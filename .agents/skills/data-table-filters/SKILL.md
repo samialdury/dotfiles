@@ -3,15 +3,17 @@ name: data-table-filters
 description: >
   Install and extend data-table-filters — a React data table system with faceted filters
   (checkbox, input, slider, timerange), sorting, infinite scroll, virtualization, and BYOS
-  state management. Delivered as 9 shadcn registry blocks installable via
+  state management. Delivered as 11 shadcn registry blocks installable via
   `npx shadcn@latest add`. Use when: (1) installing data-table-filters from the shadcn
-  registry, (2) adding extension blocks (command palette, cell renderers, sheet panel,
+  registry, (2) adding extension blocks (command palette, AI filters, cell renderers, sheet panel,
   store adapters, schema system, Drizzle helpers, query layer), (3) configuring store
   adapters (nuqs/zustand/memory), (4) generating table schemas from a data model,
   (5) wiring up server-side filtering with Drizzle ORM, (6) connecting the React Query
-  fetch layer, (7) troubleshooting integration issues. Triggers on mentions of
-  "data-table-filters", "data-table.openstatus.dev", filterable data tables with shadcn,
-  or any of the registry block names.
+  fetch layer, (7) auto-inferring schemas from raw JSON data with DataTableAuto / inferSchemaFromJSON,
+  (8) adding AI-powered natural language filtering, (9) exposing tables as MCP endpoints for AI agents,
+  (10) troubleshooting integration issues.
+  Triggers on mentions of "data-table-filters", "data-table-filters.com", filterable data
+  tables with shadcn, DataTableAuto, auto-infer, AI filters, MCP server, or any of the registry block names.
 ---
 
 # Data Table Filters
@@ -22,17 +24,19 @@ A shadcn registry for building filterable, sortable data tables with infinite sc
 
 Install any block via `npx shadcn@latest add <url>`. The CLI handles dependencies, path rewriting, and CSS variable injection.
 
-| Block                         | Install URL                                           | What it adds                                                                                   |
-| ----------------------------- | ----------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| **data-table**                | `https://data-table.openstatus.dev/r/data-table.json` | Core: table engine, store, 4 filter types, memory adapter (~52 files)                          |
-| **data-table-filter-command** | `.../r/data-table-filter-command.json`                | Command palette with history + keyboard shortcuts                                              |
-| **data-table-cell**           | `.../r/data-table-cell.json`                          | 8 cell renderers (text, code, badge, boolean, number, status-code, level-indicator, timestamp) |
-| **data-table-sheet**          | `.../r/data-table-sheet.json`                         | Row detail side panel (auto-installs cells)                                                    |
-| **data-table-nuqs**           | `.../r/data-table-nuqs.json`                          | nuqs URL state adapter                                                                         |
-| **data-table-zustand**        | `.../r/data-table-zustand.json`                       | zustand state adapter                                                                          |
-| **data-table-schema**         | `.../r/data-table-schema.json`                        | Declarative schema system with `col.*` factories                                               |
-| **data-table-drizzle**        | `.../r/data-table-drizzle.json`                       | Drizzle ORM server-side helpers (auto-installs schema)                                         |
-| **data-table-query**          | `.../r/data-table-query.json`                         | React Query infinite query integration                                                         |
+| Block                            | Install URL                                           | What it adds                                                                                                                |
+| -------------------------------- | ----------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **data-table**                   | `https://data-table.openstatus.dev/r/data-table.json` | Core: table engine, store, 4 filter types, memory adapter (~52 files)                                                       |
+| **data-table-filter-command**    | `.../r/data-table-filter-command.json`                | Command palette with history + keyboard shortcuts                                                                           |
+| **data-table-cell**              | `.../r/data-table-cell.json`                          | 12 cell renderers (text, code, number, bar, heatmap, badge, boolean, star, status-code, level-indicator, timestamp, custom) |
+| **data-table-sheet**             | `.../r/data-table-sheet.json`                         | Row detail side panel (auto-installs cells)                                                                                 |
+| **data-table-nuqs**              | `.../r/data-table-nuqs.json`                          | nuqs URL state adapter                                                                                                      |
+| **data-table-zustand**           | `.../r/data-table-zustand.json`                       | zustand state adapter                                                                                                       |
+| **data-table-schema**            | `.../r/data-table-schema.json`                        | Declarative schema system with `col.*` factories                                                                            |
+| **data-table-drizzle**           | `.../r/data-table-drizzle.json`                       | Drizzle ORM server-side helpers (auto-installs schema)                                                                      |
+| **data-table-query**             | `.../r/data-table-query.json`                         | React Query infinite query integration                                                                                      |
+| **data-table-filter-command-ai** | `.../r/data-table-filter-command-ai.json`             | AI-powered natural language → filter inference (provider-agnostic)                                                          |
+| **data-table-mcp**               | `.../r/data-table-mcp.json`                           | MCP server endpoint for AI agents (stateless, serverless-compatible)                                                        |
 
 All URLs use base `https://data-table.openstatus.dev`.
 
@@ -100,6 +104,33 @@ After installing a block via `npx shadcn@latest add`, wire it into the table.
 />
 ```
 
+### Floating Bar (Bulk Actions) → `floatingBarSlot`
+
+Add `col.select()` to the schema to enable multi-row selection with checkboxes. Wrap actions in `DataTableFloatingBar` — it reads selection state from context (same pattern as `DataTableSheetDetails` for `sheetSlot`).
+
+```tsx
+// In table-schema.tsx
+export const tableSchema = createTableSchema({
+  select: col.select().size(37),
+  // ... other columns
+});
+
+// In client.tsx
+import { DataTableFloatingBar } from "@/components/data-table/data-table-floating-bar";
+
+<DataTableInfinite
+  floatingBarSlot={
+    <DataTableFloatingBar>
+      {({ rows }) => (
+        <Button variant="outline" size="sm" onClick={() => console.log(rows)}>
+          Export ({rows.length})
+        </Button>
+      )}
+    </DataTableFloatingBar>
+  }
+/>;
+```
+
 ### Cell Renderers → column definitions
 
 ```tsx
@@ -116,9 +147,26 @@ import { FILTER_COMPONENTS } from "@/components/data-table/data-table-filter-con
 FILTER_COMPONENTS.myCustom = MyCustomFilterComponent;
 ```
 
+### AI Command Palette → `commandSlot`
+
+```tsx
+<DataTableInfinite
+  commandSlot={
+    <DataTableFilterAICommand
+      schema={filterSchema.definition}
+      tableSchema={tableSchema.definition}
+      api="/api/ai-filters"
+      tableId="my-table"
+    />
+  }
+/>
+```
+
+Requires an API route that streams AI results. See [references/ai-filters.md](references/ai-filters.md).
+
 ### All Slot Props
 
-`DataTableInfinite` accepts: `commandSlot`, `sheetSlot`, `toolbarActions`, `chartSlot`, `footerSlot`.
+`DataTableInfinite` accepts: `commandSlot`, `sheetSlot`, `toolbarActions`, `chartSlot`, `footerSlot`, `floatingBarSlot`.
 
 See [references/component-catalog.md](references/component-catalog.md) for full wiring details.
 
@@ -142,9 +190,42 @@ Map data model → `createTableSchema` + `col.*`:
 - `Date` → `col.timestamp().filterable("timerange")`
 - `enum` → `col.enum(values).filterable("checkbox")`
 
+- `select` → `col.select()` (checkbox row selection, not filterable)
+
 Presets: `col.presets.logLevel()`, `.httpStatus()`, `.duration()`, `.timestamp()`, `.traceId()`, `.pathname()`, `.httpMethod()`.
 
 See [references/schema-api.md](references/schema-api.md).
+
+## Auto-Infer (Zero-Config from JSON)
+
+For raw JSON data with no predefined schema, use `DataTableAuto` or the lower-level `inferSchemaFromJSON` + `createTableSchema.fromJSON` pipeline. This auto-generates columns, filters, sheet fields, and column visibility from the data itself.
+
+### DataTableAuto Component
+
+Drop-in component — pass JSON data, get a fully functional table:
+
+```tsx
+import { DataTableAuto } from "@/components/data-table/data-table-auto";
+import data from "./data.json";
+
+export default function Page() {
+  return <DataTableAuto data={data} />;
+}
+```
+
+Includes command palette and sheet detail panel out of the box. See the `/auto` route in this repo for a working example.
+
+### Lower-Level API
+
+```tsx
+import { inferSchemaFromJSON } from "@/lib/table-schema/infer";
+import { createTableSchema } from "@/lib/table-schema";
+
+const schemaJson = inferSchemaFromJSON(data);
+const { definition } = createTableSchema.fromJSON(schemaJson);
+```
+
+See [references/auto-infer.md](references/auto-infer.md) for inference heuristics, smart enhancements, and customization.
 
 ## Server-Side Integration
 

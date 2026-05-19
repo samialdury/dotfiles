@@ -6,9 +6,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/timescale/pg-aiguide.git",
       "skillPath": "skills/design-postgres-tables/SKILL.md",
-      "skillFolderHash": "3458c2d8fcaea89e109d2ad2781331f2da477764",
+      "skillFolderHash": "7f92c52d3fe4697d853818edddc356b1a68ced4f",
       "installedAt": "2026-01-26T12:55:31.622Z",
-      "updatedAt": "2026-01-26T12:55:31.622Z"
+      "updatedAt": "2026-05-19T21:28:52.058Z"
     },
     "better-auth-security-best-practices": {
       "source": "better-auth/skills",
@@ -71,9 +71,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vercel-labs/skills.git",
       "skillPath": "skills/find-skills/SKILL.md",
-      "skillFolderHash": "c2f31172b6f256272305a5e6e7228b258446899f",
+      "skillFolderHash": "3013fdeb8a11b10b1eb795ec3ae8bfca38f7c26d",
       "installedAt": "2026-02-12T14:56:00.482Z",
-      "updatedAt": "2026-02-12T14:56:00.482Z"
+      "updatedAt": "2026-05-19T21:28:52.513Z"
     },
     "tdd": {
       "source": "mattpocock/skills",
@@ -90,9 +90,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vercel/ai.git",
       "skillPath": "skills/use-ai-sdk/SKILL.md",
-      "skillFolderHash": "d8e09e2796e2a04a9c7f7cc8c5bbab8da76a77d9",
+      "skillFolderHash": "2bb6e9269a3b0adc5600cae38797808a2fc783f7",
       "installedAt": "2026-02-16T13:19:27.783Z",
-      "updatedAt": "2026-03-20T08:07:56.723Z"
+      "updatedAt": "2026-05-19T21:28:53.103Z"
     },
     "ai-elements": {
       "source": "vercel/ai-elements",
@@ -108,9 +108,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/openstatushq/data-table-filters.git",
       "skillPath": "skills/SKILL.md",
-      "skillFolderHash": "7824625aa58748bddcc7e6f7b82aebb23dc0c30e",
+      "skillFolderHash": "fe22921eeadcdc7d3592473f7a9b1bd566a75c5f",
       "installedAt": "2026-03-15T19:17:02.586Z",
-      "updatedAt": "2026-03-15T19:17:02.586Z"
+      "updatedAt": "2026-05-19T21:28:54.707Z"
     },
     "multi-stage-dockerfile": {
       "source": "github/awesome-copilot",
@@ -144,9 +144,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/shadcn/ui.git",
       "skillPath": "skills/shadcn/SKILL.md",
-      "skillFolderHash": "bf9e83da91320f445f2c27f65067009f344f757a",
+      "skillFolderHash": "a8404703769866faf15bee897c9ae6e252ac2d35",
       "installedAt": "2026-03-23T11:05:38.953Z",
-      "updatedAt": "2026-03-23T11:05:38.953Z"
+      "updatedAt": "2026-05-19T21:28:57.837Z"
     },
     "tanstack-query-best-practices": {
       "source": "deckardger/tanstack-agent-skills",
@@ -195,9 +195,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/remotion-dev/skills.git",
       "skillPath": "skills/remotion/SKILL.md",
-      "skillFolderHash": "1910527d8176a8d0897f8d9e8a201091833658ee",
+      "skillFolderHash": "77a2a3ec2e2eb957b5e82913fbc1f2cebce5d193",
       "installedAt": "2026-05-07T10:30:13.264Z",
-      "updatedAt": "2026-05-07T10:30:13.264Z"
+      "updatedAt": "2026-05-19T21:28:59.016Z"
     },
     "ui-ux-pro-max": {
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
@@ -244,20 +244,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/grill-with-docs/SKILL.md",
-      "skillFolderHash": "3c4ac970c404e8d32c24f2725bfe679e455a925b",
-      "pluginName": "mattpocock-skills",
+      "skillFolderHash": "2c6aa7079cc705a6e0c319fcf23a0fa39968de29",
       "installedAt": "2026-05-14T10:55:43.070Z",
-      "updatedAt": "2026-05-14T10:55:43.070Z"
+      "updatedAt": "2026-05-19T21:28:59.923Z"
     },
     "handoff": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/handoff/SKILL.md",
-      "skillFolderHash": "85c644da8f99d073b434261f1e3fc058e2116236",
-      "pluginName": "mattpocock-skills",
+      "skillFolderHash": "7bbb60d64c911617cee7f71b2ba9e24364faa14e",
       "installedAt": "2026-05-14T10:55:43.070Z",
-      "updatedAt": "2026-05-14T10:55:43.070Z"
+      "updatedAt": "2026-05-19T21:29:01.179Z"
     },
     "improve-codebase-architecture": {
       "source": "mattpocock/skills",
