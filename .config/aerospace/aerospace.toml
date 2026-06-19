@@ -16,12 +16,12 @@ accordion-padding = 30
 on-focused-monitor-changed = []
 
 [gaps]
-inner.horizontal = 10
-inner.vertical = 10
-outer.left = 10
-outer.right = 10
-outer.top = 10        # 5 when using always shown menu bar
-outer.bottom = 10
+inner.horizontal = 5
+inner.vertical = 5
+outer.left = 5
+outer.right = 5
+outer.top = 5        # 5 when using always shown menu bar
+outer.bottom = 5
 
 # Monitor assignments
 # When external connected: 1-4 on external, 5-10 on MacBook
@@ -30,7 +30,7 @@ outer.bottom = 10
 1 = ['secondary', 'built-in']
 2 = ['secondary', 'built-in']
 3 = ['secondary', 'built-in']
-4 = 'built-in'
+4 = ['secondary', 'built-in']
 5 = 'built-in'
 6 = 'built-in'
 7 = 'built-in'
@@ -120,13 +120,20 @@ alt-shift-9 = ['move-node-to-workspace 9', 'workspace 9']
 alt-shift-0 = ['move-node-to-workspace 10', 'workspace 10']
 
 # Open apps
-alt-o = 'exec-and-forget open -a Obsidian'
-alt-p = 'exec-and-forget open -a Spotify'
-alt-s = 'exec-and-forget open -a Signal'
-alt-e = 'exec-and-forget open -na "Brave Browser"'
-alt-w = 'exec-and-forget ~/.config/aerospace/ghostty++'
-alt-c = 'exec-and-forget open -na "Visual Studio Code" --args --new-window'
-alt-d = 'exec-and-forget open -a Discord'
+alt-n = 'exec-and-forget open -a Notion'
+alt-m = 'exec-and-forget open -a Spotify'
+alt-s = 'exec-and-forget open -a Slack'
+alt-i = 'exec-and-forget open -a Linear'
+alt-d = 'exec-and-forget open -a Figma'
+alt-b = 'exec-and-forget open -a "Brave Browser"'
+alt-e = 'exec-and-forget open -a Cursor'
+alt-a = 'exec-and-forget open -a Superset'
+alt-w = 'exec-and-forget open -a Ghostty'         # ~/.config/aerospace/ghostty++
+# alt-c = 'exec-and-forget open -na "Visual Studio Code" --args --new-window'
+alt-c = 'exec-and-forget open -a Claude'
+alt-x = 'exec-and-forget open -a Codex'
+alt-o = 'exec-and-forget open -a ChatGPT'
+# alt-d = 'exec-and-forget open -a Discord'
 alt-f = 'exec-and-forget open -a Finder'
 alt-y = 'exec-and-forget open -a "System Settings"'
 
@@ -139,20 +146,57 @@ alt-shift-c = 'reload-config'
 
 # App-specific workspaces
 [[on-window-detected]]
-if.app-name-regex-substring = '^Discord$'
+if.app-name-regex-substring = '^Ghostty$'
+run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^Claude$'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^Codex$'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^Brave Browser$'
+run = 'move-node-to-workspace 3'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^Superset$'
+run = 'move-node-to-workspace 4'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^Slack$'
+run = 'move-node-to-workspace 5'
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^Linear$'
 run = 'move-node-to-workspace 6'
 
 [[on-window-detected]]
-if.app-name-regex-substring = '^Signal$'
-run = 'move-node-to-workspace 6'
-
-[[on-window-detected]]
-if.app-name-regex-substring = '^Obsidian$'
+if.app-name-regex-substring = '^ChatGPT$'
 run = 'move-node-to-workspace 7'
+
+
+[[on-window-detected]]
+if.app-name-regex-substring = '^Figma$'
+run = 'move-node-to-workspace 8'
 
 [[on-window-detected]]
 if.app-name-regex-substring = '^Spotify$'
-run = 'move-node-to-workspace 8'
+run = 'move-node-to-workspace 9'
+
+# [[on-window-detected]]
+# if.app-name-regex-substring = '^Discord$'
+# run = 'move-node-to-workspace 6'
+
+# [[on-window-detected]]
+# if.app-name-regex-substring = '^Signal$'
+# run = 'move-node-to-workspace 6'
+
+# [[on-window-detected]]
+# if.app-name-regex-substring = '^Obsidian$'
+# run = 'move-node-to-workspace 7'
 
 # Floating windows
 [[on-window-detected]]
@@ -178,4 +222,3 @@ run = 'layout floating'
 [[on-window-detected]]
 if.app-name-regex-substring = '^App Store$'
 run = 'layout floating'
-
