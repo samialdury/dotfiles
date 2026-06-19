@@ -105,18 +105,31 @@
       }
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/sami/.claude/statusline-command.sh"
+  },
   "enabledPlugins": {
     "code-simplifier@claude-plugins-official": true,
     "superpowers@claude-plugins-official": true,
     "claude-md-management@claude-plugins-official": true,
     "typescript-lsp@claude-plugins-official": true,
-    "caveman@caveman": true
+    "caveman@caveman": true,
+    "frontend-design@claude-plugins-official": true,
+    "ponytail@ponytail": true,
+    "slack@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "caveman": {
       "source": {
         "source": "github",
         "repo": "JuliusBrussee/caveman"
+      }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
       }
     }
   },
@@ -128,6 +141,7 @@
   "autoDreamEnabled": true,
   "skipDangerousModePermissionPrompt": true,
   "theme": "auto",
+  "agentPushNotifEnabled": true,
   "skipAutoPermissionPrompt": true,
   "useAutoModeDuringPlan": true,
   "voiceEnabled": true
