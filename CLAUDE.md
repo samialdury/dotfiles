@@ -27,9 +27,10 @@ The `LINKS` array in `install.sh` is the single source of truth. Each entry is `
 - `.claude/` → `$HOME/.claude` — **per-file + per-subdir**. `settings.json` and `statusline-command.sh` link as individual files; `agents/`, `hooks/`, `commands/` link as whole dirs. This keeps Claude Code's runtime/auth state (`projects/`, `todos/`, `statsig/`, `.credentials.json`, `settings.local.json`, etc. — gitignored) out of the repo.
 - `.agents/` → `$HOME/.agents` — same pattern. `.skill-lock.json` per-file, `skills/` whole-dir. After the main loop, `install.sh` also creates a cross-package relative symlink `~/.claude/skills -> ../.agents/skills` so Claude Code discovers every installed skill without per-skill maintenance.
 - `.config/{bat,ghostty,lazygit,nvim,tmux}/` → `~/.config/<pkg>` as whole-dir symlinks; `.config/starship.toml` is a per-file link.
+- `.config/aerospace/` is whole-dir linked, but its active config `aerospace.toml` is a per-machine relative symlink (`-> work.toml` | `-> personal.toml`, or any other `*.toml` in the dir) that `install.sh` creates interactively from a discovered-candidate menu. It's gitignored — the machine's work/personal choice isn't committed.
 - `.config/zed/` exists but is not in `LINKS` — edit in place / symlink manually if activating.
 
-`.config/tmux/plugins/` and `.config/bat/themes/tokyonight.nvim` are gitignored (TPM / theme clones that land inside the whole-dir symlinks).
+`.config/tmux/plugins/`, `.config/bat/themes/tokyonight.nvim`, and `.config/aerospace/aerospace.toml` are gitignored (TPM / theme clones and the per-machine aerospace selection that land inside the whole-dir symlinks).
 
 When `install.sh` finds a real file at a target path it backs it up to `<target>.bak.<unix_ts>` and then creates the symlink. Existing correct symlinks are left alone and logged as `ok`; existing incorrect symlinks are silently replaced (not backed up — nothing to lose).
 
