@@ -2,6 +2,9 @@
 *.log
 **/__pycache__
 
+# aerospace (per-machine active-config symlink chosen by install.sh)
+.config/aerospace/aerospace.toml
+
 # bat
 .config/bat/themes/tokyonight.nvim
 

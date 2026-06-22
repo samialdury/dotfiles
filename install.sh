@@ -313,6 +313,67 @@ if [[ "$OS_TYPE" == "macos" ]]; then
   fi
 fi
 
+# -----------------------------
+# Select active Aerospace config (macOS only).
+#
+# AeroSpace reads ~/.config/aerospace/aerospace.toml; that dir is a whole-dir
+# symlink into the repo, so we create a relative sibling symlink
+# aerospace.toml -> <choice>.toml inside $REPO (gitignored — per-machine choice).
+# Candidates are discovered dynamically (every *.toml except the link itself),
+# so adding a new config needs no change here.
+# -----------------------------
+if [[ "$OS_TYPE" == "macos" ]]; then
+  AEROSPACE_DIR="$REPO/.config/aerospace"
+  AEROSPACE_LINK="$AEROSPACE_DIR/aerospace.toml"
+
+  AERO_CONFIGS=()
+  for f in "$AEROSPACE_DIR"/*.toml; do
+    [ -e "$f" ] || continue
+    base="$(basename "$f")"
+    [ "$base" = "aerospace.toml" ] && continue
+    AERO_CONFIGS+=("$base")
+  done
+
+  if ((${#AERO_CONFIGS[@]} == 0)); then
+    log_warn "No aerospace *.toml configs in $AEROSPACE_DIR; skipping."
+  else
+    current=""
+    [ -L "$AEROSPACE_LINK" ] && current="$(readlink "$AEROSPACE_LINK")"
+
+    log_info "Select Aerospace config:"
+    default_idx=1
+    for i in "${!AERO_CONFIGS[@]}"; do
+      n=$((i + 1))
+      mark=""
+      [ "${AERO_CONFIGS[$i]}" = "$current" ] && {
+        mark=" (current)"
+        default_idx=$n
+      }
+      printf "  %d) %s%s\n" "$n" "${AERO_CONFIGS[$i]}" "$mark"
+    done
+
+    printf "%b[setup]%b Choice [1-%d] (default %d): " "$BLUE" "$RESET" "${#AERO_CONFIGS[@]}" "$default_idx"
+    read -r AERO_CHOICE
+    AERO_CHOICE="${AERO_CHOICE:-$default_idx}"
+    if [[ "$AERO_CHOICE" =~ ^[0-9]+$ ]] && ((AERO_CHOICE >= 1 && AERO_CHOICE <= ${#AERO_CONFIGS[@]})); then
+      AERO_TARGET="${AERO_CONFIGS[$((AERO_CHOICE - 1))]}"
+    else
+      AERO_TARGET="${AERO_CONFIGS[$((default_idx - 1))]}"
+      log_warn "Invalid choice '$AERO_CHOICE'; using $AERO_TARGET."
+    fi
+
+    if [ -L "$AEROSPACE_LINK" ]; then
+      rm "$AEROSPACE_LINK"
+    elif [ -e "$AEROSPACE_LINK" ]; then
+      bak="$AEROSPACE_LINK.bak.$(date +%s)"
+      log_warn "backup $AEROSPACE_LINK -> $bak"
+      mv "$AEROSPACE_LINK" "$bak"
+    fi
+    ln -s "$AERO_TARGET" "$AEROSPACE_LINK"
+    log_success "aerospace.toml -> $AERO_TARGET"
+  fi
+fi
+
 if [[ "$OS_TYPE" == "macos" ]]; then
   log_info "Applying MacOS defaults..."
   # https://macos-defaults.com
