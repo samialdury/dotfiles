@@ -1,12 +1,4 @@
 {
-  "env": {
-    "ENABLE_BACKGROUND_TASKS": "1",
-    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
-  },
-  "attribution": {
-    "commit": "",
-    "pr": ""
-  },
   "permissions": {
     "allow": [
       "mcp__codegraph__codegraph_search",
