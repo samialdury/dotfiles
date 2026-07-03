@@ -4,16 +4,16 @@ options=(
   style=round
   width=2.0
   order=a
-  hidpi=off
-  blacklist="Brave"
+  hidpi=on
+  blacklist="Brave Browser"
   # purple
-  active_color=0xffc678dd
-  inactive_color=0x805c6370
-  background_color=0x3021252b
+  # active_color=0xffc678dd
+  # inactive_color=0x805c6370
+  # background_color=0x3021252b
   # white
-  # active_color=0xc0e2e2e3
-  # inactive_color=0xc02c2e34
-  # background_color=0x302c2e34
+  active_color=0xc0e2e2e3
+  inactive_color=0xc02c2e34
+  background_color=0x302c2e34
 )
 
 borders "${options[@]}"
