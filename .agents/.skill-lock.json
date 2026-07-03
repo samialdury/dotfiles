@@ -336,22 +336,31 @@
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-05-14T10:55:43.074Z",
       "updatedAt": "2026-05-14T10:55:43.074Z"
+    },
+    "gcloud": {
+      "source": "google/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/google/skills.git",
+      "skillPath": "skills/cloud/gcloud/SKILL.md",
+      "skillFolderHash": "223a29c90a3b672953b20122ffcabb3b9dc58c17",
+      "installedAt": "2026-06-24T06:41:51.517Z",
+      "updatedAt": "2026-06-24T06:41:51.517Z"
     }
   },
   "lastSelectedAgents": [
     "amp",
     "antigravity",
+    "antigravity-cli",
     "cline",
     "codex",
     "cursor",
     "deepagents",
-    "dexto",
-    "firebender",
     "gemini-cli",
     "github-copilot",
-    "kimi-cli",
+    "kimi-code-cli",
     "opencode",
-    "warp"
+    "warp",
+    "zed"
   ],
   "dismissed": {
     "findSkillsPrompt": true
