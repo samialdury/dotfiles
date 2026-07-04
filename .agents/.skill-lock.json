@@ -1,71 +1,6 @@
 {
   "version": 3,
   "skills": {
-    "design-postgres-tables": {
-      "source": "timescale/pg-aiguide",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/timescale/pg-aiguide.git",
-      "skillPath": "skills/design-postgres-tables/SKILL.md",
-      "skillFolderHash": "7f92c52d3fe4697d853818edddc356b1a68ced4f",
-      "installedAt": "2026-01-26T12:55:31.622Z",
-      "updatedAt": "2026-05-19T21:28:52.058Z"
-    },
-    "better-auth-security-best-practices": {
-      "source": "better-auth/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/better-auth/skills.git",
-      "skillPath": "security/SKILL.md",
-      "skillFolderHash": "845a8a6373a316deb708dcf09a6d1e019ceccb50",
-      "installedAt": "2026-02-12T14:55:54.988Z",
-      "updatedAt": "2026-03-23T09:43:38.213Z"
-    },
-    "better-auth-best-practices": {
-      "source": "better-auth/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/better-auth/skills.git",
-      "skillPath": "better-auth/best-practices/SKILL.md",
-      "skillFolderHash": "58f87c7fe7c2c487779728c1e73ea43717612d37",
-      "pluginName": "auth-skills",
-      "installedAt": "2026-02-12T14:55:55.040Z",
-      "updatedAt": "2026-03-23T09:43:37.366Z"
-    },
-    "create-auth-skill": {
-      "source": "better-auth/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/better-auth/skills.git",
-      "skillPath": "better-auth/create-auth/SKILL.md",
-      "skillFolderHash": "5192f50c149fc94b6bfb4cf288dfd84f37517e00",
-      "pluginName": "auth-skills",
-      "installedAt": "2026-02-12T14:55:55.090Z",
-      "updatedAt": "2026-03-23T09:43:37.805Z"
-    },
-    "email-and-password-best-practices": {
-      "source": "better-auth/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/better-auth/skills.git",
-      "skillPath": "better-auth/emailAndPassword/SKILL.md",
-      "skillFolderHash": "9da895cd339e3eda0ba6d1b8d2b54e24799b1992",
-      "installedAt": "2026-02-12T14:55:55.145Z",
-      "updatedAt": "2026-03-23T09:43:38.533Z"
-    },
-    "organization-best-practices": {
-      "source": "better-auth/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/better-auth/skills.git",
-      "skillPath": "better-auth/organization/SKILL.md",
-      "skillFolderHash": "461989110d1cd43c4809bea01c9a61b9fd432056",
-      "installedAt": "2026-02-12T14:55:55.193Z",
-      "updatedAt": "2026-03-23T09:43:38.872Z"
-    },
-    "two-factor-authentication-best-practices": {
-      "source": "better-auth/skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/better-auth/skills.git",
-      "skillPath": "better-auth/twoFactor/SKILL.md",
-      "skillFolderHash": "c3e340469e63705527a6191c6b7ac94ff7448ded",
-      "installedAt": "2026-02-12T14:55:55.242Z",
-      "updatedAt": "2026-03-23T09:43:39.256Z"
-    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
@@ -85,33 +20,6 @@
       "installedAt": "2026-02-16T10:12:09.207Z",
       "updatedAt": "2026-05-14T10:55:43.072Z"
     },
-    "ai-sdk": {
-      "source": "vercel/ai",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/vercel/ai.git",
-      "skillPath": "skills/use-ai-sdk/SKILL.md",
-      "skillFolderHash": "2bb6e9269a3b0adc5600cae38797808a2fc783f7",
-      "installedAt": "2026-02-16T13:19:27.783Z",
-      "updatedAt": "2026-05-19T21:28:53.103Z"
-    },
-    "ai-elements": {
-      "source": "vercel/ai-elements",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/vercel/ai-elements.git",
-      "skillPath": "skills/ai-elements/SKILL.md",
-      "skillFolderHash": "9df70ad12070e1d131751a8a696a06a38b893976",
-      "installedAt": "2026-02-16T14:07:18.002Z",
-      "updatedAt": "2026-03-20T08:09:58.479Z"
-    },
-    "data-table-filters": {
-      "source": "openstatushq/data-table-filters",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/openstatushq/data-table-filters.git",
-      "skillPath": "skills/SKILL.md",
-      "skillFolderHash": "fe22921eeadcdc7d3592473f7a9b1bd566a75c5f",
-      "installedAt": "2026-03-15T19:17:02.586Z",
-      "updatedAt": "2026-05-19T21:28:54.707Z"
-    },
     "multi-stage-dockerfile": {
       "source": "github/awesome-copilot",
       "sourceType": "github",
@@ -129,15 +37,6 @@
       "skillFolderHash": "8f6dc056bb940d6931e18892b4f36d2922a0edd4",
       "installedAt": "2026-03-20T08:26:53.564Z",
       "updatedAt": "2026-03-20T08:26:53.564Z"
-    },
-    "openrouter-typescript-sdk": {
-      "source": "OpenRouterTeam/agent-skills",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/OpenRouterTeam/agent-skills.git",
-      "skillPath": "skills/typescript-sdk/SKILL.md",
-      "skillFolderHash": "3bb86f0162597d1fefa0ef98c391b211f47dfda9",
-      "installedAt": "2026-03-20T08:26:54.014Z",
-      "updatedAt": "2026-03-20T08:26:54.014Z"
     },
     "shadcn": {
       "source": "shadcn/ui",
@@ -165,30 +64,6 @@
       "skillFolderHash": "0f076dd09acf3e8e7c2ef80e654ad253e25c6eec",
       "installedAt": "2026-03-24T12:45:34.656Z",
       "updatedAt": "2026-03-24T12:45:34.656Z"
-    },
-    "stripe-best-practices": {
-      "source": "docs.stripe.com",
-      "sourceType": "well-known",
-      "sourceUrl": "https://docs.stripe.com/.well-known/skills/stripe-best-practices/SKILL.md",
-      "skillFolderHash": "",
-      "installedAt": "2026-04-24T09:38:05.695Z",
-      "updatedAt": "2026-04-24T09:38:05.695Z"
-    },
-    "stripe-projects": {
-      "source": "docs.stripe.com",
-      "sourceType": "well-known",
-      "sourceUrl": "https://docs.stripe.com/.well-known/skills/stripe-projects/SKILL.md",
-      "skillFolderHash": "",
-      "installedAt": "2026-04-24T10:06:02.429Z",
-      "updatedAt": "2026-04-24T10:06:02.429Z"
-    },
-    "upgrade-stripe": {
-      "source": "docs.stripe.com",
-      "sourceType": "well-known",
-      "sourceUrl": "https://docs.stripe.com/.well-known/skills/upgrade-stripe/SKILL.md",
-      "skillFolderHash": "",
-      "installedAt": "2026-04-24T10:06:02.431Z",
-      "updatedAt": "2026-04-24T10:06:02.431Z"
     },
     "remotion-best-practices": {
       "source": "remotion-dev/skills",
