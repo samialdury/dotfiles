@@ -208,6 +208,7 @@ declare -a LINKS=(
   ".config/mise/config.toml::$HOME/.config/mise/config.toml::file"
   ".config/nvim::$HOME/.config/nvim::dir"
   ".config/workmux::$HOME/.config/workmux::dir"
+  ".config/homebrew::$HOME/.config/homebrew::dir"
 
   # ~/.claude — per-file + per-subdir so runtime state stays out of repo
   ".claude/settings.json::$HOME/.claude/settings.json::file"
