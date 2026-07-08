@@ -75,6 +75,16 @@ Create `scripts/test-install.sh` with this content:
 
 ```bash
 #!/usr/bin/env bash
+
+# Match install.sh's Bash 4+ requirement without installing anything.
+if ((BASH_VERSINFO[0] < 4)); then
+  if [ -x /opt/homebrew/bin/bash ]; then
+    exec /opt/homebrew/bin/bash "$0" "$@"
+  fi
+
+  printf 'error: %s requires Bash 4+. Install Homebrew bash or run through ./install.sh first.\n' "$0" >&2
+  exit 1
+fi
 set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -457,12 +467,12 @@ Change this:
 to this:
 
 ```json
-"command": "bash -lc 'exec \"$HOME/.claude/statusline-command.sh\"'"
+"command": "bash -c 'exec \"$HOME/.claude/statusline-command.sh\"'"
 ```
 
 Rationale:
 
-- `bash -lc` resolves `$HOME` on macOS and Debian.
+- `bash -c` resolves `$HOME` on macOS and Debian without sourcing login-shell startup files on every statusline render.
 - `exec` avoids leaving an extra shell process alive after the statusline command starts.
 - The command string remains valid JSON and valid shell.
 
@@ -473,7 +483,7 @@ Rationale:
 Change the `statusLine.command` value to:
 
 ```json
-"bash -lc 'exec \"$HOME/.claude/statusline-command.sh\"'"
+"bash -c 'exec \"$HOME/.claude/statusline-command.sh\"'"
 ```
 
 - [ ] **Step 2: Validate JSON**
@@ -497,7 +507,7 @@ mkdir -p "$tmp_home/.claude"
 cp .claude/statusline-command.sh "$tmp_home/.claude/statusline-command.sh"
 chmod +x "$tmp_home/.claude/statusline-command.sh"
 printf '%s\n' '{"workspace":{"current_dir":"'"$PWD"'"},"model":{"display_name":"test-model"},"context_window":{"used_percentage":12}}' \
-  | HOME="$tmp_home" bash -lc 'exec "$HOME/.claude/statusline-command.sh"' \
+  | HOME="$tmp_home" bash -c 'exec "$HOME/.claude/statusline-command.sh"' \
   | cat -v
 ```
 
@@ -520,7 +530,7 @@ Replace the old warning:
 with:
 
 ```markdown
-- `statusLine.command` uses `bash -lc 'exec "$HOME/.claude/statusline-command.sh"'` so the shared settings file works on macOS and Debian home paths. Preserve `$HOME` resolution if editing it.
+- `statusLine.command` uses `bash -c 'exec "$HOME/.claude/statusline-command.sh"'` so the shared settings file works on macOS and Debian home paths without sourcing login-shell startup files on every statusline render. Preserve `$HOME` resolution if editing it.
 ```
 
 - [ ] **Step 5: Run the committed JSON formatter manually**

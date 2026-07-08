@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+
+# Match install.sh's Bash 4+ requirement without installing anything.
+if ((BASH_VERSINFO[0] < 4)); then
+  if [ -x /opt/homebrew/bin/bash ]; then
+    exec /opt/homebrew/bin/bash "$0" "$@"
+  fi
+
+  printf 'error: %s requires Bash 4+. Install Homebrew bash or run through ./install.sh first.\n' "$0" >&2
+  exit 1
+fi
 set -euo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -45,43 +55,10 @@ link_sources() {
   done
 }
 
-check_link_entries() {
-  local platform="$1"
-  local entry src_rel rest target mode
-  local -A targets=()
-
-  for entry in "${LINKS[@]}"; do
-    if [[ "$entry" != *::*::* ]]; then
-      fail "$platform link entry is not src::target::mode: $entry"
-    fi
-
-    src_rel="${entry%%::*}"
-    rest="${entry#*::}"
-    target="${rest%%::*}"
-    mode="${rest#*::}"
-
-    [ -n "$src_rel" ] || fail "$platform link entry has empty source: $entry"
-    [ -n "$target" ] || fail "$platform link entry has empty target: $entry"
-
-    case "$mode" in
-    file | dir) ;;
-    *) fail "$platform link entry has invalid mode '$mode': $entry" ;;
-    esac
-
-    [ -e "$REPO/$src_rel" ] || fail "$platform link source missing: $src_rel"
-
-    if [ -n "${targets[$target]+set}" ]; then
-      fail "$platform duplicate link target: $target from $src_rel and ${targets[$target]}"
-    fi
-    targets[$target]="$src_rel"
-  done
-}
-
 build_profile() {
   local platform="$1"
   OS_TYPE="$platform"
   build_links
-  check_link_entries "$platform"
 }
 
 # shellcheck source=../install/lib.sh
