@@ -4,58 +4,112 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository purpose
 
-Personal dotfiles for macOS + Omarchy (Arch-based). Symlinks managed by `install.sh` via an explicit `LINKS` table — no GNU Stow. Repo layout mirrors `$HOME` directly: dotfiles live at repo root (`.zshrc`, `.claude/`, `.agents/`, `.config/<pkg>/`), so each `LINKS` src path reads as the `$HOME`-relative target.
+Personal dotfiles for Apple Silicon macOS, Omarchy (Arch-based), and Debian servers. Symlinks are managed by `./install.sh` plus Bash modules in `install/`; there is no GNU Stow. Repo layout mirrors `$HOME` directly: dotfiles live at repo root (`.zshrc`, `.claude/`, `.agents/`, `.config/<pkg>/`), so each link-table src path reads as the `$HOME`-relative target.
 
-Mac uses zsh as login shell (Homebrew zsh + `zsh-autosuggestions` + `zsh-syntax-highlighting`, starship prompt, no oh-my-zsh). Omarchy uses its installer-supplied bash config; this repo does **not** manage Omarchy's shell — no bash files are linked anywhere.
+macOS and Debian use zsh as login shell with starship prompt. macOS uses Homebrew zsh/plugins under `/opt/homebrew`. Debian uses `/usr/bin/zsh` and distro zsh plugin paths when installed. Omarchy keeps its installer-supplied shell config; this repo still does **not** manage Omarchy's shell.
 
 ## Commands
 
-- Full install / re-link: `./install.sh` (detects macOS vs Omarchy, on macOS checks the `Brewfile` via `brew bundle check` and warns if packages are missing — packages are Brewfile's job, not this script's; on Omarchy installs `PACKAGES` via `pacman` and prompts to confirm `sudo pacman -Syu` was run first). Then on macOS: `chsh` to `/opt/homebrew/bin/zsh`, apply `LINKS`, ensure `~/.zsh/private.zsh`, apply `defaults`. The top-of-script self-exec block still bootstrap-installs Homebrew bash 5.x on a fresh mac because the script itself needs Bash 4+ to parse.
-- Add a new link after editing: put the new file at its `$HOME`-relative path inside the repo, add an entry to the `LINKS` array in `install.sh`, then re-run `./install.sh` (idempotent — existing links log `ok`).
+- Full install / re-link: `./install.sh`.
+  - macOS: checks `Brewfile` via `brew bundle check`, warns if packages are missing, sets login shell to `/opt/homebrew/bin/zsh`, links base/AI/CLI/macOS GUI config, ensures `~/.zsh/private.zsh`, selects AeroSpace config, and applies macOS defaults.
+  - Omarchy: prompts to confirm `sudo pacman -Syu` was run, installs missing packages from the Omarchy package map, and links base/AI/shared CLI config. It intentionally does not link zsh/tmux/starship shell config.
+  - Debian: prompts to confirm `sudo apt-get update && sudo apt-get upgrade` was run, installs missing apt packages from the Debian package map, links base/AI/shared CLI/zsh/tmux/starship/workmux config, creates Debian `bat`/`fd` wrapper symlinks when needed, ensures `~/.zsh/private.zsh`, and sets login shell to `/usr/bin/zsh`.
+- Non-interactive package-update confirmation overrides: `DOTFILES_OMARCHY_UPDATED=1 ./install.sh` or `DOTFILES_DEBIAN_UPDATED=1 ./install.sh`.
+- OS override for targeted platform-path testing: `DOTFILES_OS=macos|omarchy|debian ./install.sh`. This is not a dry-run; it still performs installs/links for the selected path.
+- Add a new link after editing: put the new file at its `$HOME`-relative path inside the repo, add an entry to the right link group in `install/links.sh`, then re-run `./install.sh`.
+- Syntax check installer changes: `bash -n install.sh install/*.sh`.
+- Syntax check zsh changes when zsh is installed: `zsh -n .zshrc .zsh/*.zsh`.
 - Secrets scan (pre-commit / ad hoc): `gitleaks detect` or `gitleaks protect --staged`. CI runs this on push via `.github/workflows/gitleaks.yaml`.
 - Homebrew snapshot: `brew bundle dump --force --file=~/dotfiles/Brewfile` / `brew bundle install --file=~/dotfiles/Brewfile`.
 
-No build system, no test suite. Changes ship by editing through the symlink into the repo and committing.
+No build system, no formal test suite. Changes ship by editing through the symlink into the repo, running targeted syntax/behavior checks, and committing.
+
+## Installer structure
+
+`install.sh` is the entrypoint and keeps only the macOS Bash 4+ bootstrap, `REPO` derivation, module sourcing, OS detection, and ordered install flow. Shared/platform logic lives in:
+
+- `install/lib.sh` — logging, Bash version check, OS detection, update-confirm prompt helper, Git hooks config, platform dispatch wrappers.
+- `install/packages.sh` — package-manager helpers for pacman/apt and optional apt packages.
+- `install/links.sh` — link groups, `link_one`, link application, and `~/.claude/skills -> ../.agents/skills` cross-link.
+- `install/shell.sh` — login-shell setup and `~/.zsh/private.zsh` creation.
+- `install/tmux.sh` — tmux-sessionizer install.
+- `install/macos.sh` — Brewfile check, macOS link composition, zsh setup, AeroSpace config selection, macOS defaults.
+- `install/omarchy.sh` — Omarchy package map and link composition; no shell management.
+- `install/debian.sh` — Debian apt package map, link composition, zsh setup, and `bat`/`fd` wrapper symlinks.
+
+If you add a platform, add a new `install/<platform>.sh` exposing `<platform>_preconditions`, `<platform>_install_packages`, `<platform>_add_links`, `<platform>_setup_shell`, and `<platform>_post_install`, then update `detect_os`/module sourcing.
 
 ## Link map
 
-The `LINKS` array in `install.sh` is the single source of truth. Each entry is `"<src-relative-to-repo>::<target-absolute>::<mode>"`. Repo root mirrors `$HOME`, so src paths look exactly like their targets with `$HOME` stripped:
+Link groups in `install/links.sh` are the source of truth. Each entry is `"<src-relative-to-repo>::<target-absolute>::<mode>"`. Repo root mirrors `$HOME`, so src paths look exactly like their targets with `$HOME` stripped.
 
-- `.zshrc`, `.hushlogin` at repo root → `$HOME` — per-file links; cannot whole-dir link `$HOME`. `.zshrc` is macOS-only (`MACOS_ONLY_LINKS`). No `.zprofile` — Ghostty/Terminal open login interactive zsh shells which read `.zshrc` directly (unlike bash, which skips `.bashrc` for login shells and needs a `.bash_profile` shim).
-- `.zsh/` → `$HOME/.zsh` — whole-dir symlink for zsh-side helpers (`box.zsh`, etc.). `.zshrc` sources files from here. Private/secret config goes in `~/.zsh/private.zsh` (gitignored, sourced by `.zshrc` if present, ensured-empty by `install.sh`). macOS-only.
-- `.bashrc`, `.bash_profile`, `.bash/`, `.inputrc` exist in the repo but are **not in `LINKS`** — kept for rollback only (`chsh -s /opt/homebrew/bin/bash` reverts mac to bash). Omarchy uses its installer-supplied `~/.bashrc`; this repo does not touch it.
-- `.claude/` → `$HOME/.claude` — **per-file + per-subdir**. `settings.json` and `statusline-command.sh` link as individual files; `agents/`, `hooks/`, `commands/` link as whole dirs. This keeps Claude Code's runtime/auth state (`projects/`, `todos/`, `statsig/`, `.credentials.json`, `settings.local.json`, etc. — gitignored) out of the repo.
-- `.agents/` → `$HOME/.agents` — same pattern. `.skill-lock.json` per-file, `skills/` whole-dir. After the main loop, `install.sh` also creates a cross-package relative symlink `~/.claude/skills -> ../.agents/skills` so Claude Code discovers every installed skill without per-skill maintenance.
-- `.config/{bat,ghostty,lazygit,nvim,tmux}/` → `~/.config/<pkg>` as whole-dir symlinks; `.config/starship.toml` is a per-file link.
-- `.config/aerospace/` is whole-dir linked, but its active config `aerospace.toml` is a per-machine relative symlink (`-> work.toml` | `-> personal.toml`, or any other `*.toml` in the dir) that `install.sh` creates interactively from a discovered-candidate menu. It's gitignored — the machine's work/personal choice isn't committed.
-- `.config/zed/` exists but is not in `LINKS` — edit in place / symlink manually if activating.
+- `LINKS_BASE`: `.hushlogin`, `.config/git/config`.
+- `LINKS_AI`: stable `.claude/` files/subdirs and `.agents/` files/subdirs. Never whole-dir link `$HOME/.claude` or `$HOME/.agents`; both hold live runtime/auth state.
+- `LINKS_SHARED_CLI`: cross-platform CLI app configs such as bat, lazygit, mise, nvim, and workmux.
+- `LINKS_ZSH`: `.zshrc`, `.zsh/`, tmux, tmux-sessionizer, and starship. Used by macOS and Debian, not Omarchy.
+- `LINKS_MAC_GUI`: AeroSpace, borders, Ghostty.
+- `LINKS_MAC_EXTRA`: Homebrew config.
 
-`.config/tmux/plugins/`, `.config/bat/themes/tokyonight.nvim`, and `.config/aerospace/aerospace.toml` are gitignored (TPM / theme clones and the per-machine aerospace selection that land inside the whole-dir symlinks).
+Profile composition:
 
-When `install.sh` finds a real file at a target path it backs it up to `<target>.bak.<unix_ts>` and then creates the symlink. Existing correct symlinks are left alone and logged as `ok`; existing incorrect symlinks are silently replaced (not backed up — nothing to lose).
+- macOS: `BASE + AI + SHARED_CLI + ZSH + MAC_GUI + MAC_EXTRA`.
+- Omarchy: `BASE + AI + SHARED_CLI` only; Omarchy shell stays managed by Omarchy.
+- Debian: `BASE + AI + SHARED_CLI + ZSH`; Debian keeps workmux via `LINKS_SHARED_CLI`.
+
+`.config/aerospace/` is whole-dir linked on macOS, but its active config `aerospace.toml` is a per-machine relative symlink (`-> work.toml` | `-> personal.toml`, or any other `*.toml` in the dir) created interactively by `install/macos.sh`. It's gitignored — the machine's work/personal choice isn't committed.
+
+`.config/zed/` exists but is not linked — edit in place / symlink manually if activating.
+
+`.config/tmux/plugins/`, `.config/bat/themes/tokyonight.nvim`, and `.config/aerospace/aerospace.toml` are gitignored (TPM / theme clones and the per-machine aerospace selection that land inside whole-dir symlinks).
+
+`link_one` must stay idempotent and timestamp-backup (`.bak.<unix_ts>`) any real file it would otherwise overwrite. Existing correct symlinks are left alone and logged `ok`; existing incorrect symlinks are replaced.
+
+## Zsh structure
+
+`.zshrc` is a small shared entrypoint:
+
+- returns immediately for non-interactive shells
+- sources `.zsh/common.zsh`
+- sources `.zsh/macos.zsh` on Darwin
+- sources `.zsh/linux.zsh` on Linux
+- sources `~/.zsh/private.zsh` last when present
+
+`.zsh/common.zsh` holds portable shell behavior: editor env, history, XDG paths, PATH construction (including Apple Silicon Homebrew shellenv on macOS), completions, keybinds, guarded eza/bat/zoxide/fzf/mise/starship setup, common aliases, and `box.zsh` sourcing.
+
+`.zsh/macos.zsh` holds macOS clipboard aliases, `brew`/`flushdns`, and Homebrew zsh plugin paths.
+
+`.zsh/linux.zsh` holds Linux zsh plugin paths. Debian links zsh config and starship config; starship initialization remains guarded by `command -v starship`. Debian installs `git-delta`, `zoxide`, and `starship` as optional APT packages when available so missing optional packages do not block the base server setup.
+
+`.zsh/box.zsh` must stay portable: use `scutil` only when present and fall back to `hostname -s`/`hostname`.
+
+Private/secret zsh config goes in `~/.zsh/private.zsh` (gitignored, sourced by `.zshrc` if present, ensured-empty by installer on macOS and Debian).
+
+`.bashrc`, `.bash_profile`, `.bash/`, `.inputrc` exist in the repo but are rollback/legacy files and are not linked by any current profile.
 
 ## Install-script invariants
 
-If you touch `install.sh`, preserve these:
+If you touch installer code, preserve these:
 
-- macOS vs Omarchy detection via `$OSTYPE` / `/etc/arch-release` (Omarchy ships `arch-release` since it's Arch-based).
-- On **macOS** the `Brewfile` at repo root is the single source of truth for packages (formulae + casks, including `bash`, `zsh`, `zsh-autosuggestions`, `zsh-syntax-highlighting`, `ghostty`, etc.). `install.sh` runs `brew bundle check --file=$REPO/Brewfile`, warns with the `brew update && brew bundle install` command if anything's missing, and continues — it does **not** install Homebrew packages itself. To add a macOS package, edit `Brewfile` (`brew bundle dump --describe --force --file=Brewfile` to snapshot), not `install.sh`.
-- On **Omarchy** there's no in-repo manifest, so `install.sh` keeps a `PACKAGES` associative array (`executable => package-name`) and `pacman -S --needed`s each entry whose key isn't already on `PATH`. `PACKAGES` keys are the executable names used for `command -v` skip-checks — key must match the binary, not the formula name (e.g. `delta` key → `git-delta` package). `PACKAGES` is only declared inside the Omarchy branch — don't reintroduce it for macOS.
-- The top-of-script self-exec block bootstraps Homebrew bash 5.x on macOS (`brew install bash` then `exec /opt/homebrew/bin/bash`) so the script can use Bash 4+ syntax (associative arrays, `${var,,}`). This runs before the Brewfile check, since the check itself needs Bash 4+. Bash is **not** the login shell — it stays installed because `install.sh` itself needs it.
-- After the precondition check, on macOS the script ensures `/opt/homebrew/bin/zsh` is in `/etc/shells` (sudo append if missing) and runs `chsh -s` if the user's login shell isn't already set to it. Idempotent — re-runs are no-ops. If `/opt/homebrew/bin/zsh` is missing, `chsh` is skipped with a warning (shouldn't happen post-Brewfile-check, but it's defensive).
-- Never whole-dir link `$HOME/.claude` or `$HOME/.agents` — both dirs hold live runtime state. Only the individual files and stable subdirs listed in `LINKS` get symlinked.
-- `REPO` is derived from `BASH_SOURCE`, so the script works from any clone location. Don't hardcode `$HOME/dotfiles`.
-- `link_one` is idempotent and timestamp-backups (`.bak.<unix_ts>`) any real file it would otherwise overwrite — keep those properties.
-- Bash 4+ is required (`BASH_VERSINFO` check) — macOS `/bin/bash` is 3.x, so the script runs under the Homebrew bash shebang resolver.
+- macOS detection via `$OSTYPE`; Omarchy detection via `/etc/arch-release`; Debian detection via `/etc/os-release` `ID=debian` or Debian-like `ID_LIKE`.
+- Apple Silicon macOS only is supported; `/opt/homebrew` paths are intentional.
+- On macOS, `Brewfile` remains the single source of truth for packages. `install.sh` checks it and warns, but does not install Brewfile packages itself. To add a macOS package, edit `Brewfile`.
+- On Omarchy, package maps are `executable => package-name` and installed through `pacman -S --needed --noconfirm` after the update confirmation.
+- On Debian, package maps are mostly `executable => package-name` and installed through `apt-get install -y`; handle Debian command-name mismatches (`batcat`/`fdfind`) in `install/debian.sh` wrappers.
+- The top-of-script self-exec block bootstraps Homebrew bash 5.x on macOS (`brew install bash` then `exec /opt/homebrew/bin/bash`) before modules are sourced. Bash is not the login shell; it stays installed because the installer needs Bash 4+.
+- `REPO` is derived from `BASH_SOURCE`, so the script works from any clone location. Do not hardcode `$HOME/dotfiles`.
+- Configure committed Git hooks with `git -C "$REPO" config core.hooksPath .githooks`.
+- `tmux-sessionizer` install must avoid fixed `/tmp` paths; use a fresh temp dir.
+- Interactive prompts must be TTY-safe and have env overrides for non-interactive runs.
+- Bash 4+ is required.
 
 ## Claude-config specifics (`.claude/settings.json`)
 
-This is *this user's* Claude Code config and also ships as a stowed artifact for other machines. Preserve:
+This is this user's Claude Code config and also ships as a linked artifact for other machines. Preserve:
 
-- `permissions.defaultMode: "auto"`, `skipDangerousModePermissionPrompt: true`, `alwaysThinkingEnabled: true`, `autoDreamEnabled: true` — intentional autonomous-mode defaults.
-- Hooks pipeline: only `PreToolUse` runs a custom script (`uv run ~/.claude/hooks/pre_tool_use.py`) — it blocks `rm -rf` variants and reads/writes to `.env*` / `*.tfvars` / `*.auto.tfvars` (exit code 2). All other lifecycle events (`PostToolUse`, `Stop`, `UserPromptSubmit`, `SessionStart`, `SessionEnd`, `PostToolUseFailure`, `PermissionRequest`) only invoke the Superset `notify.sh` shim — no Python. Hook scripts live in `.claude/hooks/` and link through as a whole-dir symlink. The custom script is self-contained (stdlib only, no `utils/`). If adding a new Python hook, drop the file in `.claude/hooks/` *and* wire it in `settings.json`; if removing, prune both sides.
-- `statusLine.command` uses an **absolute** path `/Users/sami/.claude/statusline-command.sh`. If editing for a non-sami machine, make this `$HOME`-relative or document the rename.
-- `enabledPlugins` and `extraKnownMarketplaces` (ralph, caveman) are intentional — treat as user preference, don't prune.
+- `permissions.defaultMode: "bypassPermissions"`, `skipDangerousModePermissionPrompt: true`, `alwaysThinkingEnabled: true`, `autoDreamEnabled: true` — intentional autonomous-mode defaults.
+- Hooks pipeline: only `PreToolUse` runs a custom script (`uv run ~/.claude/hooks/pre_tool_use.py`) — it blocks `rm -rf` variants and reads/writes to `.env*` / `*.tfvars` / `*.auto.tfvars` (exit code 2). Other lifecycle events may invoke Superset notify/workmux commands. Hook scripts live in `.claude/hooks/` and link through as a whole-dir symlink. If adding a new Python hook, drop the file in `.claude/hooks/` and wire it in `settings.json`; if removing, prune both sides.
+- `statusLine.command` currently uses an absolute path `/Users/sami/.claude/statusline-command.sh`. If editing for non-sami machines, make this `$HOME`-relative or document the rename.
+- `enabledPlugins` and `extraKnownMarketplaces` are intentional user preferences — do not prune.
 
 `statusline-command.sh` reads `$CLAUDE_CONFIG_DIR/.caveman-active`, whitelists the mode string, rejects symlinks, and caps read at 64 bytes. If extending, keep the symlink check and the `tr -cd 'a-z0-9-'` sanitization — the flag content is rendered raw to the terminal every keystroke, so unsanitized bytes become an ANSI-injection sink.
 

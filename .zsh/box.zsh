@@ -13,13 +13,23 @@ _box_check_tailscale() {
     return 1
   fi
   if ! tailscale status >/dev/null 2>&1; then
-    echo "Tailscale is not running. Start the Tailscale app and try again."
+    echo "Tailscale is not running. Start Tailscale and try again."
     return 1
   fi
 }
 
 _box_ssh_check() {
   ssh -o ConnectTimeout=2 -o BatchMode=yes "$BOX_USER@$BOX_HOST" command -v mosh-server >/dev/null 2>&1
+}
+
+_box_session_name() {
+  local raw
+
+  if command -v scutil >/dev/null 2>&1; then
+    raw="$(scutil --get LocalHostName 2>/dev/null || true)"
+  fi
+  raw="${raw:-$(hostname -s 2>/dev/null || hostname)}"
+  echo "${raw//[^a-zA-Z0-9-]/-}"
 }
 
 _box_up() {
@@ -33,9 +43,8 @@ _box_up() {
     done
   fi
 
-  local raw session
-  raw="$(scutil --get LocalHostName)"
-  session="${raw//[^a-zA-Z0-9-]/-}"
+  local session
+  session="$(_box_session_name)"
   mosh "$BOX_USER@$BOX_HOST" -- tmux new-session -A -s "$session"
 }
 
@@ -63,17 +72,17 @@ box() {
   local cmd="${1:-up}"
   shift 2>/dev/null || true
   case "$cmd" in
-    up) _box_up ;;
-    down) _box_down ;;
-    ssh) _box_ssh "$@" ;;
-    status) _box_status ;;
-    -h|--help|help)
-      echo "usage: box [up|down|ssh [args...]|status]"
-      ;;
-    *)
-      echo "box: unknown subcommand '$cmd'"
-      echo "usage: box [up|down|ssh [args...]|status]"
-      return 1
-      ;;
+  up) _box_up ;;
+  down) _box_down ;;
+  ssh) _box_ssh "$@" ;;
+  status) _box_status ;;
+  -h | --help | help)
+    echo "usage: box [up|down|ssh [args...]|status]"
+    ;;
+  *)
+    echo "box: unknown subcommand '$cmd'"
+    echo "usage: box [up|down|ssh [args...]|status]"
+    return 1
+    ;;
   esac
 }
