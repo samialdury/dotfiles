@@ -102,7 +102,7 @@ alias ....='cd ../../..'
 
 # Tools
 alias cc='printf "\033[2J\033[3J\033[H" && claude --permission-mode bypassPermissions'
-alias cx='printf "\033[2J\033[3J\033[H" && codex'
+alias cx='printf "\033[2J\033[3J\033[H" && codex --dangerously-bypass-approvals-and-sandbox'
 alias d='docker'
 alias r='rails'
 n() { if [ "$#" -eq 0 ]; then command nvim .; else command nvim "$@"; fi; }
