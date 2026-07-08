@@ -400,10 +400,10 @@ if ./scripts/test-install.sh >/tmp/dotfiles-test.out 2>/tmp/dotfiles-test.err; t
   echo "expected duplicate target validation to fail" >&2
   exit 1
 fi
-cat /tmp/dotfiles-test.err
+cat /tmp/dotfiles-test.out /tmp/dotfiles-test.err
 ```
 
-Expected stderr contains:
+Expected combined output contains:
 
 ```text
 Duplicate link target

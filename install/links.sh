@@ -49,9 +49,57 @@ append_links() {
   LINKS+=("$@")
 }
 
+validate_links() {
+  local entry src_rel rest target mode
+  local -A targets=()
+
+  for entry in "${LINKS[@]}"; do
+    if [[ "$entry" != *::*::* ]]; then
+      log_error "Invalid link entry; expected src::target::mode: $entry"
+      exit 1
+    fi
+
+    src_rel="${entry%%::*}"
+    rest="${entry#*::}"
+    target="${rest%%::*}"
+    mode="${rest#*::}"
+
+    if [ -z "$src_rel" ]; then
+      log_error "Invalid link entry with empty source: $entry"
+      exit 1
+    fi
+
+    if [ -z "$target" ]; then
+      log_error "Invalid link entry with empty target: $entry"
+      exit 1
+    fi
+
+    case "$mode" in
+    file | dir) ;;
+    *)
+      log_error "Invalid link mode '$mode' for $src_rel; expected file or dir."
+      exit 1
+      ;;
+    esac
+
+    if [ ! -e "$REPO/$src_rel" ]; then
+      log_error "Link source missing for $target: $REPO/$src_rel"
+      exit 1
+    fi
+
+    if [ -n "${targets[$target]+set}" ]; then
+      log_error "Duplicate link target $target from $src_rel and ${targets[$target]}"
+      exit 1
+    fi
+
+    targets[$target]="$src_rel"
+  done
+}
+
 build_links() {
   LINKS=()
   platform_add_links
+  validate_links
 }
 
 link_one() {
