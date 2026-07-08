@@ -22,6 +22,12 @@ fi
 tmp="$(mktemp)"
 trap 'rm -f "$tmp"' EXIT
 
-jq -S . "$file" > "$tmp"
+if ! jq -S . "$file" > "$tmp"; then
+  echo "error: failed to format $file with jq -S; is it valid JSON?" >&2
+  exit 1
+fi
+
 cat "$tmp" > "$file"
 git add "$file"
+
+echo "pre-commit: formatted $file with jq -S" >&2
