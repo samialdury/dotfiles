@@ -1,0 +1,23 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  install-structure:
+    name: install structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install syntax-check dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y zsh
+
+      - name: Run installer structure harness
+        run: ./scripts/test-install.sh
+
+      - name: Check auxiliary Bash scripts
+        run: bash -n .githooks/pre-commit .claude/statusline-command.sh scripts/test-install.sh
