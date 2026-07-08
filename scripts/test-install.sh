@@ -48,6 +48,14 @@ assert_not_contains() {
   done
 }
 
+assert_path_absent() {
+  local path="$1"
+
+  if [ -e "$REPO/$path" ] || [ -L "$REPO/$path" ]; then
+    fail "legacy Bash config should not be tracked: $path"
+  fi
+}
+
 link_sources() {
   local entry
   for entry in "${LINKS[@]}"; do
@@ -87,6 +95,12 @@ if command -v zsh >/dev/null 2>&1; then
 else
   pass "zsh syntax skipped: zsh not installed"
 fi
+
+assert_path_absent ".bashrc"
+assert_path_absent ".bash_profile"
+assert_path_absent ".bash"
+assert_path_absent ".inputrc"
+pass "legacy bash config removed"
 
 build_profile macos
 mapfile -t macos_sources < <(link_sources)
