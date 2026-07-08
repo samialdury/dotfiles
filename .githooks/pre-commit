@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+file=".claude/settings.json"
+
+# Only run when Claude settings are staged.
+if git diff --cached --quiet -- "$file"; then
+  exit 0
+fi
+
+# Do not accidentally fold unstaged edits into the commit.
+if ! git diff --quiet -- "$file"; then
+  echo "error: $file has unstaged changes; stage or stash them before committing." >&2
+  exit 1
+fi
+
+if ! command -v jq >/dev/null 2>&1; then
+  echo "error: jq is required to format $file." >&2
+  exit 1
+fi
+
+tmp="$(mktemp)"
+trap 'rm -f "$tmp"' EXIT
+
+jq -S . "$file" > "$tmp"
+cat "$tmp" > "$file"
+git add "$file"

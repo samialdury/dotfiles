@@ -134,6 +134,7 @@ if [[ "$OS_TYPE" == "omarchy" ]]; then
     ["fd"]="fd"
     ["fzf"]="fzf"
     ["just"]="just"
+    ["jq"]="jq"
   )
 
   for cmd in "${!PACKAGES[@]}"; do
@@ -145,6 +146,14 @@ if [[ "$OS_TYPE" == "omarchy" ]]; then
       log_info "$cmd already installed, skipping..."
     fi
   done
+fi
+
+# -----------------------------
+# Configure repo-local Git hooks
+# -----------------------------
+if command -v git >/dev/null 2>&1 && git -C "$REPO" rev-parse --git-dir >/dev/null 2>&1; then
+  git -C "$REPO" config core.hooksPath .githooks
+  log_success "Git hooks path configured."
 fi
 
 # -----------------------------
