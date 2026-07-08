@@ -2,6 +2,9 @@
 *.log
 **/__pycache__
 
+# local git worktrees
+.worktrees/
+
 # aerospace (per-machine active-config symlink chosen by install.sh)
 .config/aerospace/aerospace.toml
 
