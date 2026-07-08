@@ -109,10 +109,8 @@ This is this user's Claude Code config and also ships as a linked artifact for o
 
 - `permissions.defaultMode: "bypassPermissions"`, `skipDangerousModePermissionPrompt: true`, `alwaysThinkingEnabled: true`, `autoDreamEnabled: true` — intentional autonomous-mode defaults.
 - Hooks pipeline: only `PreToolUse` runs a custom script (`uv run ~/.claude/hooks/pre_tool_use.py`) — it blocks `rm -rf` variants and reads/writes to `.env*` / `*.tfvars` / `*.auto.tfvars` (exit code 2). Other lifecycle events may invoke Superset notify/workmux commands. Hook scripts live in `.claude/hooks/` and link through as a whole-dir symlink. If adding a new Python hook, drop the file in `.claude/hooks/` and wire it in `settings.json`; if removing, prune both sides.
-- `statusLine.command` currently uses an absolute path `/Users/sami/.claude/statusline-command.sh`. If editing for non-sami machines, make this `$HOME`-relative or document the rename.
-- `enabledPlugins` and `extraKnownMarketplaces` are intentional user preferences — do not prune.
-
-`statusline-command.sh` reads `$CLAUDE_CONFIG_DIR/.caveman-active`, whitelists the mode string, rejects symlinks, and caps read at 64 bytes. If extending, keep the symlink check and the `tr -cd 'a-z0-9-'` sanitization — the flag content is rendered raw to the terminal every keystroke, so unsanitized bytes become an ANSI-injection sink.
+- `statusLine.command` uses `bash -lc 'exec "$HOME/.claude/statusline-command.sh"'` so the shared settings file works on macOS and Debian home paths. Preserve `$HOME` resolution if editing it.
+- `statusline-command.sh` reads Claude's statusline JSON from stdin with `jq`, then prints branch, model, effort, and context-window usage with ANSI colors. If extending it, keep missing-field handling tolerant so older/newer Claude statusline payloads do not break the prompt.
 
 ## Git / commits
 
