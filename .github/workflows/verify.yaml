@@ -5,16 +5,21 @@ on:
   pull_request:
 
 jobs:
-  install-structure:
-    name: install structure
+  dotfiles:
+    name: dotfiles
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - name: Install syntax-check dependencies
+      - name: Install verification dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y zsh
+
+      # Scope to actively-used scripts; .bash/* (rollback-only) and vendored
+      # .agents/skills/* scripts are intentionally excluded.
+      - name: Run shellcheck
+        run: shellcheck -x install.sh .claude/statusline-command.sh
 
       - name: Run installer structure harness
         run: ./scripts/test-install.sh
