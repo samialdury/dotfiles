@@ -105,13 +105,9 @@ alias cc='printf "\033[2J\033[3J\033[H" && claude --permission-mode bypassPermis
 alias cx='printf "\033[2J\033[3J\033[H" && codex --dangerously-bypass-approvals-and-sandbox'
 alias d='docker'
 alias r='rails'
-n() { if [ "$#" -eq 0 ]; then command nvim .; else command nvim "$@"; fi; }
-
-# Temporary
-alias lg='lazygit'
-
-# Git
 alias g='git'
+alias lg='lazygit'
+n() { if [ "$#" -eq 0 ]; then command nvim .; else command nvim "$@"; fi; }
 
 # Keybinds
 bindkey -s '^F' 'tmux-sessionizer\n'
