@@ -171,7 +171,7 @@
   "skipAutoPermissionPrompt": true,
   "skipDangerousModePermissionPrompt": true,
   "statusLine": {
-    "command": "bash /Users/sami/.claude/statusline-command.sh",
+    "command": "bash -c 'exec \"$HOME/.claude/statusline-command.sh\"'",
     "type": "command"
   },
   "theme": "auto",

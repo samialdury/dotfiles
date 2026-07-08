@@ -19,6 +19,7 @@ macOS and Debian use zsh as login shell with starship prompt. macOS uses Homebre
 - Add a new link after editing: put the new file at its `$HOME`-relative path inside the repo, add an entry to the right link group in `install/links.sh`, then re-run `./install.sh`.
 - Syntax check installer changes: `bash -n install.sh install/*.sh`.
 - Syntax check zsh changes when zsh is installed: `zsh -n .zshrc .zsh/*.zsh`.
+- Installer structure test: `./scripts/test-install.sh` verifies Bash syntax, zsh syntax when available, platform link composition, link-table shape, source existence, and duplicate link targets without running the real installer. It requires Bash 4+ and re-execs `/opt/homebrew/bin/bash` on macOS when available.
 - Secrets scan (pre-commit / ad hoc): `gitleaks detect` or `gitleaks protect --staged`. CI runs this on push via `.github/workflows/gitleaks.yaml`.
 - Homebrew snapshot: `brew bundle dump --force --file=~/dotfiles/Brewfile` / `brew bundle install --file=~/dotfiles/Brewfile`.
 
@@ -108,10 +109,8 @@ This is this user's Claude Code config and also ships as a linked artifact for o
 
 - `permissions.defaultMode: "bypassPermissions"`, `skipDangerousModePermissionPrompt: true`, `alwaysThinkingEnabled: true`, `autoDreamEnabled: true` — intentional autonomous-mode defaults.
 - Hooks pipeline: only `PreToolUse` runs a custom script (`uv run ~/.claude/hooks/pre_tool_use.py`) — it blocks `rm -rf` variants and reads/writes to `.env*` / `*.tfvars` / `*.auto.tfvars` (exit code 2). Other lifecycle events may invoke Superset notify/workmux commands. Hook scripts live in `.claude/hooks/` and link through as a whole-dir symlink. If adding a new Python hook, drop the file in `.claude/hooks/` and wire it in `settings.json`; if removing, prune both sides.
-- `statusLine.command` currently uses an absolute path `/Users/sami/.claude/statusline-command.sh`. If editing for non-sami machines, make this `$HOME`-relative or document the rename.
-- `enabledPlugins` and `extraKnownMarketplaces` are intentional user preferences — do not prune.
-
-`statusline-command.sh` reads `$CLAUDE_CONFIG_DIR/.caveman-active`, whitelists the mode string, rejects symlinks, and caps read at 64 bytes. If extending, keep the symlink check and the `tr -cd 'a-z0-9-'` sanitization — the flag content is rendered raw to the terminal every keystroke, so unsanitized bytes become an ANSI-injection sink.
+- `statusLine.command` uses `bash -c 'exec "$HOME/.claude/statusline-command.sh"'` so the shared settings file works on macOS and Debian home paths without sourcing login-shell startup files on every statusline render. Preserve `$HOME` resolution if editing it.
+- `statusline-command.sh` reads Claude's statusline JSON from stdin with `jq`, then prints branch, model, effort, and context-window usage with ANSI colors. If extending it, keep missing-field handling tolerant so older/newer Claude statusline payloads do not break the prompt.
 
 ## Git / commits
 
