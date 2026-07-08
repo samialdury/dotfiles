@@ -13,4 +13,4 @@ jobs:
       # Scope to actively-used scripts; .bash/* (rollback-only) and vendored
       # .agents/skills/* scripts are intentionally excluded.
       - name: Run shellcheck
-        run: shellcheck install.sh .claude/statusline-command.sh
+        run: shellcheck -x install.sh .claude/statusline-command.sh
