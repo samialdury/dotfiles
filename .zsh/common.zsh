@@ -46,12 +46,12 @@ Darwin)
 esac
 export PATH="$CARGO_BIN:$LOCAL_BIN:$LOCAL_SCRIPTS:$PNPM_HOME:$BUN_INSTALL/bin:$GOPATH/bin:$PATH"
 
-# Completion: case-insensitive, menu-select (.inputrc translation)
+# Completion: case-insensitive, menu-select.
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' menu select
 autoload -Uz compinit && compinit
 
-# History search on arrow keys (.inputrc translation)
+# History search on arrow keys.
 autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search

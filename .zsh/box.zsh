@@ -1,5 +1,4 @@
 # Tailscale + SSH/mosh helpers for the home box.
-# Ported from .bash/box.bash.
 
 export BOX_USER=sami
 export BOX_HOST=REDACTED-HOST

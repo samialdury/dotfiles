@@ -16,8 +16,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y zsh
 
-      # Scope to actively-used scripts; .bash/* (rollback-only) and vendored
-      # .agents/skills/* scripts are intentionally excluded.
+      # Scope to actively-used scripts; vendored .agents/skills/* scripts are intentionally excluded.
       - name: Run shellcheck
         run: shellcheck -x install.sh .claude/statusline-command.sh
 

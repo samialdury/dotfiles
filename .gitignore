@@ -11,9 +11,6 @@
 # bat
 .config/bat/themes/tokyonight.nvim
 
-# bash
-.bash/private.bash
-
 # zsh
 .zsh/private.zsh
 
