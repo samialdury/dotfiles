@@ -1,9 +1,5 @@
 # macOS-specific zsh config.
 
-alias cwd='echo "$(pwd)" | pbcopy && echo "Copied to clipboard"'
-alias lastCommitMsg="git log -1 --pretty=%B | pbcopy && echo 'Copied to clipboard'"
-alias lastCommitHash="git log -1 --pretty=%H | pbcopy && echo 'Copied to clipboard'"
-
 alias b="brew update; brew upgrade; brew cleanup; brew cleanup -s; brew doctor; brew missing"
 alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
 

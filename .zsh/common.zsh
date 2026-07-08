@@ -101,22 +101,17 @@ alias ...='cd ../..'
 alias ....='cd ../../..'
 
 # Tools
-alias c='opencode'
-alias cx='printf "\033[2J\033[3J\033[H" && claude --permission-mode bypassPermissions'
+alias cc='printf "\033[2J\033[3J\033[H" && claude --permission-mode bypassPermissions'
+alias cx='printf "\033[2J\033[3J\033[H" && codex'
 alias d='docker'
 alias r='rails'
 n() { if [ "$#" -eq 0 ]; then command nvim .; else command nvim "$@"; fi; }
 
 # Temporary
-alias cc='cx'
-alias e='n'
 alias lg='lazygit'
 
 # Git
 alias g='git'
-alias gcm='git commit -m'
-alias gcam='git commit -a -m'
-alias gcad='git commit -a --amend'
 
 # Keybinds
 bindkey -s '^F' 'tmux-sessionizer\n'
