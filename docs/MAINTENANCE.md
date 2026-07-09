@@ -73,6 +73,7 @@ The staged command is the pre-commit check. The plain `gitleaks git` command aud
 GitHub Actions workflows:
 
 - `.github/workflows/verify.yaml` — ShellCheck, installer structure harness, and Bash syntax checks.
+- `.github/workflows/actionlint.yaml` — GitHub Actions workflow linting with Actionlint.
 - `.github/workflows/gitleaks.yaml` — secret scanning with full git history.
 
 ## Git hooks

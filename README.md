@@ -49,7 +49,7 @@ gitleaks git --redact --verbose
 
 The committed pre-commit hook runs the staged Gitleaks scan before the verification harness.
 
-CI runs the structure/syntax checks through `.github/workflows/verify.yaml` and secret scanning through `.github/workflows/gitleaks.yaml`.
+CI runs the structure/syntax checks through `.github/workflows/verify.yaml`, workflow linting through `.github/workflows/actionlint.yaml`, and secret scanning through `.github/workflows/gitleaks.yaml`.
 
 ## Repository map
 
