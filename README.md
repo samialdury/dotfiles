@@ -32,11 +32,13 @@ For a fresh machine, start with the full bootstrap guide:
 
 ## Verification
 
-Run the verification harness before committing dotfiles changes:
+Run the verification harness manually when you want a quick check:
 
 ```sh
 ./scripts/test-install.sh
 ```
+
+The committed pre-commit hook runs the same harness and blocks the commit if verification fails.
 
 Secrets scan:
 

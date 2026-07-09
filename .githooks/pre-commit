@@ -1,33 +1,37 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+repo="$(git rev-parse --show-toplevel)"
+cd "$repo"
+
 file=".claude/settings.json"
 
-# Only run when Claude settings are staged.
-if git diff --cached --quiet -- "$file"; then
-  exit 0
+# Only format Claude settings when that file is staged.
+if ! git diff --cached --quiet -- "$file"; then
+  # Do not accidentally fold unstaged edits into the commit.
+  if ! git diff --quiet -- "$file"; then
+    echo "error: $file has unstaged changes; stage or stash them before committing." >&2
+    exit 1
+  fi
+
+  if ! command -v jq >/dev/null 2>&1; then
+    echo "error: jq is required to format $file." >&2
+    exit 1
+  fi
+
+  tmp="$(mktemp)"
+  trap 'rm -f "$tmp"' EXIT
+
+  if ! jq -S . "$file" > "$tmp"; then
+    echo "error: failed to format $file with jq -S; is it valid JSON?" >&2
+    exit 1
+  fi
+
+  cat "$tmp" > "$file"
+  git add "$file"
+
+  echo "pre-commit: formatted $file with jq -S" >&2
 fi
 
-# Do not accidentally fold unstaged edits into the commit.
-if ! git diff --quiet -- "$file"; then
-  echo "error: $file has unstaged changes; stage or stash them before committing." >&2
-  exit 1
-fi
-
-if ! command -v jq >/dev/null 2>&1; then
-  echo "error: jq is required to format $file." >&2
-  exit 1
-fi
-
-tmp="$(mktemp)"
-trap 'rm -f "$tmp"' EXIT
-
-if ! jq -S . "$file" > "$tmp"; then
-  echo "error: failed to format $file with jq -S; is it valid JSON?" >&2
-  exit 1
-fi
-
-cat "$tmp" > "$file"
-git add "$file"
-
-echo "pre-commit: formatted $file with jq -S" >&2
+echo "pre-commit: running ./scripts/test-install.sh" >&2
+./scripts/test-install.sh

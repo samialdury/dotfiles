@@ -49,13 +49,15 @@ brew bundle cleanup --file=~/dotfiles/Brewfile --force
 
 ## Verification
 
-Run the local verification harness:
+Run the local verification harness manually when you want a quick check:
 
 ```sh
 ./scripts/test-install.sh
 ```
 
 It checks installer Bash syntax, auxiliary Bash scripts, zsh syntax when `zsh` is installed, platform link composition, link-table shape, source existence, duplicate link targets, and shell-config guardrails without running the real installer.
+
+The committed pre-commit hook runs this harness and blocks the commit if verification fails.
 
 Secrets checks:
 
@@ -79,7 +81,7 @@ Committed hooks live in `.githooks/`. The installer runs:
 git -C "$REPO" config core.hooksPath .githooks
 ```
 
-The current pre-commit hook formats staged `.claude/settings.json` with `jq -S` when that file is staged and the working copy has no unstaged edits to the same file.
+The current pre-commit hook formats staged `.claude/settings.json` with `jq -S` when that file is staged and the working copy has no unstaged edits to the same file. It then runs `./scripts/test-install.sh`; a failing verification aborts the commit.
 
 ## Shell config policy
 
