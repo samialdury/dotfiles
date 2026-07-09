@@ -27,6 +27,7 @@ debian_install_packages() {
   install_apt_package_if_available zoxide zoxide
   install_apt_package_if_missing zsh-autosuggestions
   install_apt_package_if_missing zsh-syntax-highlighting
+  install_apt_package_if_available gitleaks gitleaks
   install_apt_package_if_available starship starship
 }
 

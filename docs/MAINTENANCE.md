@@ -62,9 +62,11 @@ The committed pre-commit hook runs this harness and blocks the commit if verific
 Secrets checks:
 
 ```sh
-gitleaks detect
-gitleaks protect --staged
+gitleaks git --pre-commit --staged --redact --verbose
+gitleaks git --redact --verbose
 ```
+
+The staged command is the pre-commit check. The plain `gitleaks git` command audits repository history.
 
 ## CI
 
@@ -81,7 +83,7 @@ Committed hooks live in `.githooks/`. The installer runs:
 git -C "$REPO" config core.hooksPath .githooks
 ```
 
-The current pre-commit hook formats staged `.claude/settings.json` with `jq -S` when that file is staged and the working copy has no unstaged edits to the same file. It then runs `./scripts/test-install.sh`; a failing verification aborts the commit.
+The current pre-commit hook formats staged `.claude/settings.json` with `jq -S` when that file is staged and the working copy has no unstaged edits to the same file. It then scans staged changes with `gitleaks git --pre-commit --staged --redact --verbose`, then runs `./scripts/test-install.sh`; either failure aborts the commit.
 
 ## Shell config policy
 

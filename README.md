@@ -43,9 +43,11 @@ The committed pre-commit hook runs the same harness and blocks the commit if ver
 Secrets scan:
 
 ```sh
-gitleaks detect
-gitleaks protect --staged
+gitleaks git --pre-commit --staged --redact --verbose
+gitleaks git --redact --verbose
 ```
+
+The committed pre-commit hook runs the staged Gitleaks scan before the verification harness.
 
 CI runs the structure/syntax checks through `.github/workflows/verify.yaml` and secret scanning through `.github/workflows/gitleaks.yaml`.
 

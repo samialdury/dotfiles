@@ -22,6 +22,7 @@ omarchy_install_packages() {
     ["fzf"]="fzf"
     ["just"]="just"
     ["jq"]="jq"
+    ["gitleaks"]="gitleaks"
   )
 
   install_pacman_packages packages
