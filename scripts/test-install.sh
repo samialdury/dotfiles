@@ -86,7 +86,7 @@ build_profile() {
 # shellcheck source=../install/debian.sh
 . "$REPO/install/debian.sh"
 
-bash -n "$REPO/install.sh" "$REPO"/install/*.sh
+bash -n "$REPO/install.sh" "$REPO"/install/*.sh "$REPO/.githooks/pre-commit" "$REPO/.claude/statusline-command.sh" "$REPO/scripts/test-install.sh"
 pass "bash syntax"
 
 if command -v zsh >/dev/null 2>&1; then

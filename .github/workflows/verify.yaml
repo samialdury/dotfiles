@@ -20,8 +20,5 @@ jobs:
       - name: Run shellcheck
         run: shellcheck -x install.sh .claude/statusline-command.sh
 
-      - name: Run installer structure harness
+      - name: Run verification harness
         run: ./scripts/test-install.sh
-
-      - name: Check auxiliary Bash scripts
-        run: bash -n .githooks/pre-commit .claude/statusline-command.sh scripts/test-install.sh

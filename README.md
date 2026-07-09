@@ -32,12 +32,10 @@ For a fresh machine, start with the full bootstrap guide:
 
 ## Verification
 
-Run these before committing dotfiles changes:
+Run the verification harness before committing dotfiles changes:
 
 ```sh
 ./scripts/test-install.sh
-bash -n install.sh install/*.sh .githooks/pre-commit scripts/test-install.sh .claude/statusline-command.sh
-zsh -n .zshrc .zsh/*.zsh
 ```
 
 Secrets scan:

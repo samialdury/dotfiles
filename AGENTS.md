@@ -17,9 +17,7 @@ macOS and Debian use zsh as login shell with starship prompt. macOS uses Homebre
 - Non-interactive package-update confirmation overrides: `DOTFILES_OMARCHY_UPDATED=1 ./install.sh` or `DOTFILES_DEBIAN_UPDATED=1 ./install.sh`.
 - OS override for targeted platform-path testing: `DOTFILES_OS=macos|omarchy|debian ./install.sh`. This is not a dry-run; it still performs installs/links for the selected path.
 - Add a new link after editing: put the new file at its `$HOME`-relative path inside the repo, add an entry to the right link group in `install/links.sh`, then re-run `./install.sh`.
-- Syntax check installer changes: `bash -n install.sh install/*.sh`.
-- Syntax check zsh changes when zsh is installed: `zsh -n .zshrc .zsh/*.zsh`.
-- Installer structure test: `./scripts/test-install.sh` verifies Bash syntax, zsh syntax when available, platform link composition, link-table shape, source existence, and duplicate link targets without running the real installer. It requires Bash 4+ and re-execs `/opt/homebrew/bin/bash` on macOS when available.
+- Local verification: `./scripts/test-install.sh` checks installer Bash syntax, auxiliary Bash scripts, zsh syntax when available, platform link composition, link-table shape, source existence, duplicate link targets, and shell-config guardrails without running the real installer. It requires Bash 4+ and re-execs `/opt/homebrew/bin/bash` on macOS when available.
 - Secrets scan (pre-commit / ad hoc): `gitleaks detect` or `gitleaks protect --staged`. CI runs this on push via `.github/workflows/gitleaks.yaml`.
 - Homebrew snapshot: `brew bundle dump --force --file=~/dotfiles/Brewfile` / `brew bundle install --file=~/dotfiles/Brewfile`.
 

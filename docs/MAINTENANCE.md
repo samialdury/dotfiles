@@ -47,20 +47,15 @@ brew bundle cleanup --file=~/dotfiles/Brewfile --force
 
 `./install.sh` checks the Brewfile on macOS and warns when packages are missing. It does not install Brewfile packages itself, except for the early Homebrew Bash bootstrap needed to parse the installer.
 
-## Verification commands
+## Verification
 
-Safe structure harness:
+Run the local verification harness:
 
 ```sh
 ./scripts/test-install.sh
 ```
 
-Syntax checks:
-
-```sh
-bash -n install.sh install/*.sh .githooks/pre-commit scripts/test-install.sh .claude/statusline-command.sh
-zsh -n .zshrc .zsh/*.zsh
-```
+It checks installer Bash syntax, auxiliary Bash scripts, zsh syntax when `zsh` is installed, platform link composition, link-table shape, source existence, duplicate link targets, and shell-config guardrails without running the real installer.
 
 Secrets checks:
 
