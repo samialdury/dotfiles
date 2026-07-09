@@ -52,7 +52,7 @@ assert_path_absent() {
   local path="$1"
 
   if [ -e "$REPO/$path" ] || [ -L "$REPO/$path" ]; then
-    fail "legacy Bash config should not be tracked: $path"
+    fail "unexpected shell config should not be tracked: $path"
   fi
 }
 
@@ -100,7 +100,7 @@ assert_path_absent ".bashrc"
 assert_path_absent ".bash_profile"
 assert_path_absent ".bash"
 assert_path_absent ".inputrc"
-pass "legacy bash config removed"
+pass "shell config guard"
 
 build_profile macos
 mapfile -t macos_sources < <(link_sources)

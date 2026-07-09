@@ -10,8 +10,6 @@ The repository mirrors `$HOME`: tracked paths such as `.zshrc`, `.claude/`, `.ag
 - **Debian:** zsh login shell, shared CLI config, tmux/starship/workmux config, Claude config, and Debian command wrapper symlinks.
 - **Omarchy:** shared CLI, AI, Git, nvim, workmux, and package setup. Omarchy's shell stays managed by Omarchy.
 
-Interactive Bash config is intentionally gone. Bash remains only as the installer/tooling language for `install.sh`, `install/*.sh`, `.githooks/pre-commit`, and `scripts/test-install.sh`.
-
 ## Quick start
 
 ```sh
@@ -28,7 +26,7 @@ For a fresh machine, start with the full bootstrap guide:
 
 - [Installation](docs/INSTALLATION.md) — SSH key setup, macOS bootstrap, Omarchy setup, Debian setup, and secrets restore checklist.
 - [Maintenance](docs/MAINTENANCE.md) — adding links, Homebrew snapshots, verification commands, hooks, CI, and shell-config rules.
-- [Troubleshooting](docs/TROUBLESHOOTING.md) — GitHub SSH, commit signing, legacy symlinks, and common install issues.
+- [Troubleshooting](docs/TROUBLESHOOTING.md) — GitHub SSH, commit signing, and common install issues.
 - [Hyprland notes](docs/HYPRLAND.md) — personal Hyprland input/touchpad snippet kept out of the top-level README.
 - [Remote workstation](docs/REMOTE_WORKSTATION.md) — Wake-on-LAN, Tailscale, mosh, and tmux workflow for the home box.
 

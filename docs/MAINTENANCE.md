@@ -88,7 +88,7 @@ The current pre-commit hook formats staged `.claude/settings.json` with `jq -S` 
 
 ## Shell config policy
 
-Repo-managed interactive shell config is zsh only:
+Repo-managed interactive shell config is zsh:
 
 - `.zshrc`
 - `.zsh/common.zsh`
@@ -96,9 +96,7 @@ Repo-managed interactive shell config is zsh only:
 - `.zsh/linux.zsh`
 - `.zsh/box.zsh`
 
-Do not re-add `.bashrc`, `.bash_profile`, `.bash/`, or `.inputrc` unless intentionally reintroducing Bash as a managed user shell. `scripts/test-install.sh` fails if those legacy interactive Bash files return.
-
-Bash remains the implementation language for the installer and hooks:
+Installer and hook scripts are Bash:
 
 - `install.sh`
 - `install/*.sh`

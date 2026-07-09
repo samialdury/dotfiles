@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Personal dotfiles for Apple Silicon macOS, Omarchy (Arch-based), and Debian servers. Symlinks are managed by `./install.sh` plus Bash modules in `install/`; there is no GNU Stow. Repo layout mirrors `$HOME` directly: dotfiles live at repo root (`.zshrc`, `.claude/`, `.agents/`, `.config/<pkg>/`), so each link-table src path reads as the `$HOME`-relative target.
 
-macOS and Debian use zsh as login shell with starship prompt. macOS uses Homebrew zsh/plugins under `/opt/homebrew`. Debian uses `/usr/bin/zsh` and distro zsh plugin paths when installed. Omarchy keeps its installer-supplied shell config; this repo still does **not** manage Omarchy's shell. No interactive Bash config is tracked or linked; Bash remains an installer/tooling dependency only.
+macOS and Debian use zsh as login shell with starship prompt. macOS uses Homebrew zsh/plugins under `/opt/homebrew`. Debian uses `/usr/bin/zsh` and distro zsh plugin paths when installed. Omarchy keeps its installer-supplied shell config; this repo still does **not** manage Omarchy's shell.
 
 ## Commands
 
@@ -85,7 +85,7 @@ Profile composition:
 
 Private/secret zsh config goes in `~/.zsh/private.zsh` (gitignored, sourced by `.zshrc` if present, ensured-empty by installer on macOS and Debian).
 
-No interactive Bash config is tracked or linked. Bash files in this repo are installer/tooling scripts only; do not add `.bashrc`, `.bash_profile`, `.bash/`, or `.inputrc` back unless intentionally reintroducing Bash as a managed user shell.
+Repo-managed interactive shell config lives in `.zshrc` and `.zsh/`.
 
 ## Install-script invariants
 
