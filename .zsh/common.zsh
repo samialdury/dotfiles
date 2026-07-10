@@ -107,6 +107,7 @@ alias d='docker'
 alias r='rails'
 alias g='git'
 alias lg='lazygit'
+alias wm='workmux'
 n() { if [ "$#" -eq 0 ]; then command nvim .; else command nvim "$@"; fi; }
 
 # Keybinds
@@ -132,6 +133,10 @@ fi
 
 if command -v fzf >/dev/null 2>&1; then
   eval "$(fzf --zsh)"
+fi
+
+if command -v workmux >/dev/null 2>&1; then
+  eval "$(workmux completions zsh)"
 fi
 
 if [[ ${TERM:-} != "dumb" ]] && command -v starship >/dev/null 2>&1; then
