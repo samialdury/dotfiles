@@ -16,6 +16,10 @@ shell-integration-features = no-cursor,ssh-env
 
 # Keyboard bindings
 keybind = shift+enter=text:\x1b\r
+keybind = cmd+h=text:\x00\x1b[D
+keybind = cmd+j=text:\x00\x1b[B
+keybind = cmd+k=text:\x00\x1b[A
+keybind = cmd+l=text:\x00\x1b[C
 
 # Slowdown mouse scrolling
 mouse-scroll-multiplier = 0.95
