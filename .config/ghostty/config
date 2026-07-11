@@ -15,6 +15,12 @@ resize-overlay = never
 shell-integration-features = no-cursor,ssh-env
 
 # Keyboard bindings
+# bind cmd N and P to tmux
+keybind = cmd+n=unbind
+keybind = cmd+p=unbind
+keybind = cmd+n=text:\x00n
+keybind = cmd+p=text:\x00p
+
 keybind = shift+enter=text:\x1b\r
 keybind = cmd+h=text:\x00\x1b[D
 keybind = cmd+j=text:\x00\x1b[B
