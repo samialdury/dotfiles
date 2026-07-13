@@ -220,6 +220,15 @@
       "skillFolderHash": "223a29c90a3b672953b20122ffcabb3b9dc58c17",
       "installedAt": "2026-06-24T06:41:51.517Z",
       "updatedAt": "2026-06-24T06:41:51.517Z"
+    },
+    "babysit": {
+      "source": "thedotmack/claude-mem",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/thedotmack/claude-mem.git",
+      "skillPath": "plugin/skills/babysit/SKILL.md",
+      "skillFolderHash": "b7fe9ecec0a9ee15c6964fe9b0d1489a05ae6bdb",
+      "installedAt": "2026-07-13T12:15:33.132Z",
+      "updatedAt": "2026-07-13T12:15:33.132Z"
     }
   },
   "lastSelectedAgents": [
