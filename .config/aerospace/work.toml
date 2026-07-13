@@ -127,7 +127,6 @@ alt-i = 'exec-and-forget open -a Linear'
 alt-d = 'exec-and-forget open -a Figma'
 alt-b = 'exec-and-forget open -a "Brave Browser"'
 alt-e = 'exec-and-forget open -a Cursor'
-alt-a = 'exec-and-forget open -a Superset'
 alt-w = 'exec-and-forget open -a Ghostty'         # ~/.config/aerospace/ghostty++
 # alt-c = 'exec-and-forget open -na "Visual Studio Code" --args --new-window'
 alt-c = 'exec-and-forget open -a Claude'
@@ -160,10 +159,6 @@ run = 'move-node-to-workspace 2'
 [[on-window-detected]]
 if.app-name-regex-substring = '^Brave Browser$'
 run = 'move-node-to-workspace 3'
-
-[[on-window-detected]]
-if.app-name-regex-substring = '^Superset$'
-run = 'move-node-to-workspace 4'
 
 [[on-window-detected]]
 if.app-name-regex-substring = '^Slack$'
