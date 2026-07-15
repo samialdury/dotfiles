@@ -15,7 +15,8 @@ fi
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=100000
 SAVEHIST=200000
-setopt append_history inc_append_history share_history extended_history
+# ponytail: no share_history -> up-arrow shows only this session; inc_append still writes to shared file
+setopt append_history inc_append_history extended_history
 setopt hist_ignore_space hist_ignore_all_dups hist_reduce_blanks
 setopt hist_save_no_dups hist_find_no_dups hist_expire_dups_first hist_verify
 
