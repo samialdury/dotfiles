@@ -25,6 +25,7 @@ declare -a LINKS_SHARED_CLI=(
   ".config/mise/config.toml::$HOME/.config/mise/config.toml::file"
   ".config/nvim::$HOME/.config/nvim::dir"
   ".config/workmux::$HOME/.config/workmux::dir"
+  ".linear/coding-tools.json::$HOME/.linear/coding-tools.json::file"
 )
 
 declare -a LINKS_ZSH=(

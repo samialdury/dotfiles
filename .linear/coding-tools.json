@@ -1,0 +1,14 @@
+{
+  "openIssue": {
+    "path": "/bin/sh",
+    "args": [
+      "-c",
+      "cd \"$LINEAR_WORK_DIR\" && /opt/homebrew/bin/workmux add \"$LINEAR_ISSUE_BRANCH_NAME\" --agent claude --prompt \"$LINEAR_PROMPT\""
+    ],
+    "env": [
+      "LINEAR_WORK_DIR",
+      "LINEAR_ISSUE_BRANCH_NAME",
+      "LINEAR_PROMPT"
+    ]
+  }
+}
