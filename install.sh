@@ -31,8 +31,6 @@ REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 . "$REPO/install/tmux.sh"
 # shellcheck source=install/macos.sh
 . "$REPO/install/macos.sh"
-# shellcheck source=install/omarchy.sh
-. "$REPO/install/omarchy.sh"
 # shellcheck source=install/debian.sh
 . "$REPO/install/debian.sh"
 

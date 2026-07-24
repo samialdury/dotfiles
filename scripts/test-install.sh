@@ -81,8 +81,6 @@ build_profile() {
 . "$REPO/install/tmux.sh"
 # shellcheck source=../install/macos.sh
 . "$REPO/install/macos.sh"
-# shellcheck source=../install/omarchy.sh
-. "$REPO/install/omarchy.sh"
 # shellcheck source=../install/debian.sh
 . "$REPO/install/debian.sh"
 
@@ -110,18 +108,6 @@ assert_contains ".config/ghostty" "${macos_sources[@]}"
 assert_contains ".config/aerospace" "${macos_sources[@]}"
 assert_contains ".config/homebrew" "${macos_sources[@]}"
 pass "macos link profile"
-
-build_profile omarchy
-mapfile -t omarchy_sources < <(link_sources)
-assert_contains ".claude/settings.json" "${omarchy_sources[@]}"
-assert_contains ".config/workmux" "${omarchy_sources[@]}"
-assert_contains ".config/nvim" "${omarchy_sources[@]}"
-assert_not_contains ".zshrc" "${omarchy_sources[@]}"
-assert_not_contains ".config/tmux" "${omarchy_sources[@]}"
-assert_not_contains ".config/starship.toml" "${omarchy_sources[@]}"
-assert_not_contains ".config/ghostty" "${omarchy_sources[@]}"
-assert_not_contains ".config/aerospace" "${omarchy_sources[@]}"
-pass "omarchy link profile"
 
 build_profile debian
 mapfile -t debian_sources < <(link_sources)

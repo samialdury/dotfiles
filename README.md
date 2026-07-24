@@ -1,6 +1,6 @@
 # dotfiles
 
-Personal dotfiles for Apple Silicon macOS, Omarchy, and Debian servers.
+Personal dotfiles for Apple Silicon macOS and Debian servers.
 
 The repository mirrors `$HOME`: tracked paths such as `.zshrc`, `.claude/`, `.agents/`, and `.config/<tool>/` are linked into place by `./install.sh`. There is no GNU Stow layer.
 
@@ -8,7 +8,6 @@ The repository mirrors `$HOME`: tracked paths such as `.zshrc`, `.claude/`, `.ag
 
 - **macOS:** zsh login shell, Homebrew package manifest, GUI/CLI app config, Claude config, AeroSpace config selection, and macOS defaults.
 - **Debian:** zsh login shell, shared CLI config, tmux/starship/workmux config, Claude config, and Debian command wrapper symlinks.
-- **Omarchy:** shared CLI, AI, Git, nvim, workmux, and package setup. Omarchy's shell stays managed by Omarchy.
 
 ## Quick start
 
@@ -24,7 +23,7 @@ For a fresh machine, start with the full bootstrap guide:
 
 ## Documentation
 
-- [Installation](docs/INSTALLATION.md) — SSH key setup, macOS bootstrap, Omarchy setup, Debian setup, and secrets restore checklist.
+- [Installation](docs/INSTALLATION.md) — SSH key setup, macOS bootstrap, Debian setup, and secrets restore checklist.
 - [Maintenance](docs/MAINTENANCE.md) — adding links, Homebrew snapshots, verification commands, hooks, CI, and shell-config rules.
 - [Troubleshooting](docs/TROUBLESHOOTING.md) — GitHub SSH, commit signing, and common install issues.
 - [Hyprland notes](docs/HYPRLAND.md) — personal Hyprland input/touchpad snippet kept out of the top-level README.

@@ -1,20 +1,5 @@
 # Package-manager helpers. Sourced by install.sh.
 
-install_pacman_packages() {
-  local -n packages_ref="$1"
-  local cmd
-
-  for cmd in "${!packages_ref[@]}"; do
-    if ! command -v "$cmd" >/dev/null 2>&1; then
-      log_info "Installing package: ${packages_ref[$cmd]}"
-      sudo pacman -S --needed --noconfirm "${packages_ref[$cmd]}"
-      log_success "Finished installing: ${packages_ref[$cmd]}"
-    else
-      log_info "$cmd already installed, skipping..."
-    fi
-  done
-}
-
 install_apt_packages() {
   local -n packages_ref="$1"
   local cmd package

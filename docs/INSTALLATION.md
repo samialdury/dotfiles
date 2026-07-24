@@ -17,7 +17,7 @@ cat ~/.ssh/id_ed25519.pub | $(command -v wl-copy || command -v pbcopy)
 eval "$(ssh-agent -s)"
 ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 
-# Linux / Omarchy alternative
+# Linux alternative
 # ssh-add ~/.ssh/id_ed25519
 
 ssh -T git@github.com
@@ -87,32 +87,7 @@ hcloud context create ...
 turso auth login
 ```
 
-## 4. Omarchy setup
-
-Omarchy keeps its own shell config. This repo does not link zsh/tmux/starship shell config on Omarchy.
-
-Update the system first, then run the installer:
-
-```sh
-sudo pacman -Syu
-cd ~/dotfiles
-./install.sh
-```
-
-For non-interactive runs after you have already updated the system:
-
-```sh
-DOTFILES_OMARCHY_UPDATED=1 ./install.sh
-```
-
-What `./install.sh` does on Omarchy:
-
-- confirms system update was run
-- installs missing packages from the Omarchy package map
-- links base, AI, and shared CLI config
-- configures this repo's committed Git hooks
-
-## 5. Debian setup
+## 4. Debian setup
 
 Update the system first, then run the installer:
 
@@ -139,7 +114,7 @@ What `./install.sh` does on Debian:
 - sets the login shell to `/usr/bin/zsh` when available
 - configures this repo's committed Git hooks
 
-## 6. Add or re-link a dotfile
+## 5. Add or re-link a dotfile
 
 1. Put the file in the repo at its `$HOME`-relative path.
 2. Add an entry to the right link group in `install/links.sh`.

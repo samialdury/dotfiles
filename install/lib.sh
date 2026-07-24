@@ -21,12 +21,12 @@ require_bash4() {
 detect_os() {
   if [ -n "${DOTFILES_OS:-}" ]; then
     case "$DOTFILES_OS" in
-    macos | omarchy | debian)
+    macos | debian)
       OS_TYPE="$DOTFILES_OS"
       return
       ;;
     *)
-      log_error "Unsupported DOTFILES_OS=$DOTFILES_OS. Use macos, omarchy, or debian."
+      log_error "Unsupported DOTFILES_OS=$DOTFILES_OS. Use macos or debian."
       exit 1
       ;;
     esac
@@ -34,8 +34,6 @@ detect_os() {
 
   if [[ "${OSTYPE:-}" == darwin* ]]; then
     OS_TYPE="macos"
-  elif [[ -f /etc/arch-release ]]; then
-    OS_TYPE="omarchy"
   elif [[ -r /etc/os-release ]]; then
     # shellcheck disable=SC1091
     . /etc/os-release
@@ -46,7 +44,7 @@ detect_os() {
       exit 1
     fi
   else
-    log_error "Unsupported OS. This script supports macOS, Omarchy, and Debian."
+    log_error "Unsupported OS. This script supports macOS and Debian."
     exit 1
   fi
 }
