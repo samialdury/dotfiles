@@ -1,1 +1,28 @@
+# Mode for tmux operations: window (default) or session.
+# - window: Create windows within the current tmux session
+# - session: Create tmux sessions for each worktree
+mode: session
+
 nerdfont: true
+
+# Multiple windows per session (session mode only, mutually exclusive with 'panes').
+# Each window can have its own pane layout. Unnamed windows get tmux's
+# automatic naming based on the running command.
+windows:
+  - name: editor
+    panes:
+      - command: n
+  - name: git
+    panes:
+      - command: lg
+  - name: claude
+    panes:
+      - command: cc
+        focus: true
+#       - split: horizontal
+#         size: 20
+#   - name: tests
+#     panes:
+#       - command: just test --watch
+#   - panes:
+#       - command: tail -f app.log
