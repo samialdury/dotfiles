@@ -1,10 +1,6 @@
 # Tailscale + SSH/mosh helpers for the home box.
-
-export BOX_USER=sami
-export BOX_HOST=REDACTED-HOST
-export BOX_MAC=REDACTED-MAC
-export BOX_GATEWAY_USER=root
-export BOX_GATEWAY_HOST=REDACTED-HOST
+# BOX_USER / BOX_HOST / BOX_MAC / BOX_GATEWAY_USER / BOX_GATEWAY_HOST are
+# machine-local identifiers; set them in ~/.zsh/private.zsh (gitignored).
 
 _box_check_tailscale() {
   if ! command -v tailscale >/dev/null 2>&1; then
@@ -68,6 +64,10 @@ _box_status() {
 }
 
 box() {
+  if [ -z "$BOX_HOST" ] || [ -z "$BOX_GATEWAY_HOST" ]; then
+    echo "box: set BOX_USER/BOX_HOST/BOX_MAC/BOX_GATEWAY_USER/BOX_GATEWAY_HOST in ~/.zsh/private.zsh" >&2
+    return 1
+  fi
   local cmd="${1:-up}"
   shift 2>/dev/null || true
   case "$cmd" in
