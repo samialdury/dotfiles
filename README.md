@@ -27,7 +27,6 @@ For a fresh machine, start with the full bootstrap guide:
 - [Maintenance](docs/MAINTENANCE.md) — adding links, Homebrew snapshots, verification commands, hooks, CI, and shell-config rules.
 - [Troubleshooting](docs/TROUBLESHOOTING.md) — GitHub SSH, commit signing, and common install issues.
 - [Hyprland notes](docs/HYPRLAND.md) — personal Hyprland input/touchpad snippet kept out of the top-level README.
-- [Remote workstation](docs/REMOTE_WORKSTATION.md) — Wake-on-LAN, Tailscale, mosh, and tmux workflow for the home box.
 
 ## Verification
 
